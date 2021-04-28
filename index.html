@@ -2,22 +2,71 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Tumbspanel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Tumbspanel</title>
+    <style media="screen">
+      div{
+        border : 2px solid black;
+        background-color: rgba(150,136,175);
+        margin : 5px;
+        padding : 5px;
+      }
+      #content {
+        border : 5px dotted white;
+        background-color: rgba(99, 129, 136);
+        margin : auto;
+        width: 60%;
+      }
+      .linksBox {
+        background-color: rgba(150,136,175);
+      }
+      #powerbox{
+      background-color: rgba(148, 173, 179);
+      }
+      body {
+        background-color: black;
+      }
+      @media only screen and (max-width: 600px) {
+        body {
+          background-color: lightblue;
+        }
+      }
+    </style>
   </head>
   <body>
+    <div id="content">
+    <div class="linksbox">
+      <p><b>Main Thumb Controls</b></p>
+  </div>
+  <div class="linksBox">
     <h1>Tumbspanel</h1>
-    <p><b>Thumb Controls</b></p>
-<p><a href="http://172.21.3.4:5000/tutd?thumb=up">Up</a></p>
-<p><a href="http://172.21.3.4:5000/tutd?thumb=wiggle">Kinda</a></p>
+    <p><a href="http://172.21.3.4:5000/tutd?thumb=up">Up</a></p>
+    <p><a href="http://172.21.3.4:5000/tutd?thumb=wiggle">Kinda</a></p>
     <p><a href="http://172.21.3.4:5000/tutd?thumb=down">Down</a></p>
+    <p><a href="http://172.21.3.4:5000/tutd?thumb=oops">whoops</a></p>
+    </div>
+    <div class="linksbox" id="powerbox">
     <p><b>Powers / Permitions</b></p>
-    <p><a href="http://172.21.3.4:5000/say?phrase=how r u">How u? (Talk)</a></p>
-    <p><a href="http://172.21.3.4:5000/say?phrase=Good">Good (Talk)</a></p>
-    <p><a href="http://172.21.3.4:5000/say?phrase=OwO">owo (Talk)</a></p>
-        <p><a href="http://172.21.3.4:5000/say?phrase=UwU">uwu (Talk)</a></p>
-<p><a href="http://172.21.3.4:5000/color?hex=F500E8">Change Color</a></p>
-<p><a href="http://172.21.3.4:5000/perc?amount=3">%-bar=3</a></p>
+    <div class="">
+    <p><b>Talk</b></p>
+    <p><a href="http://172.21.3.4:5000/say?phrase=how r u">How u? </a></p>
+    <p><a href="http://172.21.3.4:5000/say?phrase=Good">Good </a></p>
+    <p><a href="http://172.21.3.4:5000/say?phrase=OwO">owo </a></p>
+    <p><a href="http://172.21.3.4:5000/say?phrase=UwU">uwu </a></p
+    </div>
+    </div>
+    <div class="linksBox">
+    <p><b>Bar effects</b></p>
+    <p><a href="http://172.21.3.4:5000/color?hex=F500E8">Change color: pink</a></p>
+    <p><a href="http://172.21.3.4:5000/perc?amount=3">3%</a></p>
+  </div>
+    <div class="linksBox">
+    <p><b>Songs</b></p>
+    <p><a href="game.html">Game (To be relocated)</a></p>
     <p><a href="http://172.21.3.4:5000/bgm?file=elmowash">elmo wash</a></p>
     <p><a href="http://172.21.3.4:5000/bgm?file=rickroll">Rick roll</a></p>
+    <p><a href="http://172.21.3.4:5000/bgm?file=lostwoods">Lostwoods</a></p>
+  </div>
+  </div>
   </body>
 </html>
