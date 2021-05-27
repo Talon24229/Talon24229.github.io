@@ -1,9 +1,10 @@
 [
 null,
 {"id":1,"expanded":false,"name":"Debugroom","order":1,"parentId":0,"scrollX":728,"scrollY":409.77777777777777},
-{"id":2,"expanded":false,"name":"home","order":2,"parentId":0,"scrollX":534,"scrollY":313},
-{"id":3,"expanded":true,"name":"boulderPass","order":3,"parentId":0,"scrollX":2048,"scrollY":624},
-{"id":4,"expanded":true,"name":"bpdungeon2","order":4,"parentId":3,"scrollX":915.2727272727274,"scrollY":509.4545454545455},
-{"id":5,"expanded":false,"name":"bpdungeon1","order":5,"parentId":3,"scrollX":1817.4545454545455,"scrollY":339.2727272727273},
-{"id":6,"expanded":false,"name":"homeInBoulder","order":6,"parentId":3,"scrollX":905.7777777777778,"scrollY":759.1111111111111}
+{"id":2,"expanded":true,"name":"home","order":2,"parentId":0,"scrollX":728,"scrollY":409.77777777777777},
+{"id":3,"expanded":true,"name":"boulderPass","order":4,"parentId":0,"scrollX":2048,"scrollY":557.3333333333334},
+{"id":4,"expanded":true,"name":"bpdungeon2","order":5,"parentId":3,"scrollX":916,"scrollY":624},
+{"id":5,"expanded":false,"name":"bpdungeon1","order":6,"parentId":3,"scrollX":1817.4545454545455,"scrollY":339.2727272727273},
+{"id":6,"expanded":false,"name":"homeInBoulder","order":7,"parentId":3,"scrollX":5062.222222222223,"scrollY":741.3333333333334},
+{"id":7,"expanded":false,"name":"MAP007","order":3,"parentId":2,"scrollX":728,"scrollY":409.77777777777777}
 ]
