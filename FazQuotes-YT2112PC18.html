@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<title>FazQuotes.com</title>
+<style>
+    .centerB {
+        margin-top: 5%;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .freddy {
+        max-width: 100%;
+        padding-top: 7.5%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 46.75%;
+        margin-bottom: 50px;
+
+    }
+
+    #buttonBoy {
+        margin-top: 5.5%;
+        margin-left: auto;
+        display: block;
+        margin-right: auto;
+        width: 3%;
+    }
+
+    #choo {
+        text-align: center !important;
+        padding-top: 1.2%;
+        color: white;
+        font-weight: bold;
+        max-width: 90%;
+        display: block;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    #bab {
+        position: absolute;
+        margin-top: 30.7%;
+        margin-left: 10%;
+        width: 10%;
+    }
+
+    body {
+        /* height: 100%; */
+        background-repeat: no-repeat;
+
+        background-size: 100vw;
+        background-image: url("monitorRoom.png");
+        background-color: rgb(0, 0, 0);
+    }
+</style>
+
+<body onload="loadQuote()">
+
+    <img src="GTS2.png" id="bab" onclick="lonk('gettoschool/index.html')">
+    <img src="venGregory.gif" class="freddy">
+    <img src="buttonGreen.png" id="buttonBoy" onclick="loadQuote()">
+    <p></p>
+    <p id="choo" style="text-align:center; margin: 2%;"></p>
+
+    <script>
+        document.addEventListener('keydown', function (event) {
+            if (event.keyCode == 69) loadQuote()
+        })
+
+        function lonk(x) {
+            console.log(x);
+            window.location.href = x
+        }
+
+        //stuff for feddy quote
+        var intro = ["it appears", "I believe", ""];
+        var toGet = ["we need", "you should get"]
+        var toGet2 = ["we need", "you should"]
+        var character = ["Roxy", "Monty", "Chica", "Afton", "Vanny", "Staff Bot", "Sundrop", "Moondrop", "The Daycare Attendant", "MUSIC MAN", "Endoskeleton", "Helpy", "Blob", "Bab", "choo"]
+        var leave = ["we should go", "Im sick of ur FazShit", "you should go"]
+        var reason = ["you failed me", "you shot me!", "my grandma died", "ur mum died lel", "I need to go to the FazBathroom", "I just got a FazError", "I need another Fazbeer"]
+        var hunt = ["we need to execute", "you should take out", "you should make dead"]
+        var reason2 = ["They make me mad, Gregory", "they stole my FazIceCream", "they beat me at monty golf", "they stole the last FazSalad", "they stole the last FazPizza", "they suck", "they beat me in Faz-ario Cart", "they didnt subscribe to my Only Fans"]
+        var place = ["the PizzaPlex", "the school", "THE MOON", "my FazRoom", "the Death Star"]
+        var socialMedia = ["twitter", "faz-book", "facebook", "instagram", "tick toc", 'snapchat', "reddit"]
+        var meme = ["go to the polls", "exicute order 66", "troll elon musk", "ratio elon musk", "search it on google", "make a motivational poster", "dab on the haters"]
+        var test = ["pre-NOCTIs", "FitnessGram PACER Test", "Key Stones", "Kidney Stones", "PSSAs", "SATs", "Exit Ticket", "PARCC", "SCReady", "Wyoming Test of Proficiency and Progress"]
+        var mad = ["They make me mad Gregory... I need you to burn them", "I failed it Gregory, I should run", "I cheated on them, Gregory, academically"]
+        var chills = ["Number 15: Burger king foot lettuce. The last thing you'd want in your Burger King burger is someone's foot fungus. But as it turns out, that might be what you get.",
+            "that muffin is looking afully like a hampster.",
+            "is the dress black and blue, or white and gold? I need to know, Gregory."]
+        var copyPasta = ["Gr8 b8, m8. I rel8, str8 appreci8, and congratul8. I r8 this b8 an 8/8. Plz no h8, I'm str8 ir8. Cre8 more, can't w8. We should convers8, I won't ber8, my number is 8888888, ask for N8. No calls l8 or out of st8. If on a d8, ask K8 to loc8. Even with a full pl8, I always have time to communic8 so don't hesit8",
+            "What the Faz-fuck did you just say about me, you little shit? I'll have you know I graduated top of my class in the Navy Seals, and I've been involved in numerous secret raids on PizzaPlex, and I have over 300 confirmed kills. I am trained in gorilla warfare and I'm the top sniper in the entire US armed forces. You are nothing to me but just another target. I will wipe you the heck out with precision the likes of which has never been seen before on this Earth, mark my hecking words. You think you can get away with saying that shit to me over the Internet? Think again, superstar. As we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're fucking dead, kid. I can be anywhere, anytime, and I can kill you in over seven hundred ways, and that's just with my bare hands. Not only am I extensively trained in unarmed combat, but I have access to the entire arsenal of the United States Marine Corps and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little 'clever' comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn't, you didn't, and now you're paying the price, you goddamn idiot. I will shit fury all over you and you will drown in it. You're hecking dead, kiddo.",
+            "We're no strangers to love You know the rules and so do I (do I) A full commitment's what I'm thinking of You wouldn't get this from any other guy I just wanna tell you how I'm feeling Gotta make you understand Never gonna give you up Never gonna let you down Never gonna run around and desert you Never gonna make you cry Never gonna say goodbye Never gonna tell a lie and hurt you We've known each other for so long Your heart's been aching, but you're too shy to say it (say it) Inside, we both know what's been going on (going on) We know the game and we're gonna play it And if you ask me how I'm feeling Don't tell me you're too blind to see Never gonna give you up Never gonna let you down Never gonna run around and desert you Never gonna make you cry Never gonna say goodbye Never gonna tell a lie and hurt you Never gonna give you up Never gonna let you down Never gonna run around and desert you Never gonna make you cry Never gonna say goodbye Never gonna tell a lie and hurt you We've known each other for so long Your heart's been aching, but you're too shy to say it (to say it) Inside, we both know what's been going on (going on) We know the game and we're gonna play it I just wanna tell you how I'm feeling Gotta make you understand Never gonna give you up Never gonna let you down Never gonna run around and desert you Never gonna make you cry Never gonna say goodbye Never gonna tell a lie and hurt you Never gonna give you up Never gonna let you down Never gonna run around and desert you Never gonna make you cry Never gonna say goodbye Never gonna tell a lie and hurt you Never gonna give you up Never gonna let you down Never gonna run around and desert you Never gonna make you cry Never gonna say goodbye Never gonna tell a lie and hurt you",
+            "DO IT, just DO IT! Don't let your dreams be dreams. Yesterday, you said tomorrow. So just. DO IT! Make. your dreams. COME TRUE! Just... do it! Some people dream of success, while you're gonna wake up and work HARD at it! NOTHING IS IMPOSSIBLE!You should get to the point where anyone else would quit, and you're not gonna stop there. NO! What are you waiting for? ... DO IT! Just... DO IT! Yes you can! Just do it! If you're tired of starting over, stop. giving. up.",
+            "To be fair, you have to have a very high IQ to understand Rick and Morty. The humour is extremely subtle, and without a solid grasp of theoretical physics most of the jokes will go over a typical viewers head. There's also Rick's nihilistic outlook, which is deftly woven into his characterisation- his personal philosophy draws heavily from Narodnaya Volya literature, for instance. The fans understand this stuff; they have the intellectual capacity to truly appreciate the depths of these jokes, to realise that they're not just funny- they say something deep about LIFE. As a consequence people who dislike Rick & Morty truly ARE idiots- of course they wouldn't appreciate, for instance, the humour in Rick's existential catchphrase 'Wubba Lubba Dub Dub,' which itself is a cryptic reference to Turgenev's Russian epic Fathers and Sons. I'm smirking right now just imagining one of those addlepated simpletons scratching their heads in confusion as Dan Harmon's genius wit unfolds itself on their television screens. What fools.. how I pity them. And yes, by the way, i DO have a Rick & Morty tattoo. And no, you cannot see it. It's for the ladies' eyes only- and even then they have to demonstrate that they're within 5 IQ points of my own (preferably lower) beforehand. Nothin personnel kid ",
+            "Did you ever hear the tragedy of Darth Plagueis 'the wise'? I thought not. It's not a story the Jedi would tell you. It's a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life... He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful... the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. It's ironic he could save others from death, but not himself.",
+            "When life gives you lemons, don't make lemonade. Make life take the lemons back! Get mad! I don't want your damn lemons, what the hell am I supposed to do with these? Demand to see life's manager! Make life rue the day it thought it could give Freddy Fazbear lemons! Do you know who I am? I'm the man who's gonna burn your house down! With the lemons! I'm gonna get my engineers to invent a combustible lemon that burns your house down!",
+            "<copypasta go here>",
+            " do you see the small vent on the floor? Have you ever heard of Among Us, Gregory? You need to vent. I know it will be hard for you to be sus, but i know you can do it Gregory.",
+        ]
+
+
+        var ranNumb69 = ""
+        var ranNumb420 = ""
+        var quoteSort = ""
+
+        function Type() {
+            quoteSort = intro[Math.floor(Math.random() * intro.length)]
+            ranNumb69 = Math.floor(Math.random() * 8)
+            //ranNumb69 = 6
+            if (ranNumb69 == 0) {
+                quoteSort += " " + toGet[Math.floor(Math.random() * toGet.length)] + " " + character[Math.floor(Math.random() * character.length)] + "'s OnlyFans."
+
+            }
+
+            else if (ranNumb69 == 1) {
+                quoteSort += " " + leave[Math.floor(Math.random() * leave.length)] + " because, " + reason[Math.floor(Math.random() * reason.length)] + "."
+            }
+
+            else if (ranNumb69 == 2) {
+                ranNumb420 = Math.floor(Math.random() * 1)
+
+                if (ranNumb420 == 0) {
+                    quoteSort += " " + hunt[Math.floor(Math.random() * hunt.length)] + " " + character[Math.floor(Math.random() * character.length)] + " because, " + reason2[Math.floor(Math.random() * reason2.length)] + "."
+                }
+                else {
+                    quoteSort += " " + hunt[Math.floor(Math.random() * hunt.length)] + " " + character[Math.floor(Math.random() * character.length)] + " because, " + reason[Math.floor(Math.random() * reason.length)] + "."
+                }
+            }
+
+            else if (ranNumb69 == 3) {
+                ranNumb420 = Math.floor(Math.random() * 1)
+
+                if (ranNumb420 == 0) {
+                    quoteSort += " " + toGet2[Math.floor(Math.random() * toGet2.length)] + " burn " + place[Math.floor(Math.random() * place.length)] + " because, " + reason[Math.floor(Math.random() * reason.length)] + "."
+                }
+                else {
+                    quoteSort += " " + toGet2[Math.floor(Math.random() * toGet2.length)] + " burn " + character[Math.floor(Math.random() * character.length)] + " because, " + reason2[Math.floor(Math.random() * reason2.length)] + "."
+                }
+            }
+            else if (ranNumb69 == 4) {
+
+                quoteSort = "have you ever heard of " + socialMedia[Math.floor(Math.random() * socialMedia.length)] + ". You need to " + meme[Math.floor(Math.random() * meme.length)] + "."
+            }
+            else if (ranNumb69 == 5) {
+                quoteSort = "have you ever heard of " + test[Math.floor(Math.random() * test.length)] + "? " + mad[Math.floor(Math.random() * mad.length)] + "."
+            }
+            else if (ranNumb69 == 6) {
+                quoteSort = chills[Math.floor(Math.random() * chills.length)]
+            }
+            else if (ranNumb69 == 7) {
+                quoteSort = copyPasta[Math.floor(Math.random() * copyPasta.length)]
+            }
+
+            console.log(ranNumb69);
+            return "Gregory, " + quoteSort
+        }
+        function loadQuote() {
+            document.getElementById("buttonBoy").src = "buttonRed.png"
+            setTimeout(() => {
+                document.getElementById("buttonBoy").src = "buttonGreen.png"
+            }, 250);
+            document.getElementById("choo").innerHTML = Type();
+
+        }
+    </script>
+</body>
+
+</html>
