@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
-<title>FazQuotes.com</title>
+
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <title>FazQuotes.com</title>
+</head>
 <style>
     .centerB {
         margin-top: 5%;
@@ -101,6 +105,7 @@
             "<copypasta go here>",
             " do you see the small vent on the floor? Have you ever heard of Among Us, Gregory? You need to vent. I know it will be hard for you to be sus, but i know you can do it Gregory.",
         ]
+        var random = ["I am a sucker for endoskeletons.", "Im haveing a stoke, Gregory.", "have you tried gat2chool2 delux yet?", "don't mind the broken monitor to my left, I broke it with a pog and didn't tell Vanessa"]
 
 
         var ranNumb69 = ""
@@ -109,7 +114,8 @@
 
         function Type() {
             quoteSort = intro[Math.floor(Math.random() * intro.length)]
-            ranNumb69 = Math.floor(Math.random() * 8)
+            ranNumb69 = Math.floor(Math.random() * 9)
+            ranNumb69 = 7
             //ranNumb69 = 6
             if (ranNumb69 == 0) {
                 quoteSort += " " + toGet[Math.floor(Math.random() * toGet.length)] + " " + character[Math.floor(Math.random() * character.length)] + "'s OnlyFans."
@@ -154,6 +160,9 @@
             else if (ranNumb69 == 7) {
                 quoteSort = copyPasta[Math.floor(Math.random() * copyPasta.length)]
             }
+            else if (ranNumb69 == 8) {
+                quoteSort = random[Math.floor(Math.random() * random.length)]
+            }
 
             console.log(ranNumb69);
             return "Gregory, " + quoteSort
@@ -163,7 +172,7 @@
             setTimeout(() => {
                 document.getElementById("buttonBoy").src = "buttonGreen.png"
             }, 250);
-            document.getElementById("choo").innerHTML = Type();
+            document.getElementById("choo").innerText = Type();
 
         }
     </script>
