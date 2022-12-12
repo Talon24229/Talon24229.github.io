@@ -25,6 +25,7 @@
     }
 
     #myImage {
+        padding: 0;
         width: 100vw;
     }
 
@@ -55,9 +56,9 @@
     }
 
     body {
-        /* height: 100%; */
+        margin: 0;
         background-repeat: no-repeat;
-
+        overflow-x: hidden;
         background-size: 100vw;
         background-image: url("monitorRoom.png");
         background-color: rgb(0, 0, 0);
@@ -70,7 +71,6 @@
     <img src="GTS2.png" id="bab" onclick="lonk('gettoschool/index.html')">
     <img src="venGregory.gif" class="freddy">
     <img src="buttonGreen.png" id="buttonBoy" onclick="loadQuote()">
-    <p></p>
     <p id="choo" style="text-align:center; margin: 2%;"></p>
 
     <script>
@@ -117,9 +117,10 @@
         var quoteSort = ""
         var juMping = false
         function Jump() {
-
+            document.body.style.overflowY = 'hidden'
             document.getElementsByClassName("freddy")[0].style.display = "none";
             document.getElementById("bab").style.display = "none";
+            document.getElementById("choo").style.display = "none";
             document.getElementById("buttonBoy").style.display = "none";
             juMping = true
             let img = document.createElement("img")
@@ -129,10 +130,11 @@
             document.getElementById("myImage").style.display = "";
 
             setTimeout(() => {
+                document.body.style.overflowY = ''
                 document.getElementsByClassName("freddy")[0].style.display = "";
                 document.getElementById("bab").style.display = "";
+                document.getElementById("choo").style.display = "";
                 document.getElementById("buttonBoy").style.display = "";
-                console.log(document.getElementById("buttonBoy"));
                 document.getElementById("myImage").remove()
                 juMping = false
             }, 1800);
