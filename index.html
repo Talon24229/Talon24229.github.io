@@ -117,6 +117,7 @@
         var quoteSort = ""
         var juMping = false
         function Jump() {
+
             document.getElementsByClassName("freddy")[0].style.display = "none";
             document.getElementById("bab").style.display = "none";
             document.getElementById("buttonBoy").style.display = "none";
@@ -127,6 +128,7 @@
             img.src = "FreddyJump.gif"
             document.body.appendChild(img)
             document.getElementById("myImage").style.display = "";
+            console.log(img);
 
             setTimeout(() => {
                 document.getElementsByClassName("freddy")[0].style.display = "";
