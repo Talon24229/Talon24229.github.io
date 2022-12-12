@@ -121,7 +121,6 @@
             document.getElementsByClassName("freddy")[0].style.display = "none";
             document.getElementById("bab").style.display = "none";
             document.getElementById("buttonBoy").style.display = "none";
-            document.getElementById("buttonBoy").onclick = "";
             juMping = true
             let img = document.createElement("img")
             img.id = "myImage"
@@ -133,7 +132,7 @@
                 document.getElementsByClassName("freddy")[0].style.display = "";
                 document.getElementById("bab").style.display = "";
                 document.getElementById("buttonBoy").style.display = "";
-                document.getElementById("buttonBoy").onclick = "loadQuote()";
+                console.log(document.getElementById("buttonBoy"));
                 document.getElementById("myImage").remove()
                 juMping = false
             }, 1800);
@@ -193,18 +192,21 @@
             return "Gregory, " + quoteSort
         }
         function loadQuote() {
-            document.getElementById("buttonBoy").src = "buttonRed.png"
-            setTimeout(() => {
-                document.getElementById("buttonBoy").src = "buttonGreen.png"
-            }, 250);
-            var chance = Math.floor(Math.random() * 100)
-            if (chance == 0) {
-                document.getElementById("choo").innerText = '';
-                Jump()
+            if (!juMping) {
 
-            }
-            else {
-                document.getElementById("choo").innerText = Type();
+                document.getElementById("buttonBoy").src = "buttonRed.png"
+                setTimeout(() => {
+                    document.getElementById("buttonBoy").src = "buttonGreen.png"
+                }, 250);
+                var chance = Math.floor(Math.random() * 100)
+                if (chance == 0) {
+                    document.getElementById("choo").innerText = '';
+                    Jump()
+
+                }
+                else {
+                    document.getElementById("choo").innerText = Type();
+                }
             }
 
         }
