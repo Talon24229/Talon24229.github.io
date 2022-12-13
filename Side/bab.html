@@ -1,0 +1,95 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Room.comTM dont @me</title>
+    <style>
+        body {
+            margin: 0;
+            background-repeat: no-repeat;
+            overflow-x: hidden;
+            background-size: 100vw;
+            background-image: url("BR3.png");
+            background-color: rgb(0, 0, 0);
+        }
+
+        #hay {
+            margin-top: 5.5%;
+            margin-left: 14%;
+            width: 72%;
+            height: 64%;
+            background-color: rgb(0, 255, 255);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="hay">
+        srgsgsg
+    </div>
+    <script>
+        document.addEventListener('keydown', function (event) {
+            if (event.keyCode >= 65 && event.keyCode <= 90) {
+
+                if (event.shiftKey) {
+                    document.getElementById("hay").innerText = String.fromCharCode(event.keyCode)
+                }
+                else {
+
+                    document.getElementById("hay").innerText = String.fromCharCode(event.keyCode).toLowerCase()
+                }
+            }
+            else if (event.shiftKey && event.keyCode >= 48 && event.keyCode <= 57) {
+                switch (event.keyCode) {
+                    case 48: document.getElementById("hay").innerText += "!";
+                        break;
+                    case 49: document.getElementById("hay").innerText += "@";
+                        break;
+                    case 50: document.getElementById("hay").innerText += "#";
+                        break;
+                    case 51: document.getElementById("hay").innerText += "$";
+                        break;
+                    case 52: document.getElementById("hay").innerText += "%";
+                        break;
+                    case 53: document.getElementById("hay").innerText += "^";
+                        break;
+                    case 54: document.getElementById("hay").innerText += "&";
+                        break;
+                    case 55: document.getElementById("hay").innerText += "*";
+                        break;
+                    case 56: document.getElementById("hay").innerText += "(";
+                        break;
+                    case 57: document.getElementById("hay").innerText += ")";
+                        break;
+                }
+            }
+            else if (event.keyCode == 192 && !event.shiftKey) {
+                document.getElementById("hay").innerText += "`";
+            }
+            else if (event.keyCode == 192 && event.shiftKey) {
+                document.getElementById("hay").innerText += "~";
+            }
+            else if (event.keyCode == 191 && !event.shiftKey) {
+                document.getElementById("hay").innerText += "/";
+            }
+            else if (event.keyCode == 191 && event.shiftKey) {
+                document.getElementById("hay").innerText += "?";
+            }
+            else if (event.keyCode == 220 && !event.shiftKey) {
+                document.getElementById("hay").innerText += "\\";
+            }
+            else if (event.keyCode == 220 && event.shiftKey) {
+                document.getElementById("hay").innerText += "|";
+            }
+            else {
+                document.getElementById("hay").innerText += String.fromCharCode(event.keyCode)
+            }
+
+        })
+
+    </script>
+</body>
+
+</html>
