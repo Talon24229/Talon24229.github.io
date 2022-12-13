@@ -21,6 +21,7 @@
         margin-right: auto;
         width: 46.75%;
         margin-bottom: 50px;
+        z-index: 1;
 
     }
 
@@ -48,10 +49,20 @@
         margin-right: auto !important;
     }
 
+    #GlichyZtherapper {
+        margin-left: 79%;
+        margin-top: 27%;
+        position: absolute;
+        filter: opacity(60%);
+        filter: drop-shadow(1px, 1px, 1px);
+        z-index: -1;
+    }
+
+
     #bab {
         position: absolute;
-        margin-top: 30.7%;
-        margin-left: 10%;
+        margin-top: 31%;
+        margin-left: 11%;
         width: 10%;
     }
 
@@ -67,8 +78,8 @@
 
 <body onload="loadQuote()">
 
-
-    <img src="GTS2.png" id="bab" onclick="lonk('gettoschool/index.html')">
+    <img src="PQRabbit.gif" id="GlichyZtherapper" style="display:none;">
+    <img src=" GTS2.png" id="bab" onclick="lonk('gettoschool/index.html')">
     <img src="venGregory.gif" class="freddy">
     <img src="buttonGreen.png" id="buttonBoy" onclick="loadQuote()">
     <p id="choo" style="text-align:center; margin: 2%;"></p>
@@ -109,7 +120,7 @@
             "<copypasta go here>",
             " do you see the small vent on the floor? Have you ever heard of Among Us, Gregory? You need to vent. I know it will be hard for you to be sus, but i know you can do it Gregory.",
         ]
-        var random = ["Iev nevr mispleled aynthign wroung if it wanst a joek, dot judje me.", "I didn't document my code and now its hard to use and understand", "I am a sucker for endoskeletons.", "Im haveing a stoke, Gregory.", "have you tried gat2chool2 delux yet?", "u sound kinda sus rn.", "don't mind the broken monitor to my left, I broke it with a pog and didn't tell Vanessa"]
+        var random = ["Do you ever wonder why a bunch of sugar cubes made FNAF?", "If you see a purple suit the smiles and dawns a golden badge, run, Gregory. I don't want to deal with two dumb purple guy references", "If you ever see a dog in parts and services, run, Gregory, that is a manifestation of a PizzaPlex hoax", "If you ever see a yellow bear watchicing you, pay no mind to them. They are simply your pyskick friend fredbear", "Iev nevr mispleled aynthign wroung if it wanst a joek, dot judje me.", "I didn't document my code and now its hard to use and understand", "I am a sucker for endoskeletons.", "Im haveing a stoke, Gregory.", "have you tried gat2chool2 delux yet?", "u sound kinda sus rn.", "don't mind the broken monitor to my left, I broke it with a pog and didn't tell Vanessa"]
 
 
         var ranNumb69 = ""
@@ -138,6 +149,18 @@
                 document.getElementById("myImage").remove()
                 juMping = false
             }, 1800);
+        }
+        var isBuggy = false
+        function glitchyBoi() {
+            if (!isBuggy) {
+                document.getElementById("GlichyZtherapper").style.display = ""
+                isBuggy = true
+                setTimeout(() => {
+                    document.getElementById("GlichyZtherapper").style.display = "none"
+                    isBuggy = false
+                }, 30000);
+            }
+
         }
         function Type() {
             quoteSort = intro[Math.floor(Math.random() * intro.length)]
@@ -204,8 +227,11 @@
                 if (chance == 0) {
                     document.getElementById("choo").innerText = '';
                     Jump()
-
                 }
+                else if (chance == 69) {
+                    glitchyBoi()
+                }
+
                 else {
                     document.getElementById("choo").innerText = Type();
                 }
