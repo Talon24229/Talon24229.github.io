@@ -27,61 +27,93 @@
         span {
             text-decoration: none;
             color: limegreen;
-            visibility: hidden;
             font-size: 2rem;
+        }
+
+        span {
+            visibility: hidden;
         }
     </style>
 </head>
 
-<body onload="typeWriter()">
+<body onload="setTimeout(()=>{load()},1000)">
     <div id="hay">
-        <a href="FazQuotesStuff/index.html">Faz-Quotes</a>
+        <!-- <a href="FazQuotesStuff/index.html">Faz-Quotes</a>
         <span class="Blonk">▊</span>
         <br>
-        <a href="gettoschool/index.html">Get To School</a>
-        <span class="Blonk">▊</span>
-
+        <a href="gettoschool/index.html">Get To School Get To School Get To School</a>
+        <span class="Blonk">▊</span> -->
     </div>
 
     <script>
-        function typeWriter(el) {
-            const textArray = el.innerHTML.split('');
-            el.innerHTML = '';
-            textArray.forEach((letter, i) =>
-                setTimeout(() => (el.innerHTML += letter), 100 * i)
-            );
-        }
-        // for (let u = 0; u < document.getElementById("hay").getElementsByTagName("a").length; u++) {
+        var linkNumber = 0
+        var characterNumber = 0
+        var spanToggle = false
+        var allCharacters = []
+        var links = [
+            {
+                url: 'FazQuotesStuff/index.html',
+                link: 'Faz-Quotes'
+            },
+            {
+                url: 'gettoschool/index.html',
+                link: 'Get To School'
+            }
+        ]
 
-        document.getElementById("hay").querySelectorAll("a").forEach((u, g) => {
+        function load() {
+            for (link of links) {
+                let linkElement = document.createElement('a')
+                linkElement.id = link.link
+                document.getElementById('hay').appendChild(linkElement)
+                let span = document.createElement('span')
+                span.id = link.link
+                span.innerHTML = '▊'
+                document.getElementById('hay').appendChild(span)
+                document.getElementById('hay').appendChild(document.createElement('br'))
+            }
+            for (link of links) {
+                let linkElement = document.getElementById(link.link)
+                let linkCharacters = link.link.split('')
+                for (character of linkCharacters) {
+                    allCharacters.push({ character: character, link: link.link, characterNumber: characterNumber, linkNumber: linkNumber })
+                    characterNumber++
+                }
+                linkNumber++
+            }
+            for (character of allCharacters) {
+                writeCharacter(character)
+            }
+        }
+
+        function writeCharacter(character) {
             setTimeout(() => {
-                document.getElementById("hay").getElementsByTagName("a")[g].style.visibility = 'visible'
-                for (let i = 0; i < document.getElementById("hay").getElementsByTagName("span").length; i++) {
-                    if (i == g) {
-                        document.getElementById("hay").getElementsByTagName("span")[i].style.visibility = 'visible'
-                    } else {
-                        document.getElementById("hay").getElementsByTagName("span")[i].style.visibility = 'hidden'
+                let linkElement = document.getElementById(character.link)
+                linkElement.innerHTML += character.character
+                for (span of document.getElementsByTagName('span')) {
+                    if (span.id == character.link) {
+                        span.style.visibility = 'visible'
+                    }
+                    else {
+                        span.style.visibility = 'hidden'
                     }
                 }
-                typeWriter(u);
-            }, 100 * u.innerHTML.length * g);
-        });
-        var j = true
-        setInterval(() => {
-            if (j) {
-                for (var r of document.getElementsByClassName("Blonk")) {
-                    r.style.opacity = 0
-                }
-                j = false
-            }
+            }, 150 * character.characterNumber);
+        }
 
-            else {
-                for (var r of document.getElementsByClassName("Blonk")) {
-                    r.style.opacity = 1
-                }
-                j = true
+        setInterval(() => {
+            for (span of document.getElementsByTagName('span')) {
+                if (spanToggle) {
+                    span.style.opacity = 1
+                } else
+                    span.style.opacity = 0
             }
-        }, 500);
+            if (spanToggle) {
+                spanToggle = false
+            } else {
+                spanToggle = true
+            }
+        }, 700);
     </script>
 </body>
 
