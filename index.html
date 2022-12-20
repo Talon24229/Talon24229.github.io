@@ -56,24 +56,6 @@
             },
             {
                 url: 'gettoschool/index.html',
-                display: 'Get To School Talon Ed'
-            },
-            {
-                url: 'https://brand24376.github.io/Breakout%20in%20Javascript/index.html',
-                display: 'Breakout'
-            },
-            {
-                url: 'https://brand24376.github.io/Get%202%20School/game.html',
-                display: 'Get To School Brandon Ed'
-            },
-            {
-                url: 'https://mhoover0413.github.io/minecraft.html',
-                display: '2D Minecraft'
-            },
-            {
-                url: 'https://mhoover0413.github.io/GetToSchool.html',
-                display: 'Get To School Mac Ed'
-            },
 
         ]
 
@@ -114,10 +96,9 @@
                 linkElement.innerHTML += character.character
                 if (character.lastCharacter) {
                     for (link of links) {
-                        if (link.display == character.link) {
-                            setTimeout(() => {
-                                linkElement.href = link.url
-                            }, typewriterSpeed);
+                        if (link.display == character.link && linkElement.href == '') {
+                            console.log(character, link.display, character.link, linkElement, link.url);
+                            makeLink(linkElement, link)
                         }
                     }
                 }
@@ -130,6 +111,13 @@
                     }
                 }
             }, typewriterSpeed * character.characterNumber + typewriterSpeed);
+        }
+
+        function makeLink(linkElement, link) {
+            setTimeout(() => {
+                console.log(linkElement.href, link.url);
+                linkElement.href = link.url
+            }, typewriterSpeed);
         }
 
         setInterval(() => {
