@@ -52,30 +52,36 @@
         var links = [
             {
                 url: 'FazQuotesStuff/index.html',
-                link: 'Faz-Quotes'
+                display: 'Faz-Quotes'
             },
             {
                 url: 'gettoschool/index.html',
-                link: 'Get To School'
+                display: 'Get To School'
             }
         ]
 
         function load() {
             for (link of links) {
                 let linkElement = document.createElement('a')
-                linkElement.id = link.link
+                linkElement.id = link.display
                 document.getElementById('hay').appendChild(linkElement)
                 let span = document.createElement('span')
-                span.id = link.link
+                span.id = link.display
                 span.innerHTML = cursorCharacter
                 document.getElementById('hay').appendChild(span)
                 document.getElementById('hay').appendChild(document.createElement('br'))
             }
             for (link of links) {
-                let linkElement = document.getElementById(link.link)
-                let linkCharacters = link.link.split('')
+                let linkElement = document.getElementById(link.display)
+                let linkCharacters = link.display.split('')
                 for (character of linkCharacters) {
-                    allCharacters.push({ character: character, link: link.link, characterNumber: characterNumber, linkNumber: linkNumber })
+                    let lastCharacter = false
+                    if (linkCharacters.indexOf(character) == linkCharacters.length - 1) {
+                        lastCharacter = true
+                    } else {
+                        lastCharacter = false
+                    }
+                    allCharacters.push({ character: character, link: link.display, characterNumber: characterNumber, linkNumber: linkNumber, lastCharacter: lastCharacter })
                     characterNumber++
                 }
                 linkNumber++
@@ -83,18 +89,21 @@
             for (character of allCharacters) {
                 writeCharacter(character)
             }
-            setTimeout(() => {
-                for (link of links) {
-                    let linkElement = document.getElementById(link.link)
-                    linkElement.href = link.url
-                }
-            }, typewriterSpeed * allCharacters.length + typewriterSpeed)
         }
 
         function writeCharacter(character) {
             setTimeout(() => {
                 let linkElement = document.getElementById(character.link)
                 linkElement.innerHTML += character.character
+                if (character.lastCharacter) {
+                    for (link of links) {
+                        if (link.display == character.link) {
+                            setTimeout(() => {
+                                linkElement.href = link.url
+                            }, typewriterSpeed);
+                        }
+                    }
+                }
                 for (span of document.getElementsByTagName('span')) {
                     if (span.id == character.link) {
                         span.style.visibility = 'visible'
@@ -103,7 +112,7 @@
                         span.style.visibility = 'hidden'
                     }
                 }
-            }, typewriterSpeed * character.characterNumber);
+            }, typewriterSpeed * character.characterNumber + typewriterSpeed);
         }
 
         setInterval(() => {
