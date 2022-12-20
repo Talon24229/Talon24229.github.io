@@ -97,10 +97,9 @@
                 linkElement.innerHTML += character.character
                 if (character.lastCharacter) {
                     for (link of links) {
-                        if (link.display == character.link) {
-                            setTimeout(() => {
-                                linkElement.href = link.url
-                            }, typewriterSpeed);
+                        if (link.display == character.link && linkElement.href == '') {
+                            console.log(character, link.display, character.link, linkElement, link.url);
+                            makeLink(linkElement, link)
                         }
                     }
                 }
@@ -113,6 +112,13 @@
                     }
                 }
             }, typewriterSpeed * character.characterNumber + typewriterSpeed);
+        }
+
+        function makeLink(linkElement, link) {
+            setTimeout(() => {
+                console.log(linkElement.href, link.url);
+                linkElement.href = link.url
+            }, typewriterSpeed);
         }
 
         setInterval(() => {
