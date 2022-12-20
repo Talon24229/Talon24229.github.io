@@ -38,14 +38,13 @@
 
 <body onload="setTimeout(()=>{load()},1000)">
     <div id="hay">
-        <!-- <a href="FazQuotesStuff/index.html">Faz-Quotes</a>
-        <span class="Blonk">▊</span>
-        <br>
-        <a href="gettoschool/index.html">Get To School Get To School Get To School</a>
-        <span class="Blonk">▊</span> -->
     </div>
 
     <script>
+        const typewriterSpeed = 150
+        const cursorFlashSpeed = 700
+        const cursorCharacter = ' ▊'
+
         var linkNumber = 0
         var characterNumber = 0
         var spanToggle = false
@@ -68,7 +67,7 @@
                 document.getElementById('hay').appendChild(linkElement)
                 let span = document.createElement('span')
                 span.id = link.link
-                span.innerHTML = '▊'
+                span.innerHTML = cursorCharacter
                 document.getElementById('hay').appendChild(span)
                 document.getElementById('hay').appendChild(document.createElement('br'))
             }
@@ -84,6 +83,12 @@
             for (character of allCharacters) {
                 writeCharacter(character)
             }
+            setTimeout(() => {
+                for (link of links) {
+                    let linkElement = document.getElementById(link.link)
+                    linkElement.href = link.url
+                }
+            }, typewriterSpeed * allCharacters.length + typewriterSpeed)
         }
 
         function writeCharacter(character) {
@@ -98,7 +103,7 @@
                         span.style.visibility = 'hidden'
                     }
                 }
-            }, 150 * character.characterNumber);
+            }, typewriterSpeed * character.characterNumber);
         }
 
         setInterval(() => {
@@ -113,7 +118,7 @@
             } else {
                 spanToggle = true
             }
-        }, 700);
+        }, cursorFlashSpeed);
     </script>
 </body>
 
