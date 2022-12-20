@@ -41,6 +41,10 @@
     </div>
 
     <script>
+        const typewriterSpeed = 150
+        const cursorFlashSpeed = 700
+        const cursorCharacter = ' ▊'
+
         var linkNumber = 0
         var characterNumber = 0
         var spanToggle = false
@@ -63,7 +67,7 @@
                 document.getElementById('hay').appendChild(linkElement)
                 let span = document.createElement('span')
                 span.id = link.link
-                span.innerHTML = '▊'
+                span.innerHTML = cursorCharacter
                 document.getElementById('hay').appendChild(span)
                 document.getElementById('hay').appendChild(document.createElement('br'))
             }
@@ -84,7 +88,7 @@
                     let linkElement = document.getElementById(link.link)
                     linkElement.href = link.url
                 }
-            }, 150 * allCharacters.length + 150)
+            }, typewriterSpeed * allCharacters.length + typewriterSpeed)
         }
 
         function writeCharacter(character) {
@@ -99,7 +103,7 @@
                         span.style.visibility = 'hidden'
                     }
                 }
-            }, 150 * character.characterNumber);
+            }, typewriterSpeed * character.characterNumber);
         }
 
         setInterval(() => {
@@ -114,7 +118,7 @@
             } else {
                 spanToggle = true
             }
-        }, 700);
+        }, cursorFlashSpeed);
     </script>
 </body>
 
