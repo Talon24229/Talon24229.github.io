@@ -88,19 +88,28 @@
                 document.getElementById('hay').appendChild(span)
                 document.getElementById('hay').appendChild(document.createElement('br'))
             }
+            let linkCharacters = [];
             for (link of links) {
                 let linkElement = document.getElementById(link.display)
-                let linkCharacters = link.display.split('')
-                for (character of linkCharacters) {
-                    let lastCharacter = false
-                    if (linkCharacters.indexOf(character) == linkCharacters.length - 1) {
-                        lastCharacter = true
-                    } else {
-                        lastCharacter = false
-                    }
-                    allCharacters.push({ character: character, link: link.display, characterNumber: characterNumber, linkNumber: linkNumber, lastCharacter: lastCharacter })
-                    characterNumber++
+                let splitLink = link.display.split('')
+                for (i = 0; i < splitLink.length; i++) {
+                    linkCharacters.push({ index: i, character: splitLink[i], link: link.display })
                 }
+            }
+            for (character of linkCharacters) {
+                let link
+                for (tempLink of links) {
+                    if (tempLink.display == character.link)
+                        link = tempLink
+                }
+                let lastCharacter = false
+                if (character.index == link.display.length - 1) {
+                    lastCharacter = true
+                } else {
+                    lastCharacter = false
+                }
+                allCharacters.push({ character: character.character, link: link.display, characterNumber: characterNumber, linkNumber: linkNumber, lastCharacter: lastCharacter })
+                characterNumber++
                 linkNumber++
             }
             for (character of allCharacters) {
@@ -108,14 +117,15 @@
             }
         }
 
+
         function writeCharacter(character) {
             setTimeout(() => {
                 let linkElement = document.getElementById(character.link)
                 linkElement.innerHTML += character.character
                 if (character.lastCharacter) {
+                    console.log(character);
                     for (link of links) {
-                        if (link.display == character.link && linkElement.href == '') {
-                            console.log(character, link.display, character.link, linkElement, link.url);
+                        if (link.display == character.link) {
                             makeLink(linkElement, link)
                         }
                     }
@@ -133,7 +143,6 @@
 
         function makeLink(linkElement, link) {
             setTimeout(() => {
-                console.log(linkElement.href, link.url);
                 linkElement.href = link.url
             }, typewriterSpeed);
         }
