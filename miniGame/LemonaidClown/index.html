@@ -1,0 +1,96 @@
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            background-size: 100vw;
+            background-color: rgb(0, 0, 0);
+        }
+
+        #cab {
+            position: absolute;
+            height: 140%;
+            z-index: 4;
+            margin-top: -12%;
+            margin-left: 18%;
+
+
+        }
+
+        #clown {
+            position: absolute;
+            display: block;
+            padding-left: 42%;
+            padding-top: 10%;
+            width: 20%;
+            z-index: 2;
+        }
+
+        #lem {
+            position: absolute;
+            margin-left: 25%;
+            margin-right: auto;
+            margin-top: 10%;
+            height: 60%;
+            width: 50%;
+            z-index: 1;
+        }
+
+        #kid {
+            position: absolute;
+            margin-top: 32%;
+            margin-left: 50%;
+            width: 5%;
+            z-index: 3;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Give kids Lemonade!</title>
+</head>
+
+<body>
+    <img id='cab' src=" ../cabnet.png">
+    <img id='lem' src="../miniGameBKG.png">
+    <img id='clown' src="idle.png">
+    <script>
+        //9 kids made, 100 points each, unless all are hit, then its 5,000, thus the total would be 5.900
+        for (let i = 9; i > 0; i--) {
+            let img = document.createElement("img")
+            img.style.position = "absolute";
+            img.id = "kid"
+            img.src = "ChildWalk.gif"
+            document.body.appendChild(img)
+            img.id = "Child" + i;
+            img.style.top = 530 + "px"
+            img.style.zIndex = 3
+            img.style.width = 5 + "%"
+            img.style.left = (i * 85) + 425 + "px"
+        }
+        function ChildMoving() {
+            for (let i = 9; i > 0; i--) {
+                console.log("touch" + i)
+                var currentChild = document.getElementById("Child" + i)
+                console.log(currentChild.style.left)
+                var leftrem = currentChild.style.left
+                leftrem = leftrem.replace("px", "")
+                leftrem = leftrem.astype(int)
+                if (leftrem < "1190" && leftrem > "510") {
+                    console.log("touch")
+                }
+                else {
+                    console.log("califonria")
+                }
+            }
+        }
+
+        setInterval(ChildMoving(), 5);
+    </script>
+
+</body>
+
+</html>
