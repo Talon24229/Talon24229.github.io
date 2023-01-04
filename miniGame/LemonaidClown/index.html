@@ -59,10 +59,10 @@
     <img id='clown' src="idle.png">
     <script>
         //9 kids made, 100 points each, unless all are hit, then its 5,000, thus the total would be 5.900
-        for (let i = 9; i > 0; i--) {
+        for (let i = 0; i < 9; i++) {
             let img = document.createElement("img")
             img.style.position = "absolute";
-            img.id = "kid"
+            img.className = "kids"
             img.src = "ChildWalk.gif"
             document.body.appendChild(img)
             img.id = "Child" + i;
@@ -71,24 +71,35 @@
             img.style.width = 5 + "%"
             img.style.left = (i * 85) + 425 + "px"
         }
+        var kids = []
+        for (kid of document.getElementsByClassName('kids')) {
+            kids.push({ element: kid, wallTouched: null, position: Number(kid.style.left.replace('px', '')), initDirection: ['left', 'right'][Math.floor(Math.random() * 2)] })
+        }
         function ChildMoving() {
-            for (let i = 9; i > 0; i--) {
-                console.log("touch" + i)
-                var currentChild = document.getElementById("Child" + i)
-                console.log(currentChild.style.left)
-                var leftrem = currentChild.style.left
-                leftrem = leftrem.replace("px", "")
-                leftrem = leftrem.astype(int)
-                if (leftrem < "1190" && leftrem > "510") {
-                    console.log("touch")
-                }
-                else {
-                    console.log("califonria")
+            for (kid of kids) {
+                if (kid.element) {
+                    if (kid.initDirection == 'left') kid.position -= 1
+                    else if (kid.initDirection == 'right') kid.position += 1
+                    else if (kid.wallTouched == 'left') kid.position += 1
+                    else if (kid.wallTouched == 'right') kid.position -= 1
+
+                    if (kid.position >= 1300) {
+                        kid.initDirection = null
+                        kid.wallTouched = 'right'
+                    }
+                    else if (kid.position <= 500) {
+                        kid.initDirection = null
+                        kid.wallTouched = 'left'
+                    }
+
+                    kid.element.style.left = kid.position + 'px'
                 }
             }
         }
 
-        setInterval(ChildMoving(), 5);
+        document.addEventListener('keydown', function (event) {
+            if (event.keyCode == 32) setInterval(ChildMoving, 5)
+        })
     </script>
 
 </body>
