@@ -62,7 +62,7 @@
         for (let i = 9; i > 0; i--) {
             let img = document.createElement("img")
             img.style.position = "absolute";
-            img.id = "kid"
+            img.className = "kid"
             img.src = "ChildWalk.gif"
             document.body.appendChild(img)
             img.id = "Child" + i;
@@ -72,23 +72,18 @@
             img.style.left = (i * 85) + 425 + "px"
         }
         function ChildMoving() {
-            for (let i = 9; i > 0; i--) {
-                console.log("touch" + i)
-                var currentChild = document.getElementById("Child" + i)
-                console.log(currentChild.style.left)
-                var leftrem = currentChild.style.left
-                leftrem = leftrem.replace("px", "")
-                leftrem = leftrem.astype(int)
-                if (leftrem < "1190" && leftrem > "510") {
-                    console.log("touch")
-                }
-                else {
-                    console.log("califonria")
+            kids = document.getElementsByClassName('kid')
+            for (kid of kids) {
+                if (kid) {
+                    var fnheuowfgofghio = 0
+                    setInterval(() => {
+                        fnheuowfgofghio += 1
+                        kid.style.marginLeft = fnheuowfgofghio + "px"
+                    }, 5);
                 }
             }
         }
-
-        setInterval(ChildMoving(), 5);
+        ChildMoving()
     </script>
 
 </body>
