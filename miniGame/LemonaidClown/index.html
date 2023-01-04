@@ -1,0 +1,148 @@
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            background-size: 100vw;
+            background-color: rgb(0, 0, 0);
+        }
+
+        #cab {
+            position: absolute;
+            height: 140%;
+            z-index: 4;
+            margin-top: -12%;
+            margin-left: 18%;
+
+
+        }
+
+        #clown {
+            position: absolute;
+            display: block;
+            padding-left: 42%;
+            padding-top: 10%;
+            width: 20%;
+            z-index: 2;
+        }
+
+        #lem {
+            position: absolute;
+            margin-left: 25%;
+            margin-right: auto;
+            margin-top: 10%;
+            height: 60%;
+            width: 50%;
+            z-index: 1;
+        }
+
+        #kid {
+            position: absolute;
+            margin-top: 32%;
+            margin-left: 50%;
+            width: 5%;
+            z-index: 3;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Give kids Lemonade!</title>
+</head>
+
+
+<body>
+    <!-- <p id="blink">
+        GET FREEDY!
+    </p>
+
+    <p id="fatherGettingMilk">
+        Sunrise as many as many kids as you can!
+    </p>
+    <p id="stay">
+        Press Space
+    </p>
+    <p id="score">
+        0
+    </p> -->
+    <img id='cab' src=" ../cabnet.png">
+    <img id='lem' src="../miniGameBKG.png">
+    <img id='clown' src="idle.png">
+
+    <script>
+        //9 kids made, 100 points each, unless all are hit, then its 5,000, thus the total would be 5.900
+
+        for (let i = 0; i < 9; i++) {
+            let img = document.createElement("img")
+            img.style.position = "absolute";
+            img.className = "kids"
+            img.src = "ChildWalk.gif"
+            document.body.appendChild(img)
+            img.id = "Child" + i;
+            img.style.top = 530 + "px"
+            img.style.zIndex = 3
+            img.style.width = 5 + "%"
+            img.style.left = (i * 85) + 425 + "px"
+        }
+        var kids = []
+        for (kid of document.getElementsByClassName('kids')) {
+            kids.push({ element: kid, wallTouched: null, position: Number(kid.style.left.replace('px', '')), movement: { speed: 0, time: 0 }, initDirection: ['left', 'right'][Math.floor(Math.random() * 2)] })
+        }
+        var scared = false
+        function ChildMoving() {
+            for (kid of kids) {
+                if (kid.element) {
+                    if (kid.movement.time <= 0) {
+                        kid.movement.speed = Math.floor(Math.random() * 10)
+                        kid.movement.time = Math.floor(Math.random() * 5000)
+
+                    }
+                    if (scared) {
+
+                    }
+                    else {
+                        if (kid.initDirection == 'left') kid.position -= kid.movement.speed
+                        else if (kid.initDirection == 'right') kid.position += kid.movement.speed
+                        else if (kid.wallTouched == 'left') kid.position += kid.movement.speed
+                        else if (kid.wallTouched == 'right') kid.position -= kid.movement.speed
+                    }
+
+                    if (kid.position >= 1220) {
+                        kid.initDirection = null
+                        kid.wallTouched = 'right'
+                    }
+                    else if (kid.position <= 470) {
+                        kid.initDirection = null
+                        kid.wallTouched = 'left'
+                    }
+
+                    kid.element.style.left = kid.position + 'px'
+                    kid.movement.time -= 1
+                }
+            }
+        }
+        function jump() {
+            scared = true
+            for (kid of kids) {
+                if (kid.position > 700 & kid.position < 1100) {
+                    kid.element.style.backgroundColor = "red"
+                }
+                else {
+                    kid.element.style.backgroundColor = ""
+                }
+            }
+        }
+        document.addEventListener('keydown', function (event) {
+            if (event.keyCode == 69) setInterval(jump, 1)
+        })
+        document.addEventListener('keydown', function (event) {
+            if (event.keyCode == 32) setInterval(ChildMoving, 1)
+        })
+    </script>
+
+</body>
+
+</html>
