@@ -98,8 +98,8 @@
         //     console.log(score)
         // }, 1)
 
-        const DEBUG = true
-        const TRUE_SCARE = true
+        const DEBUG = false
+        const TRUE_SCARE = false
         const CHAIN_DISTANCE = 25
         const SCARE_DISTANCE = 150
         const WALL_DISTANCE = 400
@@ -152,7 +152,7 @@
             img.style.top = 530 + "px"
             img.style.zIndex = 3
             img.style.width = 5 + "%"
-            img.style.left = (i * 85) + 425 + "px"
+            img.style.left = (i * 85) + document.documentElement.clientWidth / 2 - 9 * 85 / 2 + "px"
         }
         for (kid of document.getElementsByClassName('kids')) {
             kids.push({ element: kid, wallTouched: null, position: Number(kid.style.left.replace('px', '')), movement: { speed: 0, time: 0 }, initDirection: ['left', 'right'][Math.floor(Math.random() * 2)], scared: false })
