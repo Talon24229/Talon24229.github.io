@@ -16,15 +16,12 @@
             z-index: 4;
             margin-top: -12%;
             margin-left: 18%;
-
-
         }
 
         #clown {
             position: absolute;
             display: block;
-            padding-left: 42%;
-            padding-top: 10%;
+            margin-top: 10%;
             width: 20%;
             z-index: 2;
         }
@@ -45,6 +42,25 @@
             margin-left: 50%;
             width: 5%;
             z-index: 3;
+        }
+
+        .debugLines {
+            position: absolute;
+            width: 5px;
+            height: 100%;
+            z-index: 5;
+        }
+
+        .wall {
+            background-color: green;
+        }
+
+        .scare {
+            background-color: red;
+        }
+
+        .trueScare {
+            background-color: black;
         }
     </style>
     <meta charset="UTF-8">
@@ -71,34 +87,85 @@
     <img id='cab' src=" ../cabnet.png">
     <img id='lem' src="../miniGameBKG.png">
     <img id='clown' src="idle.png">
-
+    <div id='leftWall' class='wall debugLines'></div>
+    <div id='rightWall' class='wall debugLines'></div>
+    <div id='leftScare' class='scare debugLines'></div>
+    <div id='rightScare' class='scare debugLines'></div>
+    <div id='trueLeftScare' class='trueScare debugLines'></div>
+    <div id='trueRightScare' class='trueScare debugLines'></div>
     <script>
+        // setInterval(() => {
+        //     console.log(score)
+        // }, 1)
+
+        const DEBUG = false
+        const TRUE_SCARE = false
+        const CHAIN_DISTANCE = 25
+        const SCARE_DISTANCE = 150
+        const WALL_DISTANCE = 400
+        const LEMONADE_CLOWN = { element: document.getElementById('clown') }
+        LEMONADE_CLOWN.position = document.documentElement.clientWidth * .5 - LEMONADE_CLOWN.element.clientWidth / 2
+        LEMONADE_CLOWN.element.style.left = LEMONADE_CLOWN.position + 'px'
+        const LEFT_WALL = LEMONADE_CLOWN.position - WALL_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
+        const RIGHT_WAll = LEMONADE_CLOWN.position + WALL_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
+
+        //debug
+        if (DEBUG) {
+            document.getElementById('leftWall').style.visibility = ''
+            document.getElementById('rightWall').style.visibility = ''
+            document.getElementById('leftScare').style.visibility = ''
+            document.getElementById('rightScare').style.visibility = ''
+        } else {
+            document.getElementById('leftWall').style.visibility = 'hidden'
+            document.getElementById('rightWall').style.visibility = 'hidden'
+            document.getElementById('leftScare').style.visibility = 'hidden'
+            document.getElementById('rightScare').style.visibility = 'hidden'
+        }
+        document.getElementById('leftWall').style.left = LEFT_WALL
+        document.getElementById('rightWall').style.left = RIGHT_WAll
+        document.getElementById('leftScare').style.left = LEMONADE_CLOWN.position - SCARE_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
+        document.getElementById('rightScare').style.left = LEMONADE_CLOWN.position + SCARE_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
+        if (DEBUG && TRUE_SCARE) {
+            document.getElementById('trueLeftScare').style.visibility = ''
+            document.getElementById('trueRightScare').style.visibility = ''
+        } else {
+            document.getElementById('trueLeftScare').style.visibility = 'hidden'
+            document.getElementById('trueRightScare').style.visibility = 'hidden'
+        }
+
+        var scared = false
+        var scaredKids = 0
+        var score = 0
+        var gameStarted = false
+        var canScare = false
+        var kids = []
+
         //9 kids made, 100 points each, unless all are hit, then its 5,000, thus the total would be 5.900
 
-        for (let i = 0; i < 9; i++) {
+        for (let i = 0;i < 9;i++) {
             let img = document.createElement("img")
-            img.style.position = "absolute";
+            img.style.position = "absolute"
             img.className = "kids"
             img.src = "ChildWalk.gif"
             document.body.appendChild(img)
-            img.id = "Child" + i;
+            img.id = "Child" + i
             img.style.top = 530 + "px"
             img.style.zIndex = 3
             img.style.width = 5 + "%"
-            img.style.left = (i * 85) + 425 + "px"
+            img.style.left = (i * 85) + document.documentElement.clientWidth / 2 - 9 * 85 / 2 + "px"
         }
-        var kids = []
         for (kid of document.getElementsByClassName('kids')) {
-            kids.push({ element: kid, wallTouched: null, position: Number(kid.style.left.replace('px', '')), movement: { speed: 0, time: 0 }, initDirection: ['left', 'right'][Math.floor(Math.random() * 2)] })
+            kids.push({ element: kid, wallTouched: null, position: Number(kid.style.left.replace('px', '')), movement: { speed: 0, time: 0 }, initDirection: ['left', 'right'][Math.floor(Math.random() * 2)], scared: false })
         }
-        var scared = false
+        document.getElementById('trueLeftScare').style.left = LEMONADE_CLOWN.position - SCARE_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2 - kids[0].element.clientWidth / 2
+        document.getElementById('trueRightScare').style.left = LEMONADE_CLOWN.position + SCARE_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2 - kids[0].element.clientWidth / 2
+
         function ChildMoving() {
             for (kid of kids) {
                 if (kid.element) {
                     if (kid.movement.time <= 0) {
-                        kid.movement.speed = Math.floor(Math.random() * 10)
+                        kid.movement.speed = Math.floor(Math.random() * 5)
                         kid.movement.time = Math.floor(Math.random() * 5000)
-
                     }
                     if (scared) {
 
@@ -110,11 +177,11 @@
                         else if (kid.wallTouched == 'right') kid.position -= kid.movement.speed
                     }
 
-                    if (kid.position >= 1220) {
+                    if (kid.position >= RIGHT_WAll) {
                         kid.initDirection = null
                         kid.wallTouched = 'right'
                     }
-                    else if (kid.position <= 470) {
+                    else if (kid.position <= LEFT_WALL) {
                         kid.initDirection = null
                         kid.wallTouched = 'left'
                     }
@@ -124,22 +191,56 @@
                 }
             }
         }
+
         function jump() {
             scared = true
             for (kid of kids) {
-                if (kid.position > 700 & kid.position < 1100) {
+                if (kid.position >= LEMONADE_CLOWN.position - SCARE_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2 - kids[0].element.clientWidth / 2 &&
+                    kid.position <= LEMONADE_CLOWN.position + SCARE_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2 - kids[0].element.clientWidth / 2) {
                     kid.element.style.backgroundColor = "red"
-                }
-                else {
-                    kid.element.style.backgroundColor = ""
+                    kid.scared = true
+                    scaredKids += 1
                 }
             }
+            for (let i = 0;i < kids.length;i++) {
+                for (scaredKid of kids) {
+                    if (scaredKid.scared) {
+                        for (kid of kids) {
+                            if (kid.position >= scaredKid.position - CHAIN_DISTANCE - kids[0].element.clientWidth / 2 &&
+                                kid.position <= scaredKid.position + CHAIN_DISTANCE - kids[0].element.clientWidth / 2 &&
+                                !kid.scared) {
+                                kid.element.style.backgroundColor = "red"
+                                kid.scared = true
+                                console.log(kid.element)
+                                scaredKids += 1
+                            }
+                        }
+                    }
+                }
+            }
+            score += scaredKids * 100
+            if (scaredKids >= 9) score += 5000
+            setTimeout(() => {
+                scared = false
+                for (kid of kids) {
+                    kid.element.style.backgroundColor = ""
+                    kid.scared = false
+                }
+            }, 1500)
         }
+
         document.addEventListener('keydown', function (event) {
-            if (event.keyCode == 69) setInterval(jump, 1)
+            if (event.keyCode == 32 && !scared && canScare) jump()
         })
+
         document.addEventListener('keydown', function (event) {
-            if (event.keyCode == 32) setInterval(ChildMoving, 1)
+            if (event.keyCode == 32 && !gameStarted) {
+                setInterval(ChildMoving, 1)
+                gameStarted = true
+                setTimeout(() => {
+                    canScare = true
+                }, 1000)
+            }
         })
     </script>
 
