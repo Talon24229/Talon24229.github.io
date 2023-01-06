@@ -29,7 +29,21 @@
             margin-top: 10%;
             height: 60%;
             width: 50%;
+            z-index: 2;
+        }
+
+        #ballora {
+            position: absolute;
+            margin-left: 22%;
+            margin-top: 18%;
             z-index: 1;
+        }
+
+        #timer {
+            margin-left: 48%;
+            margin-top: 13%;
+            position: absolute;
+            font-size: 50px;
         }
     </style>
     <meta charset="UTF-8">
@@ -39,15 +53,16 @@
 </head>
 
 <body>
+    <p id="timer">
+        Timer Here
+    </p>
+    <img id="ballora" src="Baloora.png">
     <img id='cab' src=" ../cabnet.png">
     <img id="facePlates" src="Background.png">
     <script>
         var game = true
         var springState = 1
-        while (game) {
-            setInterval(() => {
 
-            }, 180000);
-        }
+
     </script>
 </body>
