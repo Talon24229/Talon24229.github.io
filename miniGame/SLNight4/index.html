@@ -16,9 +16,10 @@
         #cab {
             position: absolute;
             height: 140%;
-            z-index: 100;
+            z-index: 10;
             margin-top: -12%;
             margin-left: 18%;
+            pointer-events: none;
         }
 
 
@@ -34,21 +35,25 @@
 
         #ballora {
             position: absolute;
-            margin-left: 22%;
-            margin-top: 18%;
+            left: 22%;
+            bottom: 22%;
             z-index: 1;
         }
 
         #timer {
-            margin-left: 48%;
-            margin-top: 13%;
+            left: 48%;
+            top: 13%;
             position: absolute;
             font-size: 50px;
         }
+
+        #spring {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 11;
+        }
     </style>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Night 4</title>
 </head>
 
@@ -59,10 +64,57 @@
     <img id="ballora" src="Baloora.png">
     <img id='cab' src=" ../cabnet.png">
     <img id="facePlates" src="Background.png">
+    <img id="spring" src="springlockframes/s1.png">
     <script>
-        var game = true
-        var springState = 1
+        var counter = 1
+        var hover = false
+        var spring = document.getElementById("spring")
+        for (let i = 0; i < 9; i++) {
+            let img = document.createElement("img")
+            img.style.position = "absolute"
+            img.className = "kids"
+            img.src = "ChildWalk.gif"
+            document.body.appendChild(img)
+            img.id = "Child" + i
+            img.style.top = 530 + "px"
+            img.style.zIndex = 3
+            img.style.width = 5 + "%"
+            img.style.left = (i * 85) + document.documentElement.clientWidth / 2 - 9 * 85 / 2 + "px"
+        }
+        /*
+        counter that goes down every second
+        if the mouse is hovering over image, every second counter goes up
+        depending on counter, change state of image
+        if counter is 0, end game/ timer count
+        */
+        spring.addEventListener("mouseleave", function () { hover = false });
+        spring.addEventListener("mouseover", function () { hover = true });
+        setInterval(() => {
 
+            console.log(hover);
+            if (counter > 28) {
+                game = false
+            }
+            else if (counter >= 0 && !hover) {
+                counter += 1
+                if (counter == 5) {
+                    counter = 6
+                }
+
+            }
+            else if (counter >= 0 && hover) {
+                if (counter > 1) {
+                    counter -= 1
+                }
+                if (counter == 5) {
+                    counter = 4
+                }
+
+                console.log(counter);
+            }
+
+            spring.src = `springlockframes/s${counter}.png`
+        }, 500);
 
     </script>
 </body>
