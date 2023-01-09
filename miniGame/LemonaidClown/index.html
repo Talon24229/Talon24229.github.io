@@ -40,12 +40,12 @@
             z-index: 0;
         }
 
-        #kid {
+        .kids {
             position: absolute;
             top: 32%;
             left: 50%;
             width: 5%;
-            z-index: 2;
+            z-index: 3;
         }
 
         #scareRange {
@@ -103,7 +103,7 @@
 
         #score {
             z-index: 5;
-            color: white;
+            color: rgb(255, 255, 255);
             top: 69%;
             right: 4%;
             font-size: 5vh;
@@ -115,7 +115,7 @@
 
         #timer {
             z-index: 5;
-            color: white;
+            color: rgb(255, 255, 255);
             top: 24%;
             left: 26.5%;
             font-size: 5vh;
@@ -133,16 +133,25 @@
         }
 
         .walls {
-            background-color: green;
+            background-color: rgb(0, 128, 0);
         }
 
         .scareEdges {
-            background-color: red;
+            background-color: rgb(255, 0, 0);
         }
 
         .center {
             left: 50%;
             transform: translateX(-50%);
+        }
+
+        #button {
+            position: absolute;
+            top: 2vh;
+            height: 1vh;
+            width: 10%;
+            z-index: 1000;
+            background-color: red;
         }
     </style>
     <meta charset="UTF-8">
@@ -157,6 +166,7 @@
     <p id='directions' class='center'>Surprise as many kids as you can!</p>
     <p id='controls' class='center'>Press Space</p>
     <p id='timer'></p>
+    <div id='button' class='center'></div>
     <div id="modes" class='center'>
         <p onclick="changeMode('normal')">Normal</p>
         <p onclick="changeMode('endless')">Endless</p>
@@ -186,11 +196,13 @@
         var title = document.getElementById('title')
         var modesElement = document.getElementById('modes')
         var scoreElement = document.getElementById("score")
+        var timerElement = document.getElementById("timer")
         var directions = document.getElementById('directions')
         var controls = document.getElementById('controls')
         var moveChildren
         var time = { minutes: 1, seconds: 0 }
         var timer
+        var timerFlash = true
 
         //debug
         if (DEBUG) {
@@ -230,13 +242,11 @@
             kids = []
             for (let i = 0;i < 9;i++) {
                 let img = document.createElement("img")
-                img.style.position = "absolute"
                 img.className = "kids"
                 img.src = "ChildWalk.gif"
                 document.body.appendChild(img)
                 img.id = "Child" + i
                 img.style.top = 61 + "%"
-                img.style.zIndex = 3
                 img.style.width = 4.5 + "%"
                 img.style.left = (i * 350) + (document.documentElement.clientWidth / 2) - (9 * 350 / 2) + "px"
             }
@@ -367,7 +377,17 @@
                                 time.minutes -= 1
                                 time.seconds = 60
                             }
-                        document.getElementById('timer').innerText = time.minutes + ' : ' + time.seconds
+                        console.log(timerFlash);
+                        if (time.minutes == 0 && time.seconds <= 10)
+                            if (timerFlash) {
+                                timerElement.style.color = 'rgb(255, 0, 0)'
+                                timerFlash = false
+                            }
+                            else if (!timerFlash) {
+                                timerElement.style.color = 'rgb(255, 255, 255)'
+                                timerFlash = true
+                            }
+                        timerElement.innerText = time.minutes + ' : ' + time.seconds
                         if (time.minutes <= 0 && time.seconds <= 0) {
                             title.innerText = 'GAME WIN!'
                             title.style.visibility = ''
@@ -389,11 +409,13 @@
                     gameEnded = false
                     canScare = false
                     didScare = false
+                    timerFlash = true
                     clearInterval(slowTitleFlash)
                     clearInterval(fastTitleFlash)
                     clearInterval(moveChildren)
                     clearInterval(timer)
                     time = { minutes: 1, seconds: 0 }
+                    timerElement.innerText = time.minutes + ' : ' + time.seconds
                     generateKids()
                 }
             }
@@ -421,10 +443,10 @@
                 directions.style.visibility = ''
                 slowTitleFlash = setInterval(titleFlash, 500)
                 if (mode == 'timed') {
-                    document.getElementById('timer').visibility = ''
-                    document.getElementById('timer').innerText = time.minutes + ':' + time.seconds
+                    timerElement.visibility = ''
+                    timerElement.innerText = time.minutes + ' : ' + time.seconds
                 } else {
-                    document.getElementById('timer').visibility = 'hidden'
+                    timerElement.visibility = 'hidden'
                 }
             }
         }
