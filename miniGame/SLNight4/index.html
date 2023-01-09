@@ -62,25 +62,22 @@
         Timer Here
     </p>
     <img id="ballora" src="Baloora.png">
-    <img id='cab' src=" ../cabnet.png">
+    <img id='cab' src=" ../cabinet.png">
     <img id="facePlates" src="Background.png">
     <img id="spring" src="springlockframes/s1.png">
     <script>
         var counter = 1
         var hover = false
         var spring = document.getElementById("spring")
-        for (let i = 0; i < 9; i++) {
-            let img = document.createElement("img")
-            img.style.position = "absolute"
-            img.className = "kids"
-            img.src = "ChildWalk.gif"
-            document.body.appendChild(img)
-            img.id = "Child" + i
-            img.style.top = 530 + "px"
-            img.style.zIndex = 3
-            img.style.width = 5 + "%"
-            img.style.left = (i * 85) + document.documentElement.clientWidth / 2 - 9 * 85 / 2 + "px"
-        }
+
+        // for (let i = 0; i < 9; i++) {
+        //     let img = document.createElement("img")
+        //     img.style.position = "absolute"
+        //     img.className = "spring"
+        //     img.src = `springlockframes/s${counter}.png`
+        //     document.body.appendChild(img)
+        //     img.id = "spring" + i
+        // }
         /*
         counter that goes down every second
         if the mouse is hovering over image, every second counter goes up
