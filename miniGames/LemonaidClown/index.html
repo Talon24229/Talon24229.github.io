@@ -147,11 +147,13 @@
 
         #button {
             position: absolute;
-            top: 2vh;
-            height: 1vh;
-            width: 10%;
+            top: 82.5vh;
+            height: 7vh;
+            width: 7vw;
+            left: 49.5%;
             z-index: 1000;
-            background-color: red;
+            background-color: rgba(255, 0, 0, 0.5);
+            cursor: pointer;
         }
     </style>
     <meta charset="UTF-8">
@@ -181,6 +183,9 @@
     <div id='leftScare' class='scareEdges debugLines'></div>
     <div id='rightScare' class='scareEdges debugLines'></div>
     <script>
+        localStorage.setItem('a', JSON.stringify({ 'b': 'c' }))
+        console.log(localStorage.getItem('a'))
+
         const DEBUG = false
         const CHAIN_DISTANCE = 20
         const SCARE_DISTANCE = 600
@@ -233,6 +238,18 @@
         var fastTitleFlash
         var kids = []
 
+        var button = document.getElementById('button')
+        button.addEventListener('click', () => {
+            if (mode == 'menu') {
+                window.location.pathname = 'miniGames/index.html'
+            }
+            else {
+                mode = 'menu'
+                endGame()
+                checkMode()
+            }
+        })
+
         //9 kids made, 100 points each, unless all are hit, then its 5,000, thus the total would be 5,900
 
         function generateKids() {
@@ -255,6 +272,7 @@
             }
         }
         generateKids()
+
         function ChildMoving() {
             for (kid of kids) {
                 if (kid.element) {
@@ -339,9 +357,9 @@
                 }, 1500)
             }
         }
+
         document.addEventListener('keydown', function (event) {
             if (event.keyCode == 32) {
-                console.log(gameEnded);
                 if (gameStarted && canScare) {
                     if (mode == 'normal' && !didScare) {
                         jumpScare()
@@ -377,7 +395,6 @@
                                 time.minutes -= 1
                                 time.seconds = 60
                             }
-                        console.log(timerFlash);
                         if (time.minutes == 0 && time.seconds <= 10)
                             if (timerFlash) {
                                 timerElement.style.color = 'rgb(255, 0, 0)'
@@ -398,28 +415,11 @@
                     }, 1000);
                 }
                 else if (gameEnded) {
-                    score = 0
-                    document.getElementById('score').innerText = score
-                    title.innerText = 'Lemonade Clown'
-                    LEMONADE_CLOWN.element.src = 'idle.png'
-                    scaring = false
-                    scaredKids = 0
-                    score = 0
-                    gameStarted = false
-                    gameEnded = false
-                    canScare = false
-                    didScare = false
-                    timerFlash = true
-                    clearInterval(slowTitleFlash)
-                    clearInterval(fastTitleFlash)
-                    clearInterval(moveChildren)
-                    clearInterval(timer)
-                    time = { minutes: 1, seconds: 0 }
-                    timerElement.innerText = time.minutes + ' : ' + time.seconds
-                    generateKids()
+                    endGame()
                 }
             }
         })
+
         function checkMode() {
             if (mode == "menu") {
                 scareRange.style.visibility = "hidden"
@@ -450,10 +450,12 @@
                 }
             }
         }
+
         function changeMode(selectedMode) {
             mode = selectedMode
             checkMode()
         }
+
         function titleFlash() {
             if (title.style.visibility == 'hidden')
                 title.style.visibility = ''
@@ -461,6 +463,29 @@
                 title.style.visibility = 'hidden'
         }
         checkMode()
+
+        function endGame() {
+            score = 0
+            document.getElementById('score').innerText = score
+            title.innerText = 'Lemonade Clown'
+            LEMONADE_CLOWN.element.src = 'idle.png'
+            scaring = false
+            scaredKids = 0
+            score = 0
+            gameStarted = false
+            gameEnded = false
+            canScare = false
+            didScare = false
+            timerFlash = true
+            clearInterval(slowTitleFlash)
+            clearInterval(fastTitleFlash)
+            clearInterval(moveChildren)
+            clearInterval(timer)
+            time = { minutes: 1, seconds: 0 }
+            if (mode == 'timed')
+                timerElement.innerText = time.minutes + ' : ' + time.seconds
+            generateKids()
+        }
     </script>
 
 </body>
