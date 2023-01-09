@@ -8,109 +8,141 @@
             overflow: hidden;
             background-size: 100vw;
             background-color: rgb(0, 0, 0);
+            font-family: "Comic Sans MS";
+            text-align: center;
         }
 
-        #cab {
+        p {
+            margin: 0;
+        }
+
+        #cabinet {
             position: absolute;
             height: 140%;
-            z-index: 100;
-            margin-top: -12%;
-            margin-left: 18%;
+            z-index: 6;
+            top: -25%;
+            pointer-events: none;
         }
 
-        #clown {
+        #lemonadeClown {
             position: absolute;
             display: block;
-            margin-top: 10%;
-            width: 20%;
-            z-index: 2;
+            top: 28%;
+            width: 17%;
+            z-index: 1;
         }
 
-        #lem {
+        #background {
             position: absolute;
-            margin-left: 25%;
-            margin-right: auto;
-            margin-top: 10%;
+            top: 18%;
             height: 60%;
             width: 50%;
-            z-index: 1;
+            z-index: 0;
         }
 
         #kid {
             position: absolute;
-            margin-top: 32%;
-            margin-left: 50%;
+            top: 32%;
+            left: 50%;
             width: 5%;
+            z-index: 2;
+        }
+
+        #scareRange {
+            background-color: rgba(200, 200, 200, 0.3);
+            border-radius: 50%;
+            position: absolute;
             z-index: 3;
         }
 
-        #O {
-            background-color: rgba(199, 199, 199, 0.238);
-            border-radius: 50%;
-            height: 350px;
-            width: 350px;
-            position: absolute;
-            z-index: 5;
-
-        }
-
         #title {
-            margin-left: 35%;
             position: absolute;
-            margin-top: 13%;
-            z-index: 8;
+            top: 24%;
+            z-index: 5;
             color: rgb(255, 255, 255);
             text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
                 1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
-            font-size: 80px;
+            font-size: 8vh;
+        }
+
+        #directions {
+            position: absolute;
+            top: 35.5%;
+            z-index: 5;
+            color: rgb(255, 255, 255);
+            text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+            font-size: 3.5vh;
+        }
+
+        #controls {
+            position: absolute;
+            top: 69%;
+            z-index: 5;
+            color: rgb(255, 255, 255);
+            text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+            font-size: 3.5vh;
         }
 
         #modes {
-            margin-left: 40%;
             position: absolute;
-            margin-top: 20%;
-            z-index: 800000000;
+            top: 50%;
+            z-index: 5;
             color: rgb(255, 255, 255);
             text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
                 1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
-            font-size: 40px;
-
+            font-size: 5vh;
         }
 
         #modes>* {
             cursor: pointer;
+            margin-bottom: 5%;
         }
 
 
         #score {
             z-index: 5;
             color: white;
-            margin-top: 34.5%;
-            margin-left: auto;
-            right: 26.5%;
-            font-size: 50px;
-            font-family: "Comic Sans MS";
+            top: 69%;
+            right: 4%;
+            font-size: 5vh;
             position: absolute;
             text-align: right;
+            text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+        }
+
+        #timer {
+            z-index: 5;
+            color: white;
+            top: 24%;
+            left: 26.5%;
+            font-size: 5vh;
+            position: absolute;
+            text-align: left;
+            text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
         }
 
         .debugLines {
             position: absolute;
-            width: 5px;
+            width: 0.25%;
             height: 100%;
-            z-index: 1000;
+            z-index: 4;
         }
 
-        .wall {
+        .walls {
             background-color: green;
         }
 
-        .scare {
+        .scareEdges {
             background-color: red;
         }
 
-        .trueScare {
-            background-color: black;
+        .center {
+            left: 50%;
+            transform: translateX(-50%);
         }
     </style>
     <meta charset="UTF-8">
@@ -119,68 +151,46 @@
     <title>Give kids Lemonade!</title>
 </head>
 
-
 <body>
-    <div id="O">
-
+    <div id="scareRange" class='center'></div>
+    <p id="title" class='center'>Lemonade Clown</p>
+    <p id='directions' class='center'>Surprise as many kids as you can!</p>
+    <p id='controls' class='center'>Press Space</p>
+    <p id='timer'></p>
+    <div id="modes" class='center'>
+        <p onclick="changeMode('normal')">Normal</p>
+        <p onclick="changeMode('endless')">Endless</p>
+        <p onclick="changeMode('timed')">Timed</p>
     </div>
-    <p id="title">
-        Lemonade Clown
-    </p>
-    <div id="modes">
-        <p onclick="CHANGEmODE('normal')">
-            Normal
-        </p>
-        <p onclick="CHANGEmODE('endless')">
-            Endless
-        </p>
-        <p onclick="CHANGEmODE('timed')">
-            Timed
-        </p>
-    </div>
-    <p id="score">
-        0
-    </p>
-    <img id='cab' src=" ../cabnet.png">
-    <img id='lem' src="../miniGameBKG.png">
-    <img id='clown' src="idle.png">
-    <div id='leftWall' class='wall debugLines'></div>
-    <div id='rightWall' class='wall debugLines'></div>
-    <div id='leftScare' class='scare debugLines'></div>
-    <div id='rightScare' class='scare debugLines'></div>
-    <div id='trueLeftScare' class='trueScare debugLines'></div>
-    <div id='trueRightScare' class='trueScare debugLines'></div>
+    <p id="score" class='center'>0</p>
+    <img id='cabinet' class='center' src=" ../cabinet.png">
+    <img id='background' class='center' src="../miniGameBKG.png">
+    <img id='lemonadeClown' class='center' src="idle.png">
+    <div id='leftWall' class='walls debugLines'></div>
+    <div id='rightWall' class='walls debugLines'></div>
+    <div id='leftScare' class='scareEdges debugLines'></div>
+    <div id='rightScare' class='scareEdges debugLines'></div>
     <script>
-
-
-
-
-
-
         const DEBUG = false
-
-
-
-
-
-
-        const TRUE_SCARE = false
         const CHAIN_DISTANCE = 20
-        const SCARE_DISTANCE = 150
-        const WALL_DISTANCE = 400
-        const LEMONADE_CLOWN = { element: document.getElementById('clown') }
-        LEMONADE_CLOWN.position = document.documentElement.clientWidth * .5 - LEMONADE_CLOWN.element.clientWidth / 2
-        LEMONADE_CLOWN.element.style.left = LEMONADE_CLOWN.position + 'px'
+        const SCARE_DISTANCE = 600
+        const WALL_DISTANCE = 1700
+        const LEMONADE_CLOWN = { element: document.getElementById('lemonadeClown'), position: document.getElementById('lemonadeClown').getBoundingClientRect().left }
         const LEFT_WALL = LEMONADE_CLOWN.position - WALL_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
         const RIGHT_WAll = LEMONADE_CLOWN.position + WALL_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
-
-        var o = document.getElementById("O")
-
-        o.style.left = document.documentElement.clientWidth * .5 - o.clientWidth / 2 + "px"
-        o.style.marginTop = document.documentElement.clientWidth * .1 + o.clientHeight / 2 - 50 + "px"
-        setInterval(() => {
-            document.getElementById('score').innerText = score
-        }, 10)
+        var scareRange = document.getElementById("scareRange")
+        var scareDiameter = SCARE_DISTANCE * 2
+        scareRange.style.height = scareDiameter
+        scareRange.style.width = scareDiameter
+        scareRange.style.top = LEMONADE_CLOWN.element.getBoundingClientRect().top + scareRange.clientHeight / 2.5 + "px"
+        var title = document.getElementById('title')
+        var modesElement = document.getElementById('modes')
+        var scoreElement = document.getElementById("score")
+        var directions = document.getElementById('directions')
+        var controls = document.getElementById('controls')
+        var moveChildren
+        var time = { minutes: 1, seconds: 0 }
+        var timer
 
         //debug
         if (DEBUG) {
@@ -194,45 +204,47 @@
             document.getElementById('leftScare').style.visibility = 'hidden'
             document.getElementById('rightScare').style.visibility = 'hidden'
         }
+
         document.getElementById('leftWall').style.left = LEFT_WALL
         document.getElementById('rightWall').style.left = RIGHT_WAll
         document.getElementById('leftScare').style.left = LEMONADE_CLOWN.position - SCARE_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
         document.getElementById('rightScare').style.left = LEMONADE_CLOWN.position + SCARE_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
-        if (DEBUG && TRUE_SCARE) {
-            document.getElementById('trueLeftScare').style.visibility = ''
-            document.getElementById('trueRightScare').style.visibility = ''
-        } else {
-            document.getElementById('trueLeftScare').style.visibility = 'hidden'
-            document.getElementById('trueRightScare').style.visibility = 'hidden'
-        }
         var mode = "menu"
-        var scared = false
+        var scaring = false
         var scaredKids = 0
         var score = 0
         var gameStarted = false
+        var gameEnded = false
         var canScare = false
-        var firstScare = false
+        var didScare = false
+        var slowTitleFlash
+        var fastTitleFlash
         var kids = []
 
         //9 kids made, 100 points each, unless all are hit, then its 5,000, thus the total would be 5,900
 
-        for (let i = 0; i < 9; i++) {
-            let img = document.createElement("img")
-            img.style.position = "absolute"
-            img.className = "kids"
-            img.src = "ChildWalk.gif"
-            document.body.appendChild(img)
-            img.id = "Child" + i
-            img.style.top = 530 + "px"
-            img.style.zIndex = 3
-            img.style.width = 5 + "%"
-            img.style.left = (i * 85) + document.documentElement.clientWidth / 2 - 9 * 85 / 2 + "px"
+        function generateKids() {
+            for (kid of kids) {
+                kid.element.remove()
+            }
+            kids = []
+            for (let i = 0;i < 9;i++) {
+                let img = document.createElement("img")
+                img.style.position = "absolute"
+                img.className = "kids"
+                img.src = "ChildWalk.gif"
+                document.body.appendChild(img)
+                img.id = "Child" + i
+                img.style.top = 61 + "%"
+                img.style.zIndex = 3
+                img.style.width = 4.5 + "%"
+                img.style.left = (i * 350) + (document.documentElement.clientWidth / 2) - (9 * 350 / 2) + "px"
+            }
+            for (kid of document.getElementsByClassName('kids')) {
+                kids.push({ element: kid, wallTouched: null, position: Number(kid.style.left.replace('px', '')), movement: { speed: 0, time: 0 }, initDirection: ['left', 'right'][Math.floor(Math.random() * 2)], scared: false })
+            }
         }
-        for (kid of document.getElementsByClassName('kids')) {
-            kids.push({ element: kid, wallTouched: null, position: Number(kid.style.left.replace('px', '')), movement: { speed: 0, time: 0 }, initDirection: ['left', 'right'][Math.floor(Math.random() * 2)], scared: false })
-        }
-        document.getElementById('trueLeftScare').style.left = LEMONADE_CLOWN.position - SCARE_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2 - kids[0].element.clientWidth / 2
-        document.getElementById('trueRightScare').style.left = LEMONADE_CLOWN.position + SCARE_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2 - kids[0].element.clientWidth / 2
+        generateKids()
         function ChildMoving() {
             for (kid of kids) {
                 if (kid.element) {
@@ -240,10 +252,7 @@
                         kid.movement.speed = Math.floor(Math.random() * 5)
                         kid.movement.time = Math.floor(Math.random() * 300)
                     }
-                    if (scared) {
-
-                    }
-                    else {
+                    if (!scaring) {
                         if (kid.initDirection == 'left') kid.position -= kid.movement.speed
                         else if (kid.initDirection == 'right') kid.position += kid.movement.speed
                         else if (kid.wallTouched == 'left') kid.position += kid.movement.speed
@@ -266,10 +275,9 @@
             }
         }
 
-        function jump() {
-            if (mode == 'normal')
-                canScare = false
-            scared = true
+        function jumpScare() {
+            canScare = false
+            scaring = true
             for (kid of kids) {
                 if (kid.position >= LEMONADE_CLOWN.position - SCARE_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2 - kids[0].element.clientWidth / 2 &&
                     kid.position <= LEMONADE_CLOWN.position + SCARE_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2 - kids[0].element.clientWidth / 2) {
@@ -279,7 +287,7 @@
                     scaredKids += 1
                 }
             }
-            for (let i = 0; i < kids.length; i++) {
+            for (let i = 0;i < kids.length;i++) {
                 for (scaredKid of kids) {
                     if (scaredKid.scared) {
                         for (kid of kids) {
@@ -296,68 +304,139 @@
                 }
             }
             score += scaredKids * 100
-            if (scaredKids >= 9) score += 5000
+            if (scaredKids >= 9) {
+                score += 5000
+            }
+            document.getElementById('score').innerText = score
             scaredKids = 0
-            setTimeout(() => {
-                scared = false
-                for (kid of kids) {
-                    kid.element.src = "ChildWalk.gif"
-                    LEMONADE_CLOWN.element.src = "idle.png"
-                    kid.scared = false
-                }
+            if (mode == 'normal') {
+                didScare = true
+                title.innerText = 'GAME WIN!'
+                title.style.visibility = ''
+                gameEnded = true
+            } else {
+                document.getElementById('score').innerText = score
                 setTimeout(() => {
-                    canScare = true
-                }, 3000);
-            }, 1500)
+                    scaring = false
+                    for (kid of kids) {
+                        kid.element.src = "ChildWalk.gif"
+                        LEMONADE_CLOWN.element.src = "idle.png"
+                        kid.scared = false
+                    }
+                    setTimeout(() => {
+                        canScare = true
+                    }, 3000);
+                }, 1500)
+            }
         }
-
         document.addEventListener('keydown', function (event) {
-            if ((event.keyCode == 32 && !scared && canScare && !firstScare && mode == "normal")
-                || (event.keyCode == 32 && !scared && canScare && mode != "normal")) jump()
-        })
-
-        document.addEventListener('keydown', function (event) {
-            if (event.keyCode == 32 && !gameStarted) {
-                setInterval(ChildMoving, 1)
-                gameStarted = true
-                setTimeout(() => {
-                    canScare = true
-                }, 1000)
+            if (event.keyCode == 32) {
+                console.log(gameEnded);
+                if (gameStarted && canScare) {
+                    if (mode == 'normal' && !didScare) {
+                        jumpScare()
+                    }
+                    else if (mode == 'timed' && (time.minutes > 0 || time.seconds > 0)) {
+                        jumpScare()
+                    }
+                    else
+                        jumpScare()
+                }
+                else if (!gameStarted && mode != 'menu') {
+                    gameStarted = 'starting'
+                    let flashes = 0
+                    clearInterval(slowTitleFlash)
+                    title.innerText = 'GO!!'
+                    fastTitleFlash = setInterval(titleFlash, 100)
+                    setTimeout(() => {
+                        clearInterval(fastTitleFlash)
+                        title.style.visibility = 'hidden'
+                        directions.style.visibility = 'hidden'
+                        controls.style.visibility = ''
+                        moveChildren = setInterval(ChildMoving, 1)
+                        gameStarted = true
+                        setTimeout(() => {
+                            canScare = true
+                        }, 1000)
+                    }, 750);
+                    if (mode == 'timed') timer = setInterval(() => {
+                        if (time.seconds > 0 || time.minutes > 0)
+                            if (time.seconds > 0)
+                                time.seconds -= 1
+                            else {
+                                time.minutes -= 1
+                                time.seconds = 60
+                            }
+                        document.getElementById('timer').innerText = time.minutes + ' : ' + time.seconds
+                        if (time.minutes <= 0 && time.seconds <= 0) {
+                            title.innerText = 'GAME WIN!'
+                            title.style.visibility = ''
+                            gameEnded = true
+                            canScare = false
+                            clearInterval(moveChildren)
+                        }
+                    }, 1000);
+                }
+                else if (gameEnded) {
+                    score = 0
+                    document.getElementById('score').innerText = score
+                    title.innerText = 'Lemonade Clown'
+                    LEMONADE_CLOWN.element.src = 'idle.png'
+                    scaring = false
+                    scaredKids = 0
+                    score = 0
+                    gameStarted = false
+                    gameEnded = false
+                    canScare = false
+                    didScare = false
+                    clearInterval(slowTitleFlash)
+                    clearInterval(fastTitleFlash)
+                    clearInterval(moveChildren)
+                    clearInterval(timer)
+                    time = { minutes: 1, seconds: 0 }
+                    generateKids()
+                }
             }
         })
         function checkMode() {
             if (mode == "menu") {
-                o.style.visibility = "hidden"
-                document.getElementById("score").style.visibility = "hidden"
+                scareRange.style.visibility = "hidden"
+                scoreElement.style.visibility = "hidden"
                 for (kid of kids) {
                     kid.element.style.visibility = "hidden"
                 }
-                document.getElementById('title').style.visibility = ""
-                document.getElementById('modes').style.visibility = ""
+                title.style.visibility = ""
+                modesElement.style.visibility = ""
+                directions.style.visibility = 'hidden'
+                controls.style.visibility = 'hidden'
             }
             else {
-                if (mode == "normal") {
-
-                }
-                else if (mode == "endless") {
-
-                }
-                else if (mode == "timed") {
-
-                }
-                o.style.visibility = ""
-                document.getElementById("score").style.visibility = ""
+                title.innerText = 'GET FREDDY!'
+                scareRange.style.visibility = ""
+                scoreElement.style.visibility = ""
                 for (kid of kids) {
                     kid.element.style.visibility = ""
                 }
-                document.getElementById('title').style.visibility = "hidden"
-                document.getElementById('modes').style.visibility = "hidden"
+                modesElement.style.visibility = "hidden"
+                directions.style.visibility = ''
+                slowTitleFlash = setInterval(titleFlash, 500)
+                if (mode == 'timed') {
+                    document.getElementById('timer').visibility = ''
+                    document.getElementById('timer').innerText = time.minutes + ':' + time.seconds
+                } else {
+                    document.getElementById('timer').visibility = 'hidden'
+                }
             }
         }
-        function CHANGEmODE(selectedMode) {
-            console.log("fiedgbruiebhrgv");
+        function changeMode(selectedMode) {
             mode = selectedMode
             checkMode()
+        }
+        function titleFlash() {
+            if (title.style.visibility == 'hidden')
+                title.style.visibility = ''
+            else if (title.style.visibility == '')
+                title.style.visibility = 'hidden'
         }
         checkMode()
     </script>
