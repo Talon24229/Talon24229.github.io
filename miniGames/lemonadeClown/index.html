@@ -186,10 +186,10 @@
         localStorage.setItem('a', JSON.stringify({ 'b': 'c' }))
         console.log(localStorage.getItem('a'))
 
-        const DEBUG = false
-        const CHAIN_DISTANCE = 20
-        const SCARE_DISTANCE = 600
-        const WALL_DISTANCE = 1700
+        const DEBUG = true
+        const CHAIN_DISTANCE = document.documentElement.clientWidth * 0.005
+        const SCARE_DISTANCE = document.documentElement.clientWidth * 0.07
+        const WALL_DISTANCE = document.documentElement.clientWidth * 0.2
         const LEMONADE_CLOWN = { element: document.getElementById('lemonadeClown'), position: document.getElementById('lemonadeClown').getBoundingClientRect().left }
         const LEFT_WALL = LEMONADE_CLOWN.position - WALL_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
         const RIGHT_WAll = LEMONADE_CLOWN.position + WALL_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
@@ -277,8 +277,8 @@
             for (kid of kids) {
                 if (kid.element) {
                     if (kid.movement.time <= 0) {
-                        kid.movement.speed = Math.floor(Math.random() * 5)
-                        kid.movement.time = Math.floor(Math.random() * 300)
+                        kid.movement.speed = Math.random() * document.documentElement.clientWidth * 0.0015
+                        kid.movement.time = Math.random() * 300
                     }
                     if (!scaring) {
                         if (kid.initDirection == 'left') kid.position -= kid.movement.speed
