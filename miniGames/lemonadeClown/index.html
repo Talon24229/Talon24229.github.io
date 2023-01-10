@@ -187,7 +187,7 @@
         console.log(localStorage.getItem('a'))
 
         const DEBUG = true
-        const CHAIN_DISTANCE = document.documentElement.clientWidth * 0.005
+        const CHAIN_DISTANCE = document.documentElement.clientWidth * 0.01
         const SCARE_DISTANCE = document.documentElement.clientWidth * 0.07
         const WALL_DISTANCE = document.documentElement.clientWidth * 0.2
         const LEMONADE_CLOWN = { element: document.getElementById('lemonadeClown'), position: document.getElementById('lemonadeClown').getBoundingClientRect().left }
@@ -265,7 +265,8 @@
                 img.id = "Child" + i
                 img.style.top = 61 + "%"
                 img.style.width = 4.5 + "%"
-                img.style.left = (i * 350) + (document.documentElement.clientWidth / 2) - (9 * 350 / 2) + "px"
+                childDistance = document.documentElement.clientWidth * 0.2 / 5
+                img.style.left = (i * childDistance) + (document.documentElement.clientWidth / 2) - (9 * childDistance / 2) + "px"
             }
             for (kid of document.getElementsByClassName('kids')) {
                 kids.push({ element: kid, wallTouched: null, position: Number(kid.style.left.replace('px', '')), movement: { speed: 0, time: 0 }, initDirection: ['left', 'right'][Math.floor(Math.random() * 2)], scared: false })
