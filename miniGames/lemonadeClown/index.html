@@ -1,6 +1,7 @@
 <html lang="en">
 
 <head>
+    <script type='text/javascript' src='../functions.js'></script>
     <style>
         body {
             margin: 0;
@@ -152,7 +153,6 @@
             width: 7vw;
             left: 49.5%;
             z-index: 1000;
-            background-color: rgba(255, 0, 0, 0.5);
             cursor: pointer;
         }
     </style>
@@ -183,31 +183,13 @@
     <div id='leftScare' class='scareEdges debugLines'></div>
     <div id='rightScare' class='scareEdges debugLines'></div>
     <script>
-        localStorage.setItem('a', JSON.stringify({ 'b': 'c' }))
-        console.log(localStorage.getItem('a'))
-
-        const DEBUG = true
+        const DEBUG = false
         const CHAIN_DISTANCE = document.documentElement.clientWidth * 0.01
         const SCARE_DISTANCE = document.documentElement.clientWidth * 0.07
-        const WALL_DISTANCE = document.documentElement.clientWidth * 0.2
+        const WALL_DISTANCE = document.documentElement.clientWidth * 0.23
         const LEMONADE_CLOWN = { element: document.getElementById('lemonadeClown'), position: document.getElementById('lemonadeClown').getBoundingClientRect().left }
         const LEFT_WALL = LEMONADE_CLOWN.position - WALL_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
         const RIGHT_WAll = LEMONADE_CLOWN.position + WALL_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
-        var scareRange = document.getElementById("scareRange")
-        var scareDiameter = SCARE_DISTANCE * 2
-        scareRange.style.height = scareDiameter
-        scareRange.style.width = scareDiameter
-        scareRange.style.top = LEMONADE_CLOWN.element.getBoundingClientRect().top + scareRange.clientHeight / 2.5 + "px"
-        var title = document.getElementById('title')
-        var modesElement = document.getElementById('modes')
-        var scoreElement = document.getElementById("score")
-        var timerElement = document.getElementById("timer")
-        var directions = document.getElementById('directions')
-        var controls = document.getElementById('controls')
-        var moveChildren
-        var time = { minutes: 1, seconds: 0 }
-        var timer
-        var timerFlash = true
 
         //debug
         if (DEBUG) {
@@ -237,7 +219,29 @@
         var slowTitleFlash
         var fastTitleFlash
         var kids = []
-
+        var cabinet = document.getElementById('cabinet')
+        var scareRange = document.getElementById("scareRange")
+        var scareDiameter = SCARE_DISTANCE * 2 * 1.1
+        scareRange.style.height = scareDiameter
+        scareRange.style.width = scareDiameter
+        scareRange.style.top = LEMONADE_CLOWN.element.getBoundingClientRect().top + scareRange.clientHeight / 2.5 + "px"
+        var title = document.getElementById('title')
+        var modesElement = document.getElementById('modes')
+        var scoreElement = document.getElementById("score")
+        var timerElement = document.getElementById("timer")
+        var directions = document.getElementById('directions')
+        var controls = document.getElementById('controls')
+        var moveChildren
+        var time = { minutes: 1, seconds: 0 }
+        var timer
+        var timerFlash = true
+        var gameData
+        gameData = getData()
+        console.log(gameData);
+        if (gameData == null) {
+            gameData = resetData()
+            sendData(gameData)
+        }
         var button = document.getElementById('button')
         button.addEventListener('click', () => {
             if (mode == 'menu') {
@@ -248,10 +252,11 @@
                 endGame()
                 checkMode()
             }
+            cabinet.src = '../cabinetRed.png'
+            setTimeout(() => {
+                cabinet.src = '../cabinet.png'
+            }, 500);
         })
-
-        //9 kids made, 100 points each, unless all are hit, then its 5,000, thus the total would be 5,900
-
         function generateKids() {
             for (kid of kids) {
                 kid.element.remove()
@@ -265,7 +270,7 @@
                 img.id = "Child" + i
                 img.style.top = 61 + "%"
                 img.style.width = 4.5 + "%"
-                childDistance = document.documentElement.clientWidth * 0.2 / 5
+                childDistance = document.documentElement.clientWidth * WALL_DISTANCE / document.documentElement.clientWidth / 5
                 img.style.left = (i * childDistance) + (document.documentElement.clientWidth / 2) - (9 * childDistance / 2) + "px"
             }
             for (kid of document.getElementsByClassName('kids')) {
@@ -354,7 +359,7 @@
                     }
                     setTimeout(() => {
                         canScare = true
-                    }, 3000);
+                    }, 1000);
                 }, 1500)
             }
         }
@@ -487,6 +492,13 @@
                 timerElement.innerText = time.minutes + ' : ' + time.seconds
             generateKids()
         }
+        setInterval(() => {
+            if (mode != 'menu' && gameData != null) {
+                console.log(JSON.parse(gameData), mode);
+                // gameData.LemonadeClown[mode].highScore = score
+                // sendData(gameData)
+            }
+        }, 100);
     </script>
 
 </body>
