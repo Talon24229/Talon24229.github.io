@@ -5,12 +5,17 @@
 <head>
 
     <style>
+        .center {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
         body {
             margin: 0;
             background-repeat: no-repeat;
             overflow: hidden;
             background-size: 100vw;
-            background-color: rgb(255, 255, 255);
+            background-color: rgb(139, 139, 139);
         }
 
         #cab {
@@ -30,14 +35,22 @@
             margin-top: 10%;
             height: 60%;
             width: 50%;
-            z-index: 2;
+            z-index: 3;
+        }
+
+        #background {
+            position: absolute;
+            top: 18%;
+            height: 60%;
+            width: 50%;
+            z-index: 0;
         }
 
         #ballora {
             position: absolute;
             left: 22%;
             bottom: 22%;
-            z-index: 1;
+            z-index: 2;
         }
 
         #timer {
@@ -47,11 +60,26 @@
             font-size: 50px;
         }
 
-        #spring {
+        .spring {
             position: absolute;
             left: 50%;
             top: 50%;
-            z-index: 11;
+            z-index: 9;
+        }
+
+        .mini {
+            position: absolute;
+            z-index: 1;
+            bottom: 1%;
+        }
+
+        #midleMini {
+            position: absolute;
+            z-index: 6;
+            left: 35%;
+            bottom: 20%;
+            width: 30%;
+
         }
     </style>
     <title>Night 4</title>
@@ -62,56 +90,109 @@
         Timer Here
     </p>
     <img id="ballora" src="Baloora.png">
+    <img id="background" class="center" src="miniGameN4.jpg">
     <img id='cab' src=" ../cabinet.png">
+    <img id='midleMini' src="congaline.gif">
     <img id="facePlates" src="Background.png">
-    <img id="spring" src="springlockframes/s1.png">
+    <img id="mini" src="Minireena_Left_Crawl.gif">
     <script>
+        crawler = true
         var counter = 1
         var hover = false
         var spring = document.getElementById("spring")
 
-        // for (let i = 0; i < 9; i++) {
-        //     let img = document.createElement("img")
-        //     img.style.position = "absolute"
-        //     img.className = "spring"
-        //     img.src = `springlockframes/s${counter}.png`
-        //     document.body.appendChild(img)
-        //     img.id = "spring" + i
-        // }
+        for (let i = 0; i < 8; i++) {
+            let img = document.createElement("img")
+            img.style.position = "absolute"
+            img.className = "spring"
+            img.src = `springlockframes/s${counter}.png`
+            document.body.appendChild(img)
+            img.id = "spring" + i
+            img.style.top = "100px"
+            img.style.left = (i * 100) + (document.documentElement.clientWidth / 2) - (8 * 1 / 2) + "px"
+            //23 67
+
+            if (i == 0 || i == 1) {
+                img.style.left = "27.5%"
+                img.style.top = i * 100 + document.documentElement.clientWidth * 0.13 + "px"
+            }
+            else if (i == 2 || i == 3) {
+                img.style.left = "70%"
+                img.style.top = (i - 2) * 100 + document.documentElement.clientWidth * 0.3 + "px"
+            }
+            if (i == 4 || i == 5) {
+                img.style.left = "27.5%"
+                img.style.top = (i - 4) * 100 + document.documentElement.clientWidth * 0.3 + "px"
+            }
+            else if (i == 6 || i == 7) {
+                img.style.left = "71%"
+                img.style.top = (i - 6) * 100 + document.documentElement.clientWidth * 0.13 + "px"
+            }
+
+
+        }
+
         /*
         counter that goes down every second
         if the mouse is hovering over image, every second counter goes up
         depending on counter, change state of image
         if counter is 0, end game/ timer count
         */
-        spring.addEventListener("mouseleave", function () { hover = false });
-        spring.addEventListener("mouseover", function () { hover = true });
+        var springs = []
+        for (let i = 0; i < 8; i++) {
+
+            springs.push({ element: document.getElementById('spring' + i), hover: false, counter: 1 })
+            document.getElementById('spring' + i).addEventListener("mouseleave", function () { springs[i].hover = false });
+            document.getElementById('spring' + i).addEventListener("mouseover", function () { springs[i].hover = true });
+
+
+        }
+        console.log(springs);
         setInterval(() => {
-
-            console.log(hover);
-            if (counter > 28) {
-                game = false
+            if (!crawler) {
+                crawlerChance = Math.floor(Math.random() * 300)
+                if (crawlerChance <= 10) {
+                    crawler = true
+                }
             }
-            else if (counter >= 0 && !hover) {
-                counter += 1
-                if (counter == 5) {
-                    counter = 6
-                }
-
-            }
-            else if (counter >= 0 && hover) {
-                if (counter > 1) {
-                    counter -= 1
-                }
-                if (counter == 5) {
-                    counter = 4
-                }
-
-                console.log(counter);
+            else {
+                minireena.element.style.left = minireena.position + 'px'
             }
 
-            spring.src = `springlockframes/s${counter}.png`
-        }, 500);
+            for (spring of springs) {
+
+                if (spring.counter >= 29) {
+
+                }
+
+                else if (spring.counter >= 0 && !spring.hover) {
+                    spring.counter += 1
+                    if (spring.counter == 5) {
+                        spring.counter = 6
+                    }
+
+                }
+                else if (spring.counter >= 0 && spring.hover) {
+                    if (spring.counter > 1) {
+                        spring.counter -= 7
+                    }
+                    if (spring.counter == 5) {
+                        spring.counter = 4
+                    }
+                }
+                if (spring.counter >= 29) {
+                    spring.counter = 29
+                }
+                if (spring.counter <= 1) {
+                    spring.counter = 1
+                }
+
+                spring.element.src = `springlockframes/s${spring.counter}.png`
+            }
+        }, 1000);
+        setInterval(() => {
+            console.log(springs[0].counter)
+        }, 1);
 
     </script>
 </body>
