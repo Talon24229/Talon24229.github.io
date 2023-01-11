@@ -1,6 +1,10 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lemonade Clown</title>
     <script type='text/javascript' src='../functions.js'></script>
     <style>
         body {
@@ -237,7 +241,6 @@
         var timerFlash = true
         var gameData
         gameData = getData()
-        console.log(gameData);
         if (gameData == null) {
             gameData = resetData()
             sendData(gameData)
@@ -493,12 +496,11 @@
             generateKids()
         }
         setInterval(() => {
-            if (mode != 'menu' && gameData != null) {
-                console.log(JSON.parse(gameData), mode);
-                // gameData.LemonadeClown[mode].highScore = score
-                // sendData(gameData)
+            if (mode != 'menu' && gameData != null && score > gameData.LemonadeClown[mode].highScore) {
+                gameData.LemonadeClown[mode].highScore = score
+                sendData(gameData)
             }
-        }, 100);
+        }, 1);
     </script>
 
 </body>

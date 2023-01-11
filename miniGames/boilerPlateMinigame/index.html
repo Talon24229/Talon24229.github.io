@@ -1,0 +1,34 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>minigameName</title>
+	<script type='text/javascript' src='../functions.js'></script>
+</head>
+
+<body>
+	<script>
+		//replace minigameName in script and title also add minigameName to functions.js like this
+		// minigameName: {
+		// 	score: 0
+		// }
+
+		var gameData
+		gameData = getData()
+		if (gameData == null) {
+			gameData = resetData()
+			sendData(gameData)
+		}
+
+		setInterval(() => {
+			if (mode != 'menu' && gameData != null && score > gameData.minigameName.highScore) {
+				gameData.minigameName.highScore = score
+				sendData(gameData)
+			}
+		}, 1);
+	</script>
+</body>
+
+</html>

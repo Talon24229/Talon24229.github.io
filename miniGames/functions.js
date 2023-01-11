@@ -1,5 +1,5 @@
 function getData() {
-	return localStorage.getItem('gameData')
+	return JSON.parse(localStorage.getItem('gameData'))
 }
 function sendData(variable) {
 	localStorage.setItem('gameData', JSON.stringify(variable))
