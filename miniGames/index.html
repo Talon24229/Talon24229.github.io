@@ -1,0 +1,92 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fazcade</title>
+    <script type='text/javascript' src='./functions.js'></script>
+    <style>
+        body {
+            margin: 0;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            background-size: 100vw;
+            background-color: rgb(0, 0, 0);
+            font-family: "Comic Sans MS";
+            text-align: center;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        #cabinet {
+            position: absolute;
+            height: 140%;
+            z-index: 6;
+            top: -25%;
+            pointer-events: none;
+        }
+
+        #background {
+            position: absolute;
+            top: 18%;
+            height: 60%;
+            width: 50%;
+            z-index: 0;
+        }
+
+        .center {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #button {
+            position: absolute;
+            top: 82.5vh;
+            height: 7vh;
+            width: 7vw;
+            left: 49.5%;
+            z-index: 1000;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <img id='cabinet' class='center' src=" ./cabinet.png">
+    <!-- <img id='background' class='center' src="miniGameBKG.png"> -->
+    <div id='button' class='center'></div>
+
+    <script>
+        //things I want to do: Pizza sim startup, Midnight motorist, Mini FNAF world, 2D Mazersize, princess quest, fruity mazy, lemonaid clowen
+
+        //be able to swap the game when loading the page, maybe add a retro effect on top of screen?
+
+        //zoom in to game when starting
+        var gameData
+        gameData = getData()
+        if (gameData == null) {
+            gameData = resetData()
+            sendData(gameData)
+        }
+
+        var button = document.getElementById('button')
+        button.addEventListener('click', () => {
+            cabinet.src = './cabinetRed.png'
+            setTimeout(() => {
+                cabinet.src = './cabinet.png'
+                window.location.pathname = '../'
+            }, 300);
+        })
+
+        setInterval(() => {
+            if (gameData != null) {
+                sendData(gameData)
+            }
+        }, 1);
+    </script>
+</body>
+
+</html>
