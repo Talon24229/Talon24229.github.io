@@ -122,7 +122,7 @@
 			constructor(x, y) {
 				this.x = x
 				this.y = y
-				inventory = []
+				inventory = {}
 			}
 		}
 		class conveyor {
@@ -159,6 +159,8 @@
 			if (event.keyCode == 68 || event.keyCode == 39)
 				keys.right = false
 		})
+
+
 
 		setInterval(() => {
 			context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight)
