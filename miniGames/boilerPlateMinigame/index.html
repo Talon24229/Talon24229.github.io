@@ -65,6 +65,7 @@
 		// 	score: 0
 		// }
 
+		var score = 0
 		var gameData
 		gameData = getData()
 		if (gameData == null) {
@@ -82,7 +83,7 @@
 		})
 
 		setInterval(() => {
-			if (gameData != null) {
+			if (gameData != null && score > gameData.minigameName.highScore) {
 				gameData.minigameName.highScore = score
 				sendData(gameData)
 			}
