@@ -1,14 +1,6 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fruit Punch Clown</title>
-    <script type='text/javascript' src='../functions.js'></script>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             margin: 0;
@@ -48,12 +40,12 @@
             z-index: 0;
         }
 
-        .kids {
+        #kid {
             position: absolute;
             top: 32%;
             left: 50%;
             width: 5%;
-            z-index: 3;
+            z-index: 2;
         }
 
         #scareRange {
@@ -111,7 +103,7 @@
 
         #score {
             z-index: 5;
-            color: rgb(255, 255, 255);
+            color: white;
             top: 69%;
             right: 4%;
             font-size: 5vh;
@@ -123,7 +115,7 @@
 
         #timer {
             z-index: 5;
-            color: rgb(255, 255, 255);
+            color: white;
             top: 24%;
             left: 26.5%;
             font-size: 5vh;
@@ -141,37 +133,30 @@
         }
 
         .walls {
-            background-color: rgb(0, 128, 0);
+            background-color: green;
         }
 
         .scareEdges {
-            background-color: rgb(255, 0, 0);
+            background-color: red;
         }
 
         .center {
             left: 50%;
             transform: translateX(-50%);
         }
-
-        #button {
-            position: absolute;
-            top: 82.5vh;
-            height: 7vh;
-            width: 7vw;
-            left: 49.5%;
-            z-index: 1000;
-            cursor: pointer;
-        }
     </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Give kids Lemonade!</title>
 </head>
 
 <body>
     <div id="scareRange" class='center'></div>
-    <p id="title" class='center'>Fruit Punch Clown</p>
+    <p id="title" class='center'>Lemonade Clown</p>
     <p id='directions' class='center'>Surprise as many kids as you can!</p>
     <p id='controls' class='center'>Press Space</p>
     <p id='timer'></p>
-    <div id='button' class='center'></div>
     <div id="modes" class='center'>
         <p onclick="changeMode('normal')">Normal</p>
         <p onclick="changeMode('endless')">Endless</p>
@@ -179,7 +164,7 @@
     </div>
     <p id="score" class='center'>0</p>
     <img id='cabinet' class='center' src=" ../cabinet.png">
-    <img id='background' class='center' src="miniGameBKG.png">
+    <img id='background' class='center' src="../miniGameBKG.png">
     <img id='lemonadeClown' class='center' src="idle.png">
     <div id='leftWall' class='walls debugLines'></div>
     <div id='rightWall' class='walls debugLines'></div>
@@ -187,12 +172,25 @@
     <div id='rightScare' class='scareEdges debugLines'></div>
     <script>
         const DEBUG = false
-        const CHAIN_DISTANCE = document.documentElement.clientWidth * 0.01
-        const SCARE_DISTANCE = document.documentElement.clientWidth * 0.07
-        const WALL_DISTANCE = document.documentElement.clientWidth * 0.23
+        const CHAIN_DISTANCE = 20
+        const SCARE_DISTANCE = 600
+        const WALL_DISTANCE = 1700
         const LEMONADE_CLOWN = { element: document.getElementById('lemonadeClown'), position: document.getElementById('lemonadeClown').getBoundingClientRect().left }
         const LEFT_WALL = LEMONADE_CLOWN.position - WALL_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
         const RIGHT_WAll = LEMONADE_CLOWN.position + WALL_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
+        var scareRange = document.getElementById("scareRange")
+        var scareDiameter = SCARE_DISTANCE * 2
+        scareRange.style.height = scareDiameter
+        scareRange.style.width = scareDiameter
+        scareRange.style.top = LEMONADE_CLOWN.element.getBoundingClientRect().top + scareRange.clientHeight / 2.5 + "px"
+        var title = document.getElementById('title')
+        var modesElement = document.getElementById('modes')
+        var scoreElement = document.getElementById("score")
+        var directions = document.getElementById('directions')
+        var controls = document.getElementById('controls')
+        var moveChildren
+        var time = { minutes: 1, seconds: 0 }
+        var timer
 
         //debug
         if (DEBUG) {
@@ -222,43 +220,9 @@
         var slowTitleFlash
         var fastTitleFlash
         var kids = []
-        var cabinet = document.getElementById('cabinet')
-        var scareRange = document.getElementById("scareRange")
-        var scareDiameter = SCARE_DISTANCE * 2 * 1.1
-        scareRange.style.height = scareDiameter
-        scareRange.style.width = scareDiameter
-        scareRange.style.top = LEMONADE_CLOWN.element.getBoundingClientRect().top + scareRange.clientHeight / 2.5 + "px"
-        var title = document.getElementById('title')
-        var modesElement = document.getElementById('modes')
-        var scoreElement = document.getElementById("score")
-        var timerElement = document.getElementById("timer")
-        var directions = document.getElementById('directions')
-        var controls = document.getElementById('controls')
-        var moveChildren
-        var time = { minutes: 1, seconds: 0 }
-        var timer
-        var timerFlash = true
-        var gameData
-        gameData = getData()
-        if (gameData == null) {
-            gameData = resetData()
-            sendData(gameData)
-        }
-        var button = document.getElementById('button')
-        button.addEventListener('click', () => {
-            cabinet.src = '../cabinetRed.png'
-            setTimeout(() => {
-                cabinet.src = '../cabinet.png'
-                if (mode == 'menu') {
-                    window.location.pathname = 'miniGames/index.html'
-                }
-                else {
-                    mode = 'menu'
-                    endGame()
-                    checkMode()
-                }
-            }, 300);
-        })
+
+        //9 kids made, 100 points each, unless all are hit, then its 5,000, thus the total would be 5,900
+
         function generateKids() {
             for (kid of kids) {
                 kid.element.remove()
@@ -266,27 +230,27 @@
             kids = []
             for (let i = 0;i < 9;i++) {
                 let img = document.createElement("img")
+                img.style.position = "absolute"
                 img.className = "kids"
                 img.src = "ChildWalk.gif"
                 document.body.appendChild(img)
                 img.id = "Child" + i
                 img.style.top = 61 + "%"
+                img.style.zIndex = 3
                 img.style.width = 4.5 + "%"
-                childDistance = document.documentElement.clientWidth * WALL_DISTANCE / document.documentElement.clientWidth / 5
-                img.style.left = (i * childDistance) + (document.documentElement.clientWidth / 2) - (9 * childDistance / 2) + "px"
+                img.style.left = (i * 350) + (document.documentElement.clientWidth / 2) - (9 * 350 / 2) + "px"
             }
             for (kid of document.getElementsByClassName('kids')) {
                 kids.push({ element: kid, wallTouched: null, position: Number(kid.style.left.replace('px', '')), movement: { speed: 0, time: 0 }, initDirection: ['left', 'right'][Math.floor(Math.random() * 2)], scared: false })
             }
         }
         generateKids()
-
         function ChildMoving() {
             for (kid of kids) {
                 if (kid.element) {
                     if (kid.movement.time <= 0) {
-                        kid.movement.speed = Math.random() * document.documentElement.clientWidth * 0.0015
-                        kid.movement.time = Math.random() * 300
+                        kid.movement.speed = Math.floor(Math.random() * 5)
+                        kid.movement.time = Math.floor(Math.random() * 300)
                     }
                     if (!scaring) {
                         if (kid.initDirection == 'left') kid.position -= kid.movement.speed
@@ -361,13 +325,13 @@
                     }
                     setTimeout(() => {
                         canScare = true
-                    }, 1000);
+                    }, 3000);
                 }, 1500)
             }
         }
-
         document.addEventListener('keydown', function (event) {
             if (event.keyCode == 32) {
+                console.log(gameEnded);
                 if (gameStarted && canScare) {
                     if (mode == 'normal' && !didScare) {
                         jumpScare()
@@ -403,16 +367,7 @@
                                 time.minutes -= 1
                                 time.seconds = 60
                             }
-                        if (time.minutes == 0 && time.seconds <= 10)
-                            if (timerFlash) {
-                                timerElement.style.color = 'rgb(255, 0, 0)'
-                                timerFlash = false
-                            }
-                            else if (!timerFlash) {
-                                timerElement.style.color = 'rgb(255, 255, 255)'
-                                timerFlash = true
-                            }
-                        timerElement.innerText = time.minutes + ' : ' + time.seconds
+                        document.getElementById('timer').innerText = time.minutes + ' : ' + time.seconds
                         if (time.minutes <= 0 && time.seconds <= 0) {
                             title.innerText = 'GAME WIN!'
                             title.style.visibility = ''
@@ -423,11 +378,26 @@
                     }, 1000);
                 }
                 else if (gameEnded) {
-                    endGame()
+                    score = 0
+                    document.getElementById('score').innerText = score
+                    title.innerText = 'Lemonade Clown'
+                    LEMONADE_CLOWN.element.src = 'idle.png'
+                    scaring = false
+                    scaredKids = 0
+                    score = 0
+                    gameStarted = false
+                    gameEnded = false
+                    canScare = false
+                    didScare = false
+                    clearInterval(slowTitleFlash)
+                    clearInterval(fastTitleFlash)
+                    clearInterval(moveChildren)
+                    clearInterval(timer)
+                    time = { minutes: 1, seconds: 0 }
+                    generateKids()
                 }
             }
         })
-
         function checkMode() {
             if (mode == "menu") {
                 scareRange.style.visibility = "hidden"
@@ -451,19 +421,17 @@
                 directions.style.visibility = ''
                 slowTitleFlash = setInterval(titleFlash, 500)
                 if (mode == 'timed') {
-                    timerElement.visibility = ''
-                    timerElement.innerText = time.minutes + ' : ' + time.seconds
+                    document.getElementById('timer').visibility = ''
+                    document.getElementById('timer').innerText = time.minutes + ':' + time.seconds
                 } else {
-                    timerElement.visibility = 'hidden'
+                    document.getElementById('timer').visibility = 'hidden'
                 }
             }
         }
-
         function changeMode(selectedMode) {
             mode = selectedMode
             checkMode()
         }
-
         function titleFlash() {
             if (title.style.visibility == 'hidden')
                 title.style.visibility = ''
@@ -471,35 +439,6 @@
                 title.style.visibility = 'hidden'
         }
         checkMode()
-
-        function endGame() {
-            score = 0
-            document.getElementById('score').innerText = score
-            title.innerText = 'Fruit Punch Clown'
-            LEMONADE_CLOWN.element.src = 'idle.png'
-            scaring = false
-            scaredKids = 0
-            score = 0
-            gameStarted = false
-            gameEnded = false
-            canScare = false
-            didScare = false
-            timerFlash = true
-            clearInterval(slowTitleFlash)
-            clearInterval(fastTitleFlash)
-            clearInterval(moveChildren)
-            clearInterval(timer)
-            time = { minutes: 1, seconds: 0 }
-            if (mode == 'timed')
-                timerElement.innerText = time.minutes + ' : ' + time.seconds
-            generateKids()
-        }
-        setInterval(() => {
-            if (mode != 'menu' && gameData != null && score > gameData.LemonadeClown[mode].highScore) {
-                gameData.LemonadeClown[mode].highScore = score
-                sendData(gameData)
-            }
-        }, 1);
     </script>
 
 </body>
