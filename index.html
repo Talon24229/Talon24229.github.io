@@ -1,0 +1,174 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faz-Terminal</title>
+    <style>
+        body {
+            margin: 0;
+            background-repeat: no-repeat;
+            overflow-x: hidden;
+            background-size: 100vw;
+            background-image: url("BR3.png");
+            background-color: rgb(0, 0, 0);
+        }
+
+        #hay {
+            margin-top: 5.5%;
+            margin-left: 14%;
+            width: 72%;
+            height: 64%;
+            z-index: -1;
+        }
+
+        a,
+        span {
+            text-decoration: none;
+            color: limegreen;
+            font-size: 2rem;
+        }
+
+        span {
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body onload="setTimeout(()=>{load()},1000)">
+    <div id="hay">
+    </div>
+
+    <script>
+        const typewriterSpeed = 150
+        const cursorFlashSpeed = 700
+        const cursorCharacter = ' ▊'
+
+        var linkNumber = 0
+        var characterNumber = 0
+        var spanToggle = false
+        var allCharacters = []
+        var links = [
+            {
+                url: 'FazQuotesStuff/index.html',
+                display: 'Faz-Quotes'
+            },
+            {
+                url: 'gettoschool/index.html',
+                display: 'Get To School Talon Ed'
+            },
+            {
+                url: 'miniGame/LemonaidClown/index.html',
+                display: 'Minigames (under construction)'
+            },
+            {
+                url: 'https://brand24376.github.io/Breakout%20in%20Javascript/index.html',
+                display: 'Breakout'
+            },
+            {
+                url: 'https://brand24376.github.io/Get%202%20School/game.html',
+                display: 'Get To School Brandon Ed'
+            },
+            {
+                url: 'https://mhoover0413.github.io/minecraft.html',
+                display: '2D Minecraft'
+            },
+            {
+                url: 'https://mhoover0413.github.io/3DPC%20Sim%20JS%20(Ver%201.0.0)/Fnaf1.html',
+                display: '(3DPC) 3 Days at Programing Class'
+            },
+            {
+                url: 'https://mhoover0413.github.io/GetToSchool.html',
+                display: 'Get To School Mac Ed'
+            },
+
+        ]
+
+        function load() {
+            for (link of links) {
+                let linkElement = document.createElement('a')
+                linkElement.id = link.display
+                document.getElementById('hay').appendChild(linkElement)
+                let span = document.createElement('span')
+                span.id = link.display
+                span.innerHTML = cursorCharacter
+                document.getElementById('hay').appendChild(span)
+                document.getElementById('hay').appendChild(document.createElement('br'))
+            }
+            let linkCharacters = [];
+            for (link of links) {
+                let linkElement = document.getElementById(link.display)
+                let splitLink = link.display.split('')
+                for (i = 0;i < splitLink.length;i++) {
+                    linkCharacters.push({ index: i, character: splitLink[i], link: link.display })
+                }
+            }
+            for (character of linkCharacters) {
+                let link
+                for (tempLink of links) {
+                    if (tempLink.display == character.link)
+                        link = tempLink
+                }
+                let lastCharacter = false
+                if (character.index == link.display.length - 1) {
+                    lastCharacter = true
+                } else {
+                    lastCharacter = false
+                }
+                allCharacters.push({ character: character.character, link: link.display, characterNumber: characterNumber, linkNumber: linkNumber, lastCharacter: lastCharacter })
+                characterNumber++
+                linkNumber++
+            }
+            for (character of allCharacters) {
+                writeCharacter(character)
+            }
+        }
+
+
+        function writeCharacter(character) {
+            setTimeout(() => {
+                let linkElement = document.getElementById(character.link)
+                linkElement.innerHTML += character.character
+                if (character.lastCharacter) {
+                    console.log(character);
+                    for (link of links) {
+                        if (link.display == character.link) {
+                            makeLink(linkElement, link)
+                        }
+                    }
+                }
+                for (span of document.getElementsByTagName('span')) {
+                    if (span.id == character.link) {
+                        span.style.visibility = 'visible'
+                    }
+                    else {
+                        span.style.visibility = 'hidden'
+                    }
+                }
+            }, typewriterSpeed * character.characterNumber + typewriterSpeed);
+        }
+
+        function makeLink(linkElement, link) {
+            setTimeout(() => {
+                linkElement.href = link.url
+            }, typewriterSpeed);
+        }
+
+        setInterval(() => {
+            for (span of document.getElementsByTagName('span')) {
+                if (spanToggle) {
+                    span.style.opacity = 1
+                } else
+                    span.style.opacity = 0
+            }
+            if (spanToggle) {
+                spanToggle = false
+            } else {
+                spanToggle = true
+            }
+        }, cursorFlashSpeed);
+    </script>
+</body>
+
+</html>
