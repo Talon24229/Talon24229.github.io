@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lemonade Clown</title>
     <script type='text/javascript' src='../functions.js'></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Give kids Lemonade!</title>
     <style>
         body {
             margin: 0;
@@ -160,10 +164,6 @@
             cursor: pointer;
         }
     </style>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Give kids Lemonade!</title>
 </head>
 
 <body>
@@ -180,7 +180,7 @@
     </div>
     <p id="score" class='center'>0</p>
     <img id='cabinet' class='center' src=" ../cabinet.png">
-    <img id='background' class='center' src="../miniGameBKG.png">
+    <img id='background' class='center' src="miniGameBKG.png">
     <img id='lemonadeClown' class='center' src="idle.png">
     <div id='leftWall' class='walls debugLines'></div>
     <div id='rightWall' class='walls debugLines'></div>
@@ -247,18 +247,18 @@
         }
         var button = document.getElementById('button')
         button.addEventListener('click', () => {
-            if (mode == 'menu') {
-                window.location.pathname = 'miniGames/index.html'
-            }
-            else {
-                mode = 'menu'
-                endGame()
-                checkMode()
-            }
             cabinet.src = '../cabinetRed.png'
             setTimeout(() => {
                 cabinet.src = '../cabinet.png'
-            }, 500);
+                if (mode == 'menu') {
+                    window.location.pathname = 'miniGames/index.html'
+                }
+                else {
+                    mode = 'menu'
+                    endGame()
+                    checkMode()
+                }
+            }, 300);
         })
         function generateKids() {
             for (kid of kids) {
