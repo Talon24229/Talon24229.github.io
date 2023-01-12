@@ -82,7 +82,7 @@
 		})
 
 		setInterval(() => {
-			if (mode != 'menu' && gameData != null && score > gameData.minigameName.highScore) {
+			if (gameData != null) {
 				gameData.minigameName.highScore = score
 				sendData(gameData)
 			}
