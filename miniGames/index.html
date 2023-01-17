@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fazcade</title>
     <script type='text/javascript' src='./functions.js'></script>
+    <link rel="stylesheet" href="flickity.css">
+    <script src='fllickity.pkgd.js'></script>
     <style>
         body {
             margin: 0;
@@ -51,12 +53,53 @@
             z-index: 1000;
             cursor: pointer;
         }
+
+        #carousel {
+            position: absolute;
+            width: 40%;
+            top: 50%;
+            left: 50%;
+            transform: translateY(-50%) translateX(-50%);
+        }
+
+        .games {
+            margin-right: 5%;
+        }
+
+        .games:before {
+            display: block;
+        }
+
+        .dot {
+            background-color: rgb(255, 255, 255) !important;
+            opacity: 0.6 !important;
+        }
+
+        .dot.is-selected {
+            opacity: 1 !important;
+        }
+
+        .next .flickity-button-icon {
+            transform: scaleX(-1);
+        }
     </style>
 </head>
 
 <body>
     <img id='cabinet' class='center' src=" ./cabinet.png">
     <!-- <img id='background' class='center' src="miniGameBKG.png"> -->
+    <div id='carousel' data-flickity='{ "wrapAround": true, "draggable": false }'>
+        <div class='games'>
+            <a href="lemonadeClown/index.html">
+                <img src="lemonadeClown/menu.png" alt="Lemonade Clown">
+            </a>
+        </div>
+        <div class='games'>
+            <a href="fruitPunchClown/index.html">
+                <img src="fruitPunchClown/menu.png" alt="Fruit Punch Clown">
+            </a>
+        </div>
+    </div>
     <div id='button' class='center'></div>
 
     <script>
@@ -65,6 +108,24 @@
         //be able to swap the game when loading the page, maybe add a retro effect on top of screen?
 
         //zoom in to game when starting
+        var arrows
+        do {
+            arrows = document.getElementsByClassName('flickity-button')
+            setTimeout(() => {
+                console.log(arrows);
+                for (arrow of arrows) {
+                    console.log(arrow);
+                    let arrowIMG = document.createElement('img')
+                    arrowIMG.src = 'arrow.png'
+                    arrowIMG.className = 'flickity-button-icon'
+                    arrow.innerHTML = ''
+                    arrow.appendChild(arrowIMG)
+                    // arrow.getElementsByTagName('svg')[0].remove()
+                }
+            }, 1);
+        }
+        while (arrows == undefined)
+
         var gameData
         gameData = getData()
         if (gameData == null) {
@@ -77,7 +138,7 @@
             cabinet.src = './cabinetRed.png'
             setTimeout(() => {
                 cabinet.src = './cabinet.png'
-                window.location.pathname = '../'
+                window.location.pathname = '../index.html'
             }, 300);
         })
 
