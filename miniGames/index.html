@@ -112,17 +112,16 @@
         do {
             arrows = document.getElementsByClassName('flickity-button')
             setTimeout(() => {
-                console.log(arrows);
+                console.log(arrows)
                 for (arrow of arrows) {
-                    console.log(arrow);
+                    console.log(arrow)
                     let arrowIMG = document.createElement('img')
                     arrowIMG.src = 'arrow.png'
                     arrowIMG.className = 'flickity-button-icon'
                     arrow.innerHTML = ''
                     arrow.appendChild(arrowIMG)
-                    // arrow.getElementsByTagName('svg')[0].remove()
                 }
-            }, 1);
+            }, 1)
         }
         while (arrows == undefined)
 
@@ -139,14 +138,14 @@
             setTimeout(() => {
                 cabinet.src = './cabinet.png'
                 window.location.pathname = '../index.html'
-            }, 300);
+            }, 300)
         })
 
         setInterval(() => {
             if (gameData != null) {
                 sendData(gameData)
             }
-        }, 1);
+        }, 1)
     </script>
 </body>
 
