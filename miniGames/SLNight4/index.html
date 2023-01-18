@@ -22,17 +22,14 @@
             position: absolute;
             height: 140%;
             z-index: 10;
-            margin-top: -12%;
-            margin-left: 18%;
+            top: -25%;
             pointer-events: none;
         }
 
 
         #facePlates {
             position: absolute;
-            margin-left: 25%;
-            margin-right: auto;
-            margin-top: 10%;
+            top: 20%;
             height: 60%;
             width: 50%;
             z-index: 3;
@@ -69,7 +66,6 @@
         #midleMini {
             position: absolute;
             z-index: 6;
-            left: 35%;
             bottom: 20%;
             width: 30%;
 
@@ -103,13 +99,13 @@
     <img class="center" id="exit" src="">
 
     <img id="background" class="center" src="miniGameN4.jpg">
-    <img id='cab' src=" ../cabinet.png">
-    <img id='midleMini' src="congaline.gif">
-    <img id="facePlates" src="Background.png">
+    <img class="center" id='cab' src=" ../cabinet.png">
+    <img class="center" id='midleMini' src="congaline.gif">
+    <img class="center" id="facePlates" src="Background.png">
     <script>
         var crawler = false
         var timerElement = document.getElementById("timer")
-        var time = { minutes: 0, seconds: 5 }
+        var time = { minutes: 2, seconds: 60 }
         var shaken = false
         var made = false
         var death = false
@@ -141,7 +137,7 @@
             //23 67
 
             if (i == 0 || i == 1) {
-                img.style.left = "27.5%"
+                img.style.left = "26%"
                 img.style.top = i * 100 + document.documentElement.clientWidth * 0.13 + "px"
             }
             else if (i == 2 || i == 3) {
@@ -149,11 +145,11 @@
                 img.style.top = (i - 2) * 100 + document.documentElement.clientWidth * 0.3 + "px"
             }
             if (i == 4 || i == 5) {
-                img.style.left = "27.5%"
+                img.style.left = "26%"
                 img.style.top = (i - 4) * 100 + document.documentElement.clientWidth * 0.3 + "px"
             }
             else if (i == 6 || i == 7) {
-                img.style.left = "71%"
+                img.style.left = "70.5%"
                 img.style.top = (i - 6) * 100 + document.documentElement.clientWidth * 0.13 + "px"
             }
 
