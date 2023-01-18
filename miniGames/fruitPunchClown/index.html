@@ -188,7 +188,7 @@
     <script>
         const DEBUG = false
         const CHAIN_DISTANCE = document.documentElement.clientWidth * 0.01
-        const SCARE_DISTANCE = document.documentElement.clientWidth * 0.07
+        const SCARE_DISTANCE = document.documentElement.clientWidth * 0.05
         const WALL_DISTANCE = document.documentElement.clientWidth * 0.23
         const LEMONADE_CLOWN = { element: document.getElementById('lemonadeClown'), position: document.getElementById('lemonadeClown').getBoundingClientRect().left }
         const LEFT_WALL = LEMONADE_CLOWN.position - WALL_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2
@@ -227,7 +227,7 @@
         var scareDiameter = SCARE_DISTANCE * 2 * 1.1
         scareRange.style.height = scareDiameter
         scareRange.style.width = scareDiameter
-        scareRange.style.top = LEMONADE_CLOWN.element.getBoundingClientRect().top + scareRange.clientHeight / 2.5 + "px"
+        scareRange.style.top = LEMONADE_CLOWN.element.getBoundingClientRect().top + scareRange.clientHeight / 1 + "px"
         var title = document.getElementById('title')
         var modesElement = document.getElementById('modes')
         var scoreElement = document.getElementById("score")
@@ -264,7 +264,7 @@
                 kid.element.remove()
             }
             kids = []
-            for (let i = 0;i < 9;i++) {
+            for (let i = 0; i < 9; i++) {
                 let img = document.createElement("img")
                 img.className = "kids"
                 img.src = "ChildWalk.gif"
@@ -323,7 +323,7 @@
                     scaredKids += 1
                 }
             }
-            for (let i = 0;i < kids.length;i++) {
+            for (let i = 0; i < kids.length; i++) {
                 for (scaredKid of kids) {
                     if (scaredKid.scared) {
                         for (kid of kids) {

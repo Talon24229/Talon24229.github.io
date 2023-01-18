@@ -15,7 +15,7 @@
             background-repeat: no-repeat;
             overflow: hidden;
             background-size: 100vw;
-            background-color: rgb(139, 139, 139);
+            background-color: rgb(54, 54, 54);
         }
 
         #cab {
@@ -53,13 +53,6 @@
             z-index: 2;
         }
 
-        #timer {
-            left: 48%;
-            top: 13%;
-            position: absolute;
-            font-size: 50px;
-        }
-
         .spring {
             position: absolute;
             left: 50%;
@@ -69,7 +62,7 @@
 
         .mini {
             position: absolute;
-            z-index: 1;
+            z-index: 2;
             bottom: 1%;
         }
 
@@ -81,21 +74,56 @@
             width: 30%;
 
         }
+
+        #timer {
+            z-index: 5;
+            color: rgb(255, 255, 255);
+            top: 24%;
+            font-size: 5vh;
+            position: absolute;
+            text-align: left;
+            text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+        }
+
+        #exit {
+            position: absolute;
+            z-index: 9;
+            top: 60%;
+            /* visibility: hidden; */
+        }
     </style>
     <title>Night 4</title>
 </head>
 
 <body>
-    <p id="timer">
-        Timer Here
-    </p>
+    <p class="center" id='timer'></p>
     <img id="ballora" src="Baloora.png">
+
+    <img class="center" id="exit" src="">
+
     <img id="background" class="center" src="miniGameN4.jpg">
     <img id='cab' src=" ../cabinet.png">
     <img id='midleMini' src="congaline.gif">
     <img id="facePlates" src="Background.png">
     <script>
-        crawler = false
+        var crawler = false
+        var timerElement = document.getElementById("timer")
+        var time = { minutes: 0, seconds: 5 }
+        var shaken = false
+        var made = false
+        var death = false
+        var left = false
+        var right = false
+        var timer
+        var flash
+        var miniLogic
+        var springLogic
+        var Mleft = false
+        var Mright = false
+
+        var sideChance = ""
+        var distance = 800
         var counter = 1
         var made = false
         var hover = false
@@ -145,30 +173,95 @@
             document.getElementById('spring' + i).addEventListener("mouseleave", function () { springs[i].hover = false });
             document.getElementById('spring' + i).addEventListener("mouseover", function () { springs[i].hover = true });
 
-
+            function death() {
+                //console.log("u did")
+            }
         }
-
-        setInterval(() => {
+        //Minirenia creation and destruction logic
+        miniLogic = setInterval(() => {
+            //create mini
             if (!crawler) {
-                crawlerChance = Math.floor(Math.random() * 300)
-                if (crawlerChance <= 10) {
+                crawlerChance = Math.floor(Math.random() * 1)
+                if (crawlerChance <= 1) {
                     crawler = true
-                    console.log("Succes")
                     if (!made) {
-                        let img = document.createElement("img")
+                        var img = document.createElement("img")
+                        made = true
                         img.style.position = "absolute"
                         img.className = "mini"
                         img.src = "Minireena_Left_Crawl.gif"
+
                         document.body.appendChild(img)
-                        img.style.top = "100px"
+                        img.style.top = "800px"
+                        sideChance = Math.round(Math.random() * 1)
+                        if (sideChance == 0) {
+                            img.style.left = "29%"
+                            Mleft = true
+
+                        }
+                        else if (sideChance == 1) {
+                            Mright = true
+                            img.style.right = "29%"
+                            img.style.transform = "scaleX(-1)"
+                        }
                     }
                 }
-                else {
-                    console.log("failed")
+            }
+            else {
+                //movement logic
+                if (!shaken) {
+                    img = document.getElementsByClassName('mini')[0]
+                    distance -= 1
+                    img.style.top = distance + "px"
+                    if (distance < 50) {
+                        death()
+                    }
+                }
+                //shake off logic
+                else if (shaken) {
+                    if (left && Mleft) {
+                        img = document.getElementsByClassName('mini')[0]
+                        distance += 20
+                        img.style.top = distance + "px"
+                        //when they fall, de-spawn, and reset for new mini
+                        if (distance >= 800) {
+
+                            img.remove()
+                            crawler = false
+                            Mleft = false
+                            shaken = false
+                            made = false
+                            left = false
+                        }
+                    }
+
+                    else if (right && Mright) {
+                        img = document.getElementsByClassName('mini')[0]
+                        distance += 20
+                        img.style.top = distance + "px"
+                        //when they fall, de-spawn, and reset for new mini
+                        if (distance >= 800) {
+
+                            img.remove()
+                            crawler = false
+                            Mright = false
+                            shaken = false
+                            made = false
+                            right = false
+                        }
+                    }
+                    else {
+                        if (distance < 800) {
+
+                            shaken = false
+                        }
+                    }
+
                 }
             }
-
-
+        }, 1);
+        springLogic = setInterval(() => {
+            //spring logic
             for (spring of springs) {
 
                 if (spring.counter >= 29) {
@@ -199,17 +292,73 @@
 
                 spring.element.src = `springlockframes/s${spring.counter}.png`
             }
-        }, 1000);
-        if (crawler) {
-        }
-        /*
 
+        }, 1000);
+        timer = setInterval(() => {
+            if (time.seconds > 0 || time.minutes > 0)
+                if (time.seconds > 0)
+                    time.seconds -= 1
+                else {
+                    time.minutes -= 1
+                    time.seconds = 60
+                }
+
+            timerElement.innerText = time.minutes + ' : ' + time.seconds
+            if (time.minutes <= 0 && time.seconds <= 0) {
+                //title.innerText = 'GAME WIN!'
+                //title.style.visibility = ''
+                gameEnded = true
+                clearInterval(miniLogic)
+                clearInterval(springLogic)
+                clearInterval(timer)
+                midleMini.style.visibility = "hidden"
+                img = document.getElementsByClassName('mini')[0]
+                img.remove()
+                exit = document.getElementById('exit')
+                exit.src = "OwyEyes.gif"
+                exit.style.cursor = "pointer"
+                exit.addEventListener('click', () => {
+                    window.location.pathname = 'miniGames/index.html'
+                })
+
+
+            }
+        }, 1000);
+
+
+
+
+
+        /*
         The minireena need to climb to the top of the screen, if it does, the game ends
         You need to be able to 'shake' them off using a/d or <-/->
-
         */
-        setInterval(() => {
-        }, 1);
+
+        document.addEventListener('keydown', (event) => {
+            if (event.keyCode == 37 || event.keyCode == 65) {
+                console.log("left")
+                if (crawler) {
+                    left = true
+                    shaken = true
+                }
+
+            }
+            else if (event.keyCode == 39 || event.keyCode == 68) {
+                console.log("right")
+                if (crawler) {
+                    right = true
+                    shaken = true
+                }
+            }
+        })
+        function endgame() {
+
+            for (i of document.getElementsByClassName('spring')) {
+                i.style.visibility = "hidden"
+
+
+            }
+        };
 
     </script>
 </body>
