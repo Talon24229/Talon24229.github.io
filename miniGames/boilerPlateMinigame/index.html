@@ -39,7 +39,7 @@
 
 		.center {
 			left: 50%;
-			transform: translateX(-50%);
+			transform: translateX(-50%)
 		}
 
 		#button {
@@ -78,8 +78,8 @@
 			cabinet.src = '../cabinetRed.png'
 			setTimeout(() => {
 				cabinet.src = '../cabinet.png'
-				window.location.pathname = 'miniGames/index.html'
-			}, 300);
+				window.location.pathname = '/miniGames/index.html'
+			}, 300)
 		})
 
 		setInterval(() => {
@@ -87,7 +87,7 @@
 				gameData.minigameName.highScore = score
 				sendData(gameData)
 			}
-		}, 1);
+		}, 1)
 	</script>
 </body>
 

@@ -118,7 +118,7 @@
             position: absolute;
             text-align: right;
             text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
-                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0)
         }
 
         #timer {
@@ -130,7 +130,7 @@
             position: absolute;
             text-align: left;
             text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
-                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0)
         }
 
         .debugLines {
@@ -141,16 +141,16 @@
         }
 
         .walls {
-            background-color: rgb(0, 128, 0);
+            background-color: rgb(0, 128, 0)
         }
 
         .scareEdges {
-            background-color: rgb(255, 0, 0);
+            background-color: rgb(255, 0, 0)
         }
 
         .center {
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%)
         }
 
         #button {
@@ -250,14 +250,14 @@
             setTimeout(() => {
                 cabinet.src = '../cabinet.png'
                 if (mode == 'menu') {
-                    window.location.pathname = 'miniGames/index.html'
+                    window.location.pathname = '/miniGames/index.html'
                 }
                 else {
                     mode = 'menu'
                     endGame()
                     checkMode()
                 }
-            }, 300);
+            }, 300)
         })
         function generateKids() {
             for (kid of kids) {
@@ -361,7 +361,7 @@
                     }
                     setTimeout(() => {
                         canScare = true
-                    }, 1000);
+                    }, 1000)
                 }, 1500)
             }
         }
@@ -394,7 +394,7 @@
                         setTimeout(() => {
                             canScare = true
                         }, 1000)
-                    }, 750);
+                    }, 750)
                     if (mode == 'timed') timer = setInterval(() => {
                         if (time.seconds > 0 || time.minutes > 0)
                             if (time.seconds > 0)
@@ -420,7 +420,7 @@
                             canScare = false
                             clearInterval(moveChildren)
                         }
-                    }, 1000);
+                    }, 1000)
                 }
                 else if (gameEnded) {
                     endGame()
@@ -499,7 +499,7 @@
                 gameData.LemonadeClown[mode].highScore = score
                 sendData(gameData)
             }
-        }, 1);
+        }, 1)
     </script>
 
 </body>
