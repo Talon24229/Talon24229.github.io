@@ -63,7 +63,7 @@
         }
 
         .games {
-            margin-right: 5%;
+            margin-right: 6%;
         }
 
         .games:before {
@@ -89,16 +89,12 @@
     <img id='cabinet' class='center' src=" ./cabinet.png">
     <!-- <img id='background' class='center' src="miniGameBKG.png"> -->
     <div id='carousel' data-flickity='{ "wrapAround": true, "draggable": false }'>
-        <div class='games'>
-            <a href="lemonadeClown/index.html">
-                <img src="lemonadeClown/menu.png" alt="Lemonade Clown">
-            </a>
-        </div>
-        <div class='games'>
-            <a href="fruitPunchClown/index.html">
-                <img src="fruitPunchClown/menu.png" alt="Fruit Punch Clown">
-            </a>
-        </div>
+        <a href="lemonadeClown/index.html" class='games'>
+            <img src="lemonadeClown/menu.png" alt="Lemonade Clown">
+        </a>
+        <a href="fruitPunchClown/index.html" class='games'>
+            <img src="fruitPunchClown/menu.png" alt="Fruit Punch Clown">
+        </a>
     </div>
     <div id='button' class='center'></div>
 
@@ -112,17 +108,16 @@
         do {
             arrows = document.getElementsByClassName('flickity-button')
             setTimeout(() => {
-                console.log(arrows);
+                console.log(arrows)
                 for (arrow of arrows) {
-                    console.log(arrow);
+                    console.log(arrow)
                     let arrowIMG = document.createElement('img')
                     arrowIMG.src = 'arrow.png'
                     arrowIMG.className = 'flickity-button-icon'
                     arrow.innerHTML = ''
                     arrow.appendChild(arrowIMG)
-                    // arrow.getElementsByTagName('svg')[0].remove()
                 }
-            }, 1);
+            }, 1)
         }
         while (arrows == undefined)
 
@@ -139,14 +134,14 @@
             setTimeout(() => {
                 cabinet.src = './cabinet.png'
                 window.location.pathname = '../index.html'
-            }, 300);
+            }, 300)
         })
 
         setInterval(() => {
             if (gameData != null) {
                 sendData(gameData)
             }
-        }, 1);
+        }, 1)
     </script>
 </body>
 
