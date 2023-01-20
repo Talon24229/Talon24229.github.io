@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>minigameName</title>
+	<title>Factory Game</title>
 	<script type='text/javascript' src='./../miniGames/functions.js'></script>
 	<style>
 		body {
@@ -24,8 +24,6 @@
 		#grid {
 			background-color: rgb(255, 255, 255);
 			position: absolute;
-			/* height: 100vh;
-			width: 100vw; */
 			z-index: 0;
 		}
 
@@ -64,28 +62,38 @@
 		context.canvas.height = window.innerHeight
 		var biggerSize = Math.max(canvas.clientWidth, canvas.clientHeight)
 		var tileSize = 100 * zoom
+		var rotation = 0
+		var renderDistance = 10
 		var player = {
 			x: 0,
 			y: 0,
 			speed: 10,
+			img: 'player.png',
 			hotbar: ['miner', 'conveyor', '', '', '', '', '', '', ''],
 			inventory: [],
 			selectedObject: '',
+			height: 1,
+			width: 1,
 			radius: biggerSize * 0.02,
 			color: 'red',
 			draw: function () {
 				context.beginPath();
-				context.fillStyle = this.color
-				context.arc(canvas.clientWidth / 2, canvas.clientHeight / 2, this.radius * zoom, 0, 2 * Math.PI);
-				context.fill()
+				let img = new Image
+				img.src = this.img
+				context.drawImage(
+					img,
+					canvas.clientWidth / 2 - this.width / 2 * tileSize,
+					canvas.clientHeight / 2 - this.height / 2 * tileSize,
+					this.width * tileSize, this.height * tileSize
+				)
 			},
 			move: function () {
-				let speed = this.speed
+				let speed = this.speed / tileSize
 				if (keys.sprint) speed *= 3
 				if (keys.up)
-					this.y -= speed
-				if (keys.down)
 					this.y += speed
+				if (keys.down)
+					this.y -= speed
 				if (keys.left)
 					this.x -= speed
 				if (keys.right)
@@ -95,34 +103,71 @@
 		}
 
 		var objects = []
-		class miner {
-			constructor(x, y) {
-				this.x = Math.round(x / tileSize) * tileSize
-				this.y = Math.round(y / tileSize) * tileSize
-				this.radius = biggerSize * 0.02
-				this.color = 'green'
-				this.inventory = []
+		class object {
+			constructor(x, y, width, height, img) {
+				this.x = x
+				if (this.x == -0) this.x = 0
+				this.y = y
+				if (this.y == -0) this.y = 0
+				this.width = width
+				this.height = height
+				this.img = img
+				this.rotation = rotation
+				this.offset = []
+				switch (this.rotation) {
+					case 0:
+						this.offset = [0, 0]
+						break;
+					case 90:
+						this.offset = [0, this.height]
+						break;
+					case 180:
+						this.offset = [this.width, this.height]
+						break;
+					case 270:
+						this.offset = [this.width, 0]
+						break;
+				}
 			}
 			draw() {
-				context.beginPath();
-				context.fillStyle = this.color
-				context.arc(this.x - player.x + canvas.clientWidth / 2, this.y - player.y + canvas.clientHeight / 2, this.radius * zoom, 0, 2 * Math.PI);
-				context.fill()
+				let img = new Image
+				img.src = this.img
+				context.save()
+				context.translate(
+					(this.x + this.offset[0] - player.x) * tileSize + canvas.clientWidth / 2 - tileSize / 2,
+					(-this.y + this.offset[1] + player.y) * tileSize + canvas.clientHeight / 2 - tileSize / 2
+				)
+				context.rotate(-this.rotation * Math.PI / 180)
+				context.drawImage(
+					img,
+					0,
+					0,
+					this.width * tileSize, this.width * tileSize
+				)
+				context.restore()
 			}
 		}
-		class conveyor {
+
+		var objectSizes = {
+			'': { width: 0, height: 0 },
+			conveyor: { width: 1, height: 1 },
+			miner: { width: 2, height: 2 }
+		}
+
+		class conveyor extends object {
 			constructor(x, y) {
-				this.x = Math.round(x / tileSize) * tileSize
-				this.y = Math.round(y / tileSize) * tileSize
-				this.radius = biggerSize * 0.02
-				this.color = 'blue'
-				this.inventory = []
+				super(x, y, 1, 1, 'conveyor.png')
+				this.inventory = [
+					{},
+					{},
+					{}
+				]
 			}
-			draw() {
-				context.beginPath();
-				context.fillStyle = this.color
-				context.arc(this.x - player.x + canvas.clientWidth / 2, this.y - player.y + canvas.clientHeight / 2, this.radius * zoom, 0, 2 * Math.PI);
-				context.fill()
+		}
+
+		class miner extends object {
+			constructor(x, y) {
+				super(x, y, 2, 2, 'miner.png')
 			}
 		}
 
@@ -134,15 +179,31 @@
 			sprint: false
 		}
 		document.addEventListener('click', (event) => {
-			let objectPos = [event.clientX - canvas.clientWidth / 2 + player.x, event.clientY - canvas.clientHeight / 2 + player.y]
-			switch (player.selectedObject) {
-				case 'miner':
-					objects.push(new miner(objectPos[0], objectPos[1]))
-					break;
-				case 'conveyor':
-					objects.push(new conveyor(objectPos[0], objectPos[1]))
-					break;
+			let objectPos = [
+				Math.round((event.clientX - canvas.clientWidth / 2) / tileSize + player.x),
+				-Math.round((event.clientY - canvas.clientHeight / 2) / tileSize - player.y)
+			]
+			let collision = false
+			console.log(objectSizes[player.selectedObject].width);
+			for (object of objects) {
+				if (objectPos[0] >= object.x &&
+					objectPos[0] <= object.x + object.width - 1 + objectSizes[player.selectedObject].width &&
+					objectPos[1] >= object.y - object.height + 1 &&
+					objectPos[1] <= object.y
+				) {
+					let index = objects.indexOf(object)
+					collision = true
+				}
 			}
+			if (!collision)
+				switch (player.selectedObject) {
+					case 'miner':
+						objects.push(new miner(objectPos[0], objectPos[1]))
+						break;
+					case 'conveyor':
+						objects.push(new conveyor(objectPos[0], objectPos[1]))
+						break;
+				}
 		})
 		document.addEventListener('keydown', (event) => {
 			if (event.keyCode == 87 || event.keyCode == 38)
@@ -173,6 +234,12 @@
 				player.selectedObject = player.hotbar[7]
 			else if (event.keyCode == 57)
 				player.selectedObject = player.hotbar[8]
+			else if (event.keyCode == 82) {
+				rotation -= 90
+				if (rotation >= 360) rotation = 0
+				else if (rotation <= 0) rotation = 270
+				console.log('rotate', rotation);
+			}
 		})
 		document.addEventListener('keyup', (event) => {
 			if (event.keyCode == 87 || event.keyCode == 38)
@@ -197,8 +264,8 @@
 		function drawGrid(xPos, yPos, height, width) {
 			context.lineWidth = 5
 			context.strokeStyle = 'black'
-			xPos -= player.x + tileSize / 2
-			yPos -= player.y + tileSize / 2
+			xPos -= player.x * tileSize + tileSize / 2
+			yPos += player.y * tileSize + tileSize / 2
 			for (let x = xPos;x > 0;x -= tileSize) {
 				context.moveTo(x, 0)
 				context.lineTo(x, height)
@@ -224,10 +291,14 @@
 		setInterval(() => {
 			context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight)
 			drawGrid(canvas.clientWidth / 2, canvas.clientHeight / 2, canvas.clientHeight, canvas.clientWidth);
-			player.draw()
 			for (object of objects) {
-				object.draw()
+				if (
+					(object.x >= player.x - renderDistance && object.x <= player.x + renderDistance) &&
+					(object.y >= player.y - renderDistance && object.y <= player.y + renderDistance)
+				)
+					object.draw()
 			}
+			player.draw()
 			player.move()
 		}, 1);
 	</script>

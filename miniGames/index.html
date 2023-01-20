@@ -79,10 +79,6 @@
         .dot.is-selected {
             opacity: 1 !important;
         }
-
-        .next .flickity-button-icon {
-            transform: scaleX(-1);
-        }
     </style>
 </head>
 
@@ -108,22 +104,6 @@
         //be able to swap the game when loading the page, maybe add a retro effect on top of screen?
 
         //zoom in to game when starting
-        var arrows
-        do {
-            arrows = document.getElementsByClassName('flickity-button')
-            setTimeout(() => {
-                console.log(arrows)
-                for (arrow of arrows) {
-                    console.log(arrow)
-                    let arrowIMG = document.createElement('img')
-                    arrowIMG.src = 'arrow.png'
-                    arrowIMG.className = 'flickity-button-icon'
-                    arrow.innerHTML = ''
-                    arrow.appendChild(arrowIMG)
-                }
-            }, 1)
-        }
-        while (arrows == undefined)
 
         var gameData
         gameData = getData()
