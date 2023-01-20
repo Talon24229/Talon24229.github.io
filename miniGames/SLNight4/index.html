@@ -111,7 +111,7 @@
     <script>
         var crawler = false
         var timerElement = document.getElementById("timer")
-        var time = { minutes: 2, seconds: 60 }
+        var time = { minutes: 2, seconds: 59 }
         var shaken = false
         var made = false
         var left = false
@@ -187,7 +187,7 @@
             miniLogic = setInterval(() => {
                 //create mini
                 if (!crawler) {
-                    crawlerChance = Math.floor(Math.random() * 2500)
+                    crawlerChance = Math.floor(Math.random() * 2000)
                     if (crawlerChance <= 1) {
                         crawler = true
                         if (!made) {
@@ -220,7 +220,7 @@
                         distance -= .8
                         img.style.top = distance + "px"
                         if (distance < 50) {
-                            death()
+                            // death()
                         }
                     }
                     //shake off logic
@@ -271,16 +271,16 @@
                 for (spring of springs) {
 
                     if (spring.counter >= 28) {
-                        death()
+                        // death()
                     }
 
                     else if (spring.counter >= 0 && !spring.hover) {
-                        spring.counter += .03
+                        spring.counter += .02
 
                     }
                     else if (spring.counter >= 0 && spring.hover) {
                         if (spring.counter > 1) {
-                            spring.counter -= .5
+                            spring.counter -= .3
                         }
                     }
                     if (spring.counter >= 28) {
@@ -303,10 +303,16 @@
                             time.seconds -= 1
                         else {
                             time.minutes -= 1
-                            time.seconds = 60
+                            time.seconds = 59
                         }
 
-                    timerElement.innerText = time.minutes + ' : ' + time.seconds
+                    if (time.seconds < 10) {
+                        timerElement.innerText = time.minutes + ' : 0' + time.seconds
+                    }
+                    else {
+                        timerElement.innerText = time.minutes + ' : ' + time.seconds
+                    }
+
                     if (time.minutes <= 0 && time.seconds <= 0 && !dead) {
                         gameEnded = true
                         timerElement.onclick = ""
@@ -315,8 +321,10 @@
                         clearInterval(timer)
                         midleMini.style.visibility = "hidden"
                         timerElement.innerText = "You Win!"
-                        img = document.getElementsByClassName('mini')[0]
-                        img.remove()
+                        if (document.getElementsByClassName('mini')[0]) {
+                            img = document.getElementsByClassName('mini')[0]
+                            img.remove()
+                        }
                         exit = document.getElementById('exit')
                         exit.src = "OwyEyes.gif"
                         exit.style.cursor = "pointer"
