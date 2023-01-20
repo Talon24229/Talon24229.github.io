@@ -270,36 +270,30 @@
                 //spring logic
                 for (spring of springs) {
 
-                    if (spring.counter >= 29) {
+                    if (spring.counter >= 28) {
                         death()
                     }
 
                     else if (spring.counter >= 0 && !spring.hover) {
-                        spring.counter += 1
-                        if (spring.counter == 5) {
-                            spring.counter = 6
-                        }
+                        spring.counter += .03
 
                     }
                     else if (spring.counter >= 0 && spring.hover) {
                         if (spring.counter > 1) {
-                            spring.counter -= 7
-                        }
-                        if (spring.counter == 5) {
-                            spring.counter = 4
+                            spring.counter -= .5
                         }
                     }
-                    if (spring.counter >= 29) {
-                        spring.counter = 29
+                    if (spring.counter >= 28) {
+                        spring.counter = 28
                     }
                     if (spring.counter <= 1) {
                         spring.counter = 1
                     }
 
-                    spring.element.src = `springlockframes/s${spring.counter}.png`
+                    spring.element.src = `springlockframes/s${Math.round(spring.counter)}.png`
                 }
 
-            }, 1000);
+            }, 10);
             //time logic
             timer = setInterval(() => {
                 if (!dead) {
