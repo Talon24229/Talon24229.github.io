@@ -178,9 +178,9 @@
         <p onclick="changeMode('timed')">Timed</p>
     </div>
     <p id="score" class='center'>0</p>
-    <img id='cabinet' class='center' src=" ../cabinet.png">
-    <img id='background' class='center' src="miniGameBKG.png">
-    <img id='lemonadeClown' class='center' src="idle.png">
+    <img draggable='false' id='cabinet' class='center' src=" ../cabinet.png">
+    <img draggable='false' id='background' class='center' src="miniGameBKG.png">
+    <img draggable='false' id='lemonadeClown' class='center' src="idle.png">
     <div id='leftWall' class='walls debugLines'></div>
     <div id='rightWall' class='walls debugLines'></div>
     <div id='leftScare' class='scareEdges debugLines'></div>
@@ -268,6 +268,7 @@
                 let img = document.createElement("img")
                 img.className = "kids"
                 img.src = "ChildWalk.gif"
+                img.draggable = false
                 document.body.appendChild(img)
                 img.id = "Child" + i
                 img.style.top = 61 + "%"
