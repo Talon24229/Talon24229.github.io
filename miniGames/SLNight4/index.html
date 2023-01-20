@@ -220,7 +220,7 @@
                         distance -= .8
                         img.style.top = distance + "px"
                         if (distance < 50) {
-                            // death()
+                            death()
                         }
                     }
                     //shake off logic
@@ -271,7 +271,7 @@
                 for (spring of springs) {
 
                     if (spring.counter >= 28) {
-                        // death()
+                        death()
                     }
 
                     else if (spring.counter >= 0 && !spring.hover) {
