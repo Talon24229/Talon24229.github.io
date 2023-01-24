@@ -15,24 +15,21 @@
             background-repeat: no-repeat;
             overflow: hidden;
             background-size: 100vw;
-            background-color: rgb(139, 139, 139);
+            background-color: rgb(0, 0, 0);
         }
 
         #cab {
             position: absolute;
             height: 140%;
-            z-index: 10;
-            margin-top: -12%;
-            margin-left: 18%;
+            z-index: 11;
+            top: -25%;
             pointer-events: none;
         }
 
 
         #facePlates {
             position: absolute;
-            margin-left: 25%;
-            margin-right: auto;
-            margin-top: 10%;
+            top: 20%;
             height: 60%;
             width: 50%;
             z-index: 3;
@@ -53,13 +50,6 @@
             z-index: 2;
         }
 
-        #timer {
-            left: 48%;
-            top: 13%;
-            position: absolute;
-            font-size: 50px;
-        }
-
         .spring {
             position: absolute;
             left: 50%;
@@ -69,33 +59,72 @@
 
         .mini {
             position: absolute;
-            z-index: 1;
+            z-index: 2;
             bottom: 1%;
         }
 
         #midleMini {
+
             position: absolute;
             z-index: 6;
-            left: 35%;
             bottom: 20%;
             width: 30%;
 
+        }
+
+        #timer {
+            z-index: 9;
+            color: rgb(255, 255, 255);
+            top: 24%;
+            font-size: 5vh;
+            position: absolute;
+            text-align: left;
+            text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+        }
+
+        #jumper {
+            position: absolute;
+            top: 20%;
+            z-index: 10;
+        }
+
+        #exit {
+            position: absolute;
+            z-index: 9;
+            top: 60%;
+            /* visibility: hidden; */
         }
     </style>
     <title>Night 4</title>
 </head>
 
 <body>
-    <p id="timer">
-        Timer Here
-    </p>
+    <p class="center" id='timer'></p>
     <img id="ballora" src="Baloora.png">
+    <img class="center" id='midleMini'>
+    <img class="center" id="exit" src="">
     <img id="background" class="center" src="miniGameN4.jpg">
-    <img id='cab' src=" ../cabinet.png">
-    <img id='midleMini' src="congaline.gif">
-    <img id="facePlates" src="Background.png">
+    <img class="center" id='cab' src=" ../cabinet.png">
+
+    <img class="center" id="facePlates" src="Background.png">
     <script>
-        crawler = false
+        var crawler = false
+        var timerElement = document.getElementById("timer")
+        var time = { minutes: 2, seconds: 59 }
+        var shaken = false
+        var made = false
+        var left = false
+        var right = false
+        var timer
+        var flash
+        var miniLogic
+        var springLogic
+        var Mleft = false
+        var Mright = false
+        var dead
+        var sideChance = ""
+        var distance = 800
         var counter = 1
         var made = false
         var hover = false
@@ -113,7 +142,7 @@
             //23 67
 
             if (i == 0 || i == 1) {
-                img.style.left = "27.5%"
+                img.style.left = "26%"
                 img.style.top = i * 100 + document.documentElement.clientWidth * 0.13 + "px"
             }
             else if (i == 2 || i == 3) {
@@ -121,14 +150,13 @@
                 img.style.top = (i - 2) * 100 + document.documentElement.clientWidth * 0.3 + "px"
             }
             if (i == 4 || i == 5) {
-                img.style.left = "27.5%"
+                img.style.left = "26%"
                 img.style.top = (i - 4) * 100 + document.documentElement.clientWidth * 0.3 + "px"
             }
             else if (i == 6 || i == 7) {
-                img.style.left = "71%"
+                img.style.left = "70.5%"
                 img.style.top = (i - 6) * 100 + document.documentElement.clientWidth * 0.13 + "px"
             }
-
 
         }
 
@@ -138,78 +166,248 @@
         depending on counter, change state of image
         if counter is 0, end game/ timer count
         */
-        var springs = []
-        for (let i = 0; i < 8; i++) {
-
-            springs.push({ element: document.getElementById('spring' + i), hover: false, counter: 1 })
-            document.getElementById('spring' + i).addEventListener("mouseleave", function () { springs[i].hover = false });
-            document.getElementById('spring' + i).addEventListener("mouseover", function () { springs[i].hover = true });
 
 
-        }
 
-        setInterval(() => {
-            if (!crawler) {
-                crawlerChance = Math.floor(Math.random() * 300)
-                if (crawlerChance <= 10) {
-                    crawler = true
-                    console.log("Succes")
-                    if (!made) {
-                        let img = document.createElement("img")
-                        img.style.position = "absolute"
-                        img.className = "mini"
-                        img.src = "Minireena_Left_Crawl.gif"
-                        document.body.appendChild(img)
-                        img.style.top = "100px"
+        var Game = () => {
+            timerElement.style.cursor = "auto"
+            timerElement.onclick = ""
+
+            img = document.getElementById("midleMini")
+            img.src = "congaline.gif"
+            var springs = []
+            for (let i = 0; i < 8; i++) {
+
+                springs.push({ element: document.getElementById('spring' + i), hover: false, counter: 1 })
+                document.getElementById('spring' + i).addEventListener("mouseleave", function () { springs[i].hover = false });
+                document.getElementById('spring' + i).addEventListener("mouseover", function () { springs[i].hover = true });
+
+            }
+            //Minirenia creation and destruction logic
+            miniLogic = setInterval(() => {
+                //create mini
+                if (!crawler) {
+                    crawlerChance = Math.floor(Math.random() * 2000)
+                    if (crawlerChance <= 1) {
+                        crawler = true
+                        if (!made) {
+                            var img = document.createElement("img")
+                            made = true
+                            img.style.position = "absolute"
+                            img.className = "mini"
+                            img.src = "Minireena_Left_Crawl.gif"
+
+                            document.body.appendChild(img)
+                            img.style.top = "800px"
+                            sideChance = Math.round(Math.random() * 1)
+                            if (sideChance == 0) {
+                                img.style.left = "29%"
+                                Mleft = true
+
+                            }
+                            else if (sideChance == 1) {
+                                Mright = true
+                                img.style.right = "29%"
+                                img.style.transform = "scaleX(-1)"
+                            }
+                        }
                     }
                 }
                 else {
-                    console.log("failed")
+                    //movement logic
+                    if (!shaken) {
+                        img = document.getElementsByClassName('mini')[0]
+                        distance -= .8
+                        img.style.top = distance + "px"
+                        if (distance < 50) {
+                            death()
+                        }
+                    }
+                    //shake off logic
+                    else if (shaken) {
+                        if (left && Mleft) {
+                            img = document.getElementsByClassName('mini')[0]
+                            distance += 20
+                            img.style.top = distance + "px"
+                            //when they fall, de-spawn, and reset for new mini
+                            if (distance >= 800) {
+
+                                img.remove()
+                                crawler = false
+                                Mleft = false
+                                shaken = false
+                                made = false
+                                left = false
+                            }
+                        }
+
+                        else if (right && Mright) {
+                            img = document.getElementsByClassName('mini')[0]
+                            distance += 20
+                            img.style.top = distance + "px"
+                            //when they fall, de-spawn, and reset for new mini
+                            if (distance >= 800) {
+
+                                img.remove()
+                                crawler = false
+                                Mright = false
+                                shaken = false
+                                made = false
+                                right = false
+                            }
+                        }
+                        else {
+                            if (distance < 800) {
+
+                                shaken = false
+                            }
+                        }
+
+                    }
                 }
+            }, 1);
+            springLogic = setInterval(() => {
+                //spring logic
+                for (spring of springs) {
+
+                    if (spring.counter >= 28) {
+                        death()
+                    }
+
+                    else if (spring.counter >= 0 && !spring.hover) {
+                        spring.counter += .02
+
+                    }
+                    else if (spring.counter >= 0 && spring.hover) {
+                        if (spring.counter > 1) {
+                            spring.counter -= .3
+                        }
+                    }
+                    if (spring.counter >= 28) {
+                        spring.counter = 28
+                    }
+                    if (spring.counter <= 1) {
+                        spring.counter = 1
+                    }
+
+                    spring.element.src = `springlockframes/s${Math.round(spring.counter)}.png`
+                }
+
+            }, 10);
+            //time logic
+            timer = setInterval(() => {
+                if (!dead) {
+
+                    if (time.seconds > 0 || time.minutes > 0)
+                        if (time.seconds > 0)
+                            time.seconds -= 1
+                        else {
+                            time.minutes -= 1
+                            time.seconds = 59
+                        }
+
+                    if (time.seconds < 10) {
+                        timerElement.innerText = time.minutes + ' : 0' + time.seconds
+                    }
+                    else {
+                        timerElement.innerText = time.minutes + ' : ' + time.seconds
+                    }
+
+                    if (time.minutes <= 0 && time.seconds <= 0 && !dead) {
+                        gameEnded = true
+                        timerElement.onclick = ""
+                        clearInterval(miniLogic)
+                        clearInterval(springLogic)
+                        clearInterval(timer)
+                        midleMini.style.visibility = "hidden"
+                        timerElement.innerText = "You Win!"
+                        if (document.getElementsByClassName('mini')[0]) {
+                            img = document.getElementsByClassName('mini')[0]
+                            img.remove()
+                        }
+                        exit = document.getElementById('exit')
+                        exit.src = "OwyEyes.gif"
+                        exit.style.cursor = "pointer"
+                        exit.addEventListener('click', () => {
+                            window.location.pathname = 'miniGames/index.html'
+                        })
+                    }
+                }
+
+            }, 1000);
+
+            /*
+            The minireena need to climb to the top of the screen, if it does, the game ends
+            You need to be able to 'shake' them off using a/d or <-/->
+            */
+
+            //shake logic
+            document.addEventListener('keydown', (event) => {
+                if (event.keyCode == 37 || event.keyCode == 65) {
+                    springs[0].counter += 5
+                    springs[1].counter += 5
+                    springs[4].counter += 5
+                    springs[5].counter += 5
+                    if (crawler) {
+                        left = true
+                        shaken = true
+                    }
+
+                }
+                else if (event.keyCode == 39 || event.keyCode == 68) {
+                    springs[2].counter += 5
+                    springs[3].counter += 5
+                    springs[6].counter += 5
+                    springs[7].counter += 5
+                    if (crawler) {
+                        right = true
+                        shaken = true
+                    }
+                }
+            })
+            function endgame() {
+                for (i of document.getElementsByClassName('spring')) {
+                    i.style.visibility = "hidden"
+                }
+            };
+            //Death Logic
+            function death() {
+                clearInterval(miniLogic)
+                clearInterval(springLogic)
+                clearInterval(timer)
+                midleMini.style.visibility = "hidden"
+                if (document.getElementsByClassName('mini')[0]) {
+                    img = document.getElementsByClassName('mini')[0]
+                    img.remove()
+                }
+                img = document.createElement("img")
+                img.id = "jumper"
+                img.className = "center"
+                img.src = "Minireena_Jumpscare.gif"
+                document.body.appendChild(img)
+                document.getElementById("jumper").style.display = "";
+                setTimeout(() => {
+                    document.getElementById("jumper").remove()
+                    img.id = "jumper"
+                    img.className = "center"
+                    img.src = "FinalFrame.png"
+                    img.style.zIndex = "8"
+                    document.body.appendChild(img)
+                    document.getElementById("jumper").style.display = "";
+
+                    timerElement.innerText = "Try again?"
+                    timerElement.style.cursor = "pointer"
+                    timerElement.addEventListener('click', () => {
+                        location.reload();
+                    })
+                }, 1550);
             }
-
-
-            for (spring of springs) {
-
-                if (spring.counter >= 29) {
-
-                }
-
-                else if (spring.counter >= 0 && !spring.hover) {
-                    spring.counter += 1
-                    if (spring.counter == 5) {
-                        spring.counter = 6
-                    }
-
-                }
-                else if (spring.counter >= 0 && spring.hover) {
-                    if (spring.counter > 1) {
-                        spring.counter -= 7
-                    }
-                    if (spring.counter == 5) {
-                        spring.counter = 4
-                    }
-                }
-                if (spring.counter >= 29) {
-                    spring.counter = 29
-                }
-                if (spring.counter <= 1) {
-                    spring.counter = 1
-                }
-
-                spring.element.src = `springlockframes/s${spring.counter}.png`
-            }
-        }, 1000);
-        if (crawler) {
         }
-        /*
+        timerElement.innerText = "START"
+        timerElement.style.cursor = "pointer"
+        // timerElement.addEventListener('click', Game)
 
-        The minireena need to climb to the top of the screen, if it does, the game ends
-        You need to be able to 'shake' them off using a/d or <-/->
-
-        */
-        setInterval(() => {
-        }, 1);
+        timerElement.onclick = Game
 
     </script>
 </body>
