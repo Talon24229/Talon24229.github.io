@@ -1,0 +1,89 @@
+<html lang="en">
+
+<title>Fish With Freddy</title>
+
+<head>
+    <style>
+        .center {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #cab {
+            position: absolute;
+            height: 140%;
+            z-index: 11;
+            top: -25%;
+            pointer-events: none;
+        }
+
+        #background {
+            position: absolute;
+            top: 20%;
+            height: 60%;
+            width: 50%;
+            z-index: 0;
+        }
+
+        .background {
+            opacity: 70%;
+            position: absolute;
+            top: 20%;
+            height: 60%;
+            width: 50%;
+            z-index: 3;
+        }
+
+        #boat {
+            position: absolute;
+            top: 23.5%;
+            z-index: 1;
+            scale: 80%;
+        }
+
+        #plung {
+            position: absolute;
+            top: 25%;
+            z-index: 1;
+            scale: 80%;
+        }
+    </style>
+</head>
+
+<body>
+    <img class="center" id='cab' src=" ../cabinet.png">
+    <img id="background" class="center" src="FishingHole.png">
+    <img class="center background" src="FishingHoleOverlay.png">
+    <img id="boat" src="FreddyBoat.png">
+    <img id="plung" src="Plunger.png">
+</body>
+<script>
+    var feddy = { depth: 0, element: document.getElementById("boat"), Location: window.innerWidth / 2 - document.getElementById("boat").clientWidth / 2 }
+    var plunger = { element: document.getElementById("plung"), Location: feddy.Location + 10 }
+
+    const WALL_DISTANCE = document.documentElement.clientWidth * 0.23
+    const LEFT_WALL = feddy.Location - WALL_DISTANCE + feddy.element.clientWidth / 4
+    const RIGHT_WAll = feddy.Location + WALL_DISTANCE - feddy.element.clientWidth / 2
+    feddy.element.style.left = feddy.Location
+    plunger.element.style.left = plunger.Location
+    document.addEventListener('keydown', (event) => {
+        if (event.keyCode == 37 || event.keyCode == 65) {
+            feddy.Location -= 20
+        }
+        else if (event.keyCode == 39 || event.keyCode == 68) {
+            feddy.Location += 20
+        }
+        if (feddy.Location <= LEFT_WALL) {
+            feddy.Location = LEFT_WALL
+        }
+        else if (feddy.Location >= RIGHT_WAll) {
+            feddy.Location = RIGHT_WAll
+        }
+        feddy.element.style.left = feddy.Location
+        plunger.Location = feddy.Location + 10
+        plunger.element.style.left = plunger.Location
+    })
+
+</script>
+
+</html>
