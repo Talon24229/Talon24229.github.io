@@ -138,8 +138,7 @@
             document.body.appendChild(img)
             img.id = "spring" + i
             img.style.top = "100px"
-            img.style.left = (i * 100) + (document.documentElement.clientWidth / 2) - (8 * 1 / 2) + "px"
-            //23 67
+            img.style.left = (i * 100) + (document.documentElement.clientWidth / 2) - (8 * 1 / 2) + "%"
 
             if (i == 0 || i == 1) {
                 img.style.left = "26%"
@@ -162,7 +161,7 @@
 
         /*
         counter that goes down every second
-        if the mouse is hovering over image, every second counter goes up
+        if the mouse is hovering over image, every second, counter goes up
         depending on counter, change state of image
         if counter is 0, end game/ timer count
         */
@@ -280,7 +279,7 @@
                     }
                     else if (spring.counter >= 0 && spring.hover) {
                         if (spring.counter > 1) {
-                            spring.counter -= .3
+                            spring.counter -= .4
                         }
                     }
                     if (spring.counter >= 28) {

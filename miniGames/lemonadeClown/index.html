@@ -264,7 +264,7 @@
                 kid.element.remove()
             }
             kids = []
-            for (let i = 0;i < 9;i++) {
+            for (let i = 0; i < 9; i++) {
                 let img = document.createElement("img")
                 img.className = "kids"
                 img.src = "ChildWalk.gif"
@@ -324,7 +324,7 @@
                     scaredKids += 1
                 }
             }
-            for (let i = 0;i < kids.length;i++) {
+            for (let i = 0; i < kids.length; i++) {
                 for (scaredKid of kids) {
                     if (scaredKid.scared) {
                         for (kid of kids) {
