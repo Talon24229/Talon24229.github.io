@@ -9,6 +9,14 @@
             transform: translateX(-50%);
         }
 
+        body {
+            margin: 0;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            background-size: 100vw;
+            background-color: rgb(0, 0, 0);
+        }
+
         #cab {
             position: absolute;
             height: 140%;
@@ -18,17 +26,19 @@
         }
 
         #background {
+            pointer-events: none;
             position: absolute;
             top: 20%;
             height: 60%;
             width: 50%;
-            z-index: 0;
+            z-index: -1;
         }
 
         .background {
             opacity: 70%;
             position: absolute;
             top: 20%;
+            pointer-events: none;
             height: 60%;
             width: 50%;
             z-index: 3;
@@ -43,9 +53,33 @@
 
         #plung {
             position: absolute;
-            top: 25%;
             z-index: 1;
             scale: 80%;
+        }
+
+        #line {
+            width: 2px;
+            position: absolute;
+            z-index: 0;
+            top: 25%;
+            height: 5px;
+            background: #0f0f0f;
+        }
+
+        #button {
+            position: absolute;
+            top: 24.25%;
+            left: 26.5%;
+            z-index: 2;
+        }
+
+        .feesh {
+            position: absolute;
+            top: 32%;
+            left: 50%;
+            scale: 70%;
+            width: 5%;
+            z-index: 3;
         }
     </style>
 </head>
@@ -56,34 +90,219 @@
     <img class="center background" src="FishingHoleOverlay.png">
     <img id="boat" src="FreddyBoat.png">
     <img id="plung" src="Plunger.png">
+    <img id="button" src="Drop_Button.png" onclick="plunged()">
+    <div id="line"> </div>
 </body>
 <script>
-    var feddy = { depth: 0, element: document.getElementById("boat"), Location: window.innerWidth / 2 - document.getElementById("boat").clientWidth / 2 }
-    var plunger = { element: document.getElementById("plung"), Location: feddy.Location + 10 }
 
+    var feddy = { element: document.getElementById("boat"), Location: window.innerWidth / 2 - document.getElementById("boat").clientWidth / 2 }
+    var plunger = { falling: false, selfHight: 240, hit: false, element: document.getElementById("plung"), Location: feddy.Location + 10 }
+    var line = document.getElementById('line')
+    var currentFish
+    var OfishCount = 0
+    var GfishCount = 0
+    var PfishCount = 0
+    var BfishCount = 0
+    var allFish = ["Pearl1", "Yfish1", "Yfish2", "Rfish1", "Rfish2", "Rfish3"]
+    var speeed
+    var hight
+    var total = 0
+    var ffish = []
     const WALL_DISTANCE = document.documentElement.clientWidth * 0.23
     const LEFT_WALL = feddy.Location - WALL_DISTANCE + feddy.element.clientWidth / 4
     const RIGHT_WAll = feddy.Location + WALL_DISTANCE - feddy.element.clientWidth / 2
+
+    plunger.element.style.top = plunger.selfHight
     feddy.element.style.left = feddy.Location
     plunger.element.style.left = plunger.Location
-    document.addEventListener('keydown', (event) => {
-        if (event.keyCode == 37 || event.keyCode == 65) {
-            feddy.Location -= 20
-        }
-        else if (event.keyCode == 39 || event.keyCode == 68) {
-            feddy.Location += 20
-        }
-        if (feddy.Location <= LEFT_WALL) {
-            feddy.Location = LEFT_WALL
-        }
-        else if (feddy.Location >= RIGHT_WAll) {
-            feddy.Location = RIGHT_WAll
-        }
-        feddy.element.style.left = feddy.Location
-        plunger.Location = feddy.Location + 10
-        plunger.element.style.left = plunger.Location
-    })
+    line.style.left = plunger.Location + plunger.element.clientWidth / 2
 
+    //movent
+    document.addEventListener('keydown', (event) => {
+        if (!plunger.falling) {
+
+            if (event.keyCode == 37 || event.keyCode == 65) {
+                feddy.Location -= 20
+            }
+            else if (event.keyCode == 39 || event.keyCode == 68) {
+                feddy.Location += 20
+            }
+            if (feddy.Location <= LEFT_WALL) {
+                feddy.Location = LEFT_WALL
+            }
+            else if (feddy.Location >= RIGHT_WAll) {
+                feddy.Location = RIGHT_WAll
+            }
+            feddy.element.style.left = feddy.Location
+            plunger.Location = feddy.Location + 10
+            plunger.element.style.left = plunger.Location
+            line.style.left = plunger.Location + plunger.element.clientWidth / 2
+        }
+    })
+    //plungLogic
+    function plunged() {
+        if (!plunger.falling) {
+            var splunk = setInterval(() => {
+                if (!plunger.hit) {
+                    plunger.falling = true
+                    plunger.selfHight += 5
+                    if (plunger.selfHight > 690) {
+                        plunger.hit = true
+                    }
+                }
+                else {//when hit, retract
+
+                    if (plunger.selfHight >= 240) {
+                        plunger.selfHight -= 5
+
+                    }
+                    else {
+                        plunger.selfHight = 240
+                        plunger.falling = false
+                        plunger.hit = false
+                        clearInterval(splunk)
+                    }
+                }
+                plunger.element.style.top = plunger.selfHight
+                line.style.height = plunger.selfHight - window.innerHeight * .24
+            }, 1);
+        }
+    }
+
+    // spawn 26 fish, of witch only 2 are the yellow, 3 pink, everything else is random,
+    // there is a cap of 6, min of 2 of a single color, the first fish is not a fish, but a pearl
+
+    //fish generation logic?
+    function BBBBB() {
+        while (total < 20) {
+            var add = Math.round(Math.random() * 4 + 1)
+            if (add == 1 && BfishCount !== 6) {
+                console.log('1');
+                BfishCount += 1
+                allFish.push("Bfish" + BfishCount)
+            }
+            else if (add == 2 && PfishCount !== 6) {
+                console.log('2');
+                PfishCount += 1
+                allFish.push("Pfish" + PfishCount)
+            }
+            else if (add == 3 && GfishCount !== 6) {
+                console.log('3');
+                GfishCount += 1
+                allFish.push("Gfish" + GfishCount)
+            }
+            else if (add == 4 && OfishCount !== 6) {
+                console.log('4');
+                OfishCount += 1
+                allFish.push("Ofish" + OfishCount)
+            }
+            else {
+                console.log("error: " + add);
+                Math.random() * 1
+                total -= 1
+            }
+            total += 1
+        }
+        console.log(allFish);
+
+    }
+    function generate() {
+        for (fish of allFish) {
+            console.log(fish.substring(0, 2));
+            currentFish = fish.substring(0, 2)
+            i = fish.substring(fish.length - 1);
+            if (currentFish == 'Yf') {
+                currentFish = "YellowFish"
+                hight = 60
+            }
+            else if (currentFish == 'Rf') {
+                currentFish = "RedFish"
+                hight = 54
+            }
+            else if (currentFish == 'Bf') {
+                currentFish = "BlueFish"
+                hight = 47
+            }
+            else if (currentFish == 'Pf') {
+                currentFish = "PurpleFish"
+                hight = 41
+            }
+            else if (currentFish == 'Gf') {
+                currentFish = "GreenFish"
+                hight = 35
+            }
+            hight += Math.random() * 4
+            if (currentFish == 'Of') {
+                currentFish = "OrangeFish"
+                hight = 30
+            }
+            hight += Math.random() * 2
+
+            if (currentFish == 'Pe') {
+                currentFish = "Pearl"
+                hight = 68
+            }
+
+
+
+            let img = document.createElement("img")
+            img.className = "feesh"
+            img.src = `${currentFish}.gif`
+            document.body.appendChild(img)
+            img.id = currentFish + i
+            img.style.top = hight + "%"
+            img.style.width = 4.5 + "%"
+            fishDistance = document.documentElement.clientWidth * WALL_DISTANCE / document.documentElement.clientWidth / 5
+            img.style.left = (i * fishDistance) + (document.documentElement.clientWidth / 2) - (9 * fishDistance / 2) + "px"
+        }
+        for (fish of document.getElementsByClassName('feesh')) {
+            speeed = Math.random() * 1 + .5
+            if (fish.id == 'Pearl') {
+                speeed = .5
+            }
+            ffish.push({ element: fish, wallTouched: null, position: Number(fish.style.left.replace('px', '')), movement: { speed: speeed }, initDirection: ['left', 'right'][Math.floor(Math.random() * 2)] })
+        }
+        console.log(ffish);
+    }
+    function fishMoving() {
+        // console.log(ffish[0]);
+        for (fish of ffish) {
+            if (fish.element) {
+                if (fish.initDirection == 'left') {
+                    fish.position -= fish.movement.speed
+                    fish.element.style.transform = ""
+                }
+                else if (fish.initDirection == 'right') {
+                    fish.position += fish.movement.speed
+                    fish.element.style.transform = "scaleX(-1)"
+                }
+                else if (fish.wallTouched == 'left') {
+                    fish.position += fish.movement.speed
+                    fish.element.style.transform = "scaleX(-1)"
+                }
+                else if (fish.wallTouched == 'right') {
+                    fish.position -= fish.movement.speed
+                    fish.element.style.transform = ""
+                }
+
+                if (fish.position >= RIGHT_WAll + fish.element.clientWidth) {
+                    fish.initDirection = null
+                    fish.wallTouched = 'right'
+                }
+                else if (fish.position <= LEFT_WALL) {
+                    fish.initDirection = null
+                    fish.wallTouched = 'left'
+                }
+
+                fish.element.style.left = fish.position + 'px'
+            }
+        }
+    }
+    BBBBB()
+    generate()
+    setInterval(() => {
+        fishMoving()
+    }, 1);
 </script>
 
 </html>
