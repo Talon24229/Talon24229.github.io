@@ -128,7 +128,7 @@
     var totalScore = 0
     var score = 0
     var arrowTime = 1000
-    var fishPercentage; // % 
+    var fishPercentage; // %
     var plungerPercentage;
     var screenWidth = window.screen.width; // total px across width
     var ffish = []
@@ -176,7 +176,13 @@
                         fish.depth < plunger.selfHight + plunger.element.clientHeight &&
                         fish.element.clientHeight + fish.depth > plunger.selfHight
                     ) {
-                        console.log(fish.position, fish.element.clientWidth, fish.depth, plunger.Location, plunger.element.clientWidth, plunger.element.clientHeight)
+                        console.log(
+                            'fish position ' + fish.position,
+                            '\nfish width ' + fish.element.clientWidth,
+                            '\nfish depth ' + fish.depth, plunger.Location,
+                            '\nplunger selfHight ' + plunger.selfHight,
+                            '\nplunger width ' + plunger.element.clientWidth,
+                            '\nplunger height ' + plunger.element.clientHeight)
                         // console.log(fish.position, plunger.Location + plunger.element.clientWidth,
                         //     fish.position + fish.element.clientWidth, plunger.Location,
                         //     fish.depth, plunger.selfHight + plunger.element.clientHeight,
@@ -193,7 +199,8 @@
                 }
                 if (!plunger.hit) {
                     plunger.falling = true
-                    plunger.selfHight += .5
+                    plunger.selfHight += 0.5
+                    plunger.element.style.top = plunger.selfHight + "%"
                 }
                 //hit the floor
                 if (plunger.selfHight > 71) {
@@ -201,9 +208,9 @@
                 }
                 if (plunger.hit) {//when hit, retract
                     if (plunger.selfHight >= 25) {
-                        plunger.selfHight -= 1
+                        plunger.selfHight -= 0.5
                         if (fishThatGotHit) {
-                            fishThatGotHit.element.style.top -= .1
+                            fishThatGotHit.selfHight -= .1
                         }
                     }
                     //stop
@@ -237,7 +244,7 @@
 
 
     // Need arrows that follow freddy when the page loads for 5 seconds
-    // when the plunger comes down, if it hits a fish, pause all fish, display point value, remove fish 
+    // when the plunger comes down, if it hits a fish, pause all fish, display point value, remove fish
     //then after a second resume fish movement
     //endless = add timer going up in seconds, divide that number by score of fish caught, game ends when all are caught
     //normal = When hit fish, display value, end game
@@ -326,6 +333,7 @@
             fishDistance = document.documentElement.clientWidth * WALL_DISTANCE / document.documentElement.clientWidth / 5
             img.style.left = LEFT_WALL + Math.random() * (RIGHT_WAll - LEFT_WALL + img.clientWidth) + "px"
             speeed = Math.random() * 1 + .2
+            speeed /= 3
             if (fish.id == 'Pearl') {
                 speeed = .5
             }
