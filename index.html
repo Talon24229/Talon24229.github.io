@@ -36,11 +36,22 @@
 	</style>
 </head>
 
-<body onload="setTimeout(()=>{load()},1000)">
+<body onload="setTimeout(()=>{load()},1000);browserTest()">
 	<div id="hay">
 	</div>
 
 	<script>
+		let userAgent = navigator.userAgent;
+		let browserName;
+		function browserTest() {
+			if (userAgent.match(/firefox|fxios/i)) {
+				console.log("true");
+			}
+			else {
+				alert("Lel go 2 FireFox u  nerd")
+				window.close()
+			}
+		}
 		const typewriterSpeed = 150
 		const cursorFlashSpeed = 700
 		const cursorCharacter = ' ▊'
@@ -100,7 +111,7 @@
 			for (link of links) {
 				let linkElement = document.getElementById(link.display)
 				let splitLink = link.display.split('')
-				for (i = 0;i < splitLink.length;i++) {
+				for (i = 0; i < splitLink.length; i++) {
 					linkCharacters.push({ index: i, character: splitLink[i], link: link.display })
 				}
 			}
