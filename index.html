@@ -45,7 +45,6 @@
 		let browserName;
 		function browserTest() {
 			if (userAgent.match(/firefox|fxios/i)) {
-				console.log("true");
 			}
 			else {
 				alert("Lel go 2 FireFox u  nerd")
@@ -111,7 +110,7 @@
 			for (link of links) {
 				let linkElement = document.getElementById(link.display)
 				let splitLink = link.display.split('')
-				for (i = 0; i < splitLink.length; i++) {
+				for (i = 0;i < splitLink.length;i++) {
 					linkCharacters.push({ index: i, character: splitLink[i], link: link.display })
 				}
 			}
@@ -142,7 +141,6 @@
 				let linkElement = document.getElementById(character.link)
 				linkElement.innerHTML += character.character
 				if (character.lastCharacter) {
-					console.log(character);
 					for (link of links) {
 						if (link.display == character.link) {
 							makeLink(linkElement, link)

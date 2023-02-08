@@ -179,29 +179,32 @@
 			sprint: false
 		}
 		document.addEventListener('click', (event) => {
-			let objectPos = [
+			let placePos = [
 				Math.round((event.clientX - canvas.clientWidth / 2) / tileSize + player.x),
 				-Math.round((event.clientY - canvas.clientHeight / 2) / tileSize - player.y)
 			]
 			let collision = false
 			console.log(objectSizes[player.selectedObject].width);
 			for (object of objects) {
-				if (objectPos[0] >= object.x &&
-					objectPos[0] <= object.x + object.width - 1 + objectSizes[player.selectedObject].width &&
-					objectPos[1] >= object.y - object.height + 1 &&
-					objectPos[1] <= object.y
+				let objectPos = [
+					(object.x - player.x) * tileSize + canvas.clientWidth / 2 - tileSize / 2,
+					(-object.y + player.y) * tileSize + canvas.clientHeight / 2 - tileSize / 2
+				]
+				if (
+					placePos[0] <= objectPos[0]
 				) {
 					let index = objects.indexOf(object)
 					collision = true
 				}
+				context.fillStyle = 'blue'
 			}
 			if (!collision)
 				switch (player.selectedObject) {
 					case 'miner':
-						objects.push(new miner(objectPos[0], objectPos[1]))
+						objects.push(new miner(placePos[0], placePos[1]))
 						break;
 					case 'conveyor':
-						objects.push(new conveyor(objectPos[0], objectPos[1]))
+						objects.push(new conveyor(placePos[0], placePos[1]))
 						break;
 				}
 		})
@@ -300,7 +303,7 @@
 			}
 			player.draw()
 			player.move()
-		}, 1);
+		}, 100);
 	</script>
 </body>
 
