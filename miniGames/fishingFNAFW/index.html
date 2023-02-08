@@ -70,7 +70,7 @@
             position: absolute;
             top: 24.25%;
             left: 26.5%;
-            z-index: 2;
+            z-index: 4;
             cursor: pointer;
         }
 
@@ -172,7 +172,7 @@
                     if (!plunger.hit &&
                         !fishThatGotHit &&
                         fish.position <= plunger.Location + plunger.element.clientWidth &&
-                        fish.position + fish.element.clientWidth >= plunger.Location &&
+                        fish.position + fish.element.clientWidth / 3 >= plunger.Location &&
                         fish.depth <= plunger.selfHight + plunger.element.clientHeight &&
                         fish.element.clientHeight + fish.depth >= plunger.selfHight
                     ) {
@@ -184,7 +184,7 @@
                 }
                 if (!plunger.hit) {
                     plunger.falling = true
-                    plunger.selfHight += 1 / 100 * window.innerHeight
+                    plunger.selfHight += 0.1 / 100 * window.innerHeight
                     plunger.element.style.top = plunger.selfHight / 100 * window.innerHeight + "px"
                 }
                 //hit the floor
@@ -193,7 +193,7 @@
                 }
                 if (plunger.hit) {//when hit, retract
                     if (plunger.selfHight >= 25 / 100 * window.innerHeight) {
-                        plunger.selfHight -= 1 / 100 * window.innerHeight
+                        plunger.selfHight -= 0.1 / 100 * window.innerHeight
                         if (fishThatGotHit) {
                             fishThatGotHit.selfHight -= .1
                         }
@@ -205,7 +205,7 @@
                             totalScore += fishThatGotHit.score
                             scoreElement.innerText = totalScore
                             fishThatGotHit.element.remove()
-                            ffish[fishThatGotHit.index] = {}
+                            ffish[(fishThatGotHit.index)] = ''
                             fishThatGotHit = null
                         }
                         plunger.falling = false
@@ -220,7 +220,7 @@
                 }
 
 
-            }, 100);
+            }, 1);
         }
     }
 
