@@ -51,10 +51,20 @@
 				location.reload();
 			}
 		}
-		const typewriterSpeed = 150
-		const cursorFlashSpeed = 700
+		// const TYPEWRITERSPEED = 150
+		var typewriterSpeed = 75
+		const cursorFlashSpeed = 350
 		const cursorCharacter = ' ▊'
-
+		// document.addEventListener('keydown', (event) => {
+		// 	if (event.keydown == '32') {
+		// 		typewriterSpeed = TYPEWRITERSPEED / 5
+		// 	}
+		// })
+		// document.addEventListener('keyup', (event) => {
+		// 	if (event.keydown == '32') {
+		// 		typewriterSpeed = TYPEWRITERSPEED
+		// 	}
+		// })
 		var linkNumber = 0
 		var characterNumber = 0
 		var spanToggle = false
@@ -70,7 +80,7 @@
 			},
 			{
 				url: 'miniGames/index.html',
-				display: 'Minigames (under construction)'
+				display: 'Minigames'
 			},
 			{
 				url: 'https://brand24376.github.io/Breakout%20in%20Javascript/index.html',
@@ -110,7 +120,7 @@
 			for (link of links) {
 				let linkElement = document.getElementById(link.display)
 				let splitLink = link.display.split('')
-				for (i = 0;i < splitLink.length;i++) {
+				for (i = 0; i < splitLink.length; i++) {
 					linkCharacters.push({ index: i, character: splitLink[i], link: link.display })
 				}
 			}
@@ -138,6 +148,7 @@
 
 		function writeCharacter(character) {
 			setTimeout(() => {
+				console.log(typewriterSpeed);
 				let linkElement = document.getElementById(character.link)
 				linkElement.innerHTML += character.character
 				if (character.lastCharacter) {

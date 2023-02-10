@@ -171,10 +171,10 @@
                 for (fish of ffish) {
                     if (!plunger.hit &&
                         !fishThatGotHit &&
-                        fish.position <= plunger.Location + plunger.element.clientWidth &&
-                        fish.position + fish.element.clientWidth / 3 >= plunger.Location &&
-                        fish.depth <= plunger.selfHight + plunger.element.clientHeight &&
-                        fish.element.clientHeight + fish.depth >= plunger.selfHight
+                        fish.position <= plunger.Location + plunger.element.clientWidth && // left
+                        fish.position + fish.element.clientWidth >= plunger.Location && // right
+                        fish.depth <= plunger.selfHight + plunger.element.clientHeight && // bottom
+                        fish.element.clientHeight + fish.depth >= plunger.selfHight / 1.5  // top
                     ) {
                         fishThatGotHit = fish
                         fishThatGotHit.position = plunger.Location + plunger.element.clientWidth / 2 - (fish.element.clientWidth / 2)
