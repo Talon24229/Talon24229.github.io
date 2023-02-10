@@ -187,6 +187,7 @@
                 //create mini
                 if (!crawler) {
                     crawlerChance = Math.floor(Math.random() * 2000)
+                    crawlerChance = 1
                     if (crawlerChance <= 1) {
                         crawler = true
                         if (!made) {
@@ -216,7 +217,7 @@
                     //movement logic
                     if (!shaken) {
                         img = document.getElementsByClassName('mini')[0]
-                        distance -= .8
+                        distance -= .07 * window.innerHeight / 100
                         img.style.top = distance + "px"
                         if (distance < 50) {
                             death()
