@@ -132,13 +132,13 @@
         var Mright = false
         var dead
         var sideChance = ""
-        var distance = 800
+        var distance = window.innerHeight
         var counter = 1
         var made = false
         var hover = false
         var mini = document.getElementById("mini")
 
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0;i < 8;i++) {
             let img = document.createElement("img")
             img.style.position = "absolute"
             img.className = "spring"
@@ -183,7 +183,7 @@
             img = document.getElementById("midleMini")
             img.src = "congaline.gif"
             var springs = []
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0;i < 8;i++) {
 
                 springs.push({ element: document.getElementById('spring' + i), hover: false, counter: 1 })
                 document.getElementById('spring' + i).addEventListener("mouseleave", function () { springs[i].hover = false });
@@ -225,7 +225,9 @@
                     //movement logic
                     if (!shaken) {
                         img = document.getElementsByClassName('mini')[0]
+
                         distance -= .07 * window.innerHeight / 100
+
                         img.style.top = distance + "px"
                         if (distance < 50) {
                             death()
@@ -238,7 +240,7 @@
                             distance += 20
                             img.style.top = distance + "px"
                             //when they fall, de-spawn, and reset for new mini
-                            if (distance >= 800) {
+                            if (distance >= window.innerHeight * .3) {
 
                                 img.remove()
                                 crawler = false
@@ -273,7 +275,7 @@
 
                     }
                 }
-            }, 1);
+            }, 1 / 100 * window.innerHeight);
             springLogic = setInterval(() => {
                 //spring logic
                 for (spring of springs) {
