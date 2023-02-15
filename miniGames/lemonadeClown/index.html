@@ -316,6 +316,12 @@
         function jumpScare() {
             canScare = false
             scaring = true
+            let audio = new Audio('../Airhorn3.ogg');
+            audio.play()
+            setTimeout(() => {
+                let audio = new Audio('Lemonade_2.ogg');
+                audio.play()
+            }, 1700);
             for (kid of kids) {
                 if (kid.position >= LEMONADE_CLOWN.position - SCARE_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2 - kids[0].element.clientWidth / 2 &&
                     kid.position <= LEMONADE_CLOWN.position + SCARE_DISTANCE + LEMONADE_CLOWN.element.clientWidth / 2 - kids[0].element.clientWidth / 2) {
@@ -443,6 +449,12 @@
                 controls.style.visibility = 'hidden'
             }
             else {
+                let audio = new Audio('Minor_Corrosion_of_the_Bizet.ogg');
+                audio.play()
+                setInterval(() => {
+                    let audio = new Audio('Minor_Corrosion_of_the_Bizet.ogg');
+                    audio.play()
+                }, 28000);
                 title.innerText = 'GET FREDDY!'
                 scareRange.style.visibility = ""
                 scoreElement.style.visibility = ""
