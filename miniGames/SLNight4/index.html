@@ -3,7 +3,7 @@
 </html>
 
 <head>
-
+    <link rel="shortcut icon" type="image/x-icon" href="vaf/favicon.ico">
     <style>
         .center {
             left: 50%;
@@ -83,6 +83,13 @@
                 1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
         }
 
+        #shift {
+            position: absolute;
+            z-index: 9;
+            top: 25%;
+            width: 22.5%;
+        }
+
         #jumper {
             position: absolute;
             top: 20%;
@@ -103,6 +110,7 @@
     <p class="center" id='timer'></p>
     <img id="ballora" src="Baloora.png">
     <img class="center" id='midleMini'>
+    <img class="center" id="shift" src="">
     <img class="center" id="exit" src="">
     <img id="background" class="center" src="miniGameN4.jpg">
     <img class="center" id='cab' src=" ../cabinet.png">
@@ -111,7 +119,7 @@
     <script>
         var crawler = false
         var timerElement = document.getElementById("timer")
-        var time = { minutes: 2, seconds: 59 }
+        var time = { minutes: 0, seconds: 2 }
         var shaken = false
         var made = false
         var left = false
@@ -217,7 +225,9 @@
                     //movement logic
                     if (!shaken) {
                         img = document.getElementsByClassName('mini')[0]
-                        distance -= .07 / 100 * window.innerHeight
+
+                        distance -= .07 * window.innerHeight / 100
+
                         img.style.top = distance + "px"
                         if (distance < 50) {
                             death()
@@ -320,11 +330,16 @@
                         clearInterval(springLogic)
                         clearInterval(timer)
                         midleMini.style.visibility = "hidden"
-                        timerElement.innerText = "You Win!"
+                        timerElement.innerText = ""
+                        let audio = new Audio('ShiftComplete.ogg');
+                        audio.play()
                         if (document.getElementsByClassName('mini')[0]) {
                             img = document.getElementsByClassName('mini')[0]
                             img.remove()
                         }
+                        shift = document.getElementById('shift')
+                        shift.src = "ShiftC.gif"
+
                         exit = document.getElementById('exit')
                         exit.src = "OwyEyes.gif"
                         exit.style.cursor = "pointer"
@@ -365,11 +380,6 @@
                     }
                 }
             })
-            function endgame() {
-                for (i of document.getElementsByClassName('spring')) {
-                    i.style.visibility = "hidden"
-                }
-            };
             //Death Logic
             function death() {
                 clearInterval(miniLogic)
@@ -380,6 +390,8 @@
                     img = document.getElementsByClassName('mini')[0]
                     img.remove()
                 }
+                let audio = new Audio('Scream_op5-9.ogg');
+                audio.play()
                 img = document.createElement("img")
                 img.id = "jumper"
                 img.className = "center"

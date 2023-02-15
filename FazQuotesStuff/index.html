@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <link rel="shortcut icon" type="image/x-icon" href="vaf/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="../vaf/favicon.ico">
     <title>FazQuotes.com</title>
 </head>
 <style>
@@ -128,6 +128,7 @@
         var quoteSort = ""
         var juMping = false
         function Jump() {
+
             document.body.style.overflowY = 'hidden'
             document.getElementsByClassName("freddy")[0].style.display = "none";
             document.getElementById("bab").style.display = "none";
@@ -139,6 +140,8 @@
             img.src = "freddyJump.gif"
             document.body.appendChild(img)
             document.getElementById("myImage").style.display = "";
+            let audio = new Audio('JumpscareNoise.ogg');
+            audio.play()
 
             setTimeout(() => {
                 document.body.style.overflowY = ''

@@ -1,10 +1,11 @@
 <html lang="en">
 
 <head>
+    <link rel="shortcut icon" type="image/x-icon" href="../vaf/favicon.ico">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fazcade</title>
+    <title>Faz-cade</title>
     <script type='text/javascript' src='./functions.js'></script>
     <link rel="stylesheet" href="flickity.css">
     <script src='fllickity.pkgd.js'></script>
@@ -83,6 +84,7 @@
 </head>
 
 <body>
+
     <img draggable='false' id='cabinet' class='center' src=" ./cabinet.png">
     <div id='carousel' data-flickity='{ "wrapAround": true, "draggable": false }'>
         <a draggable='false' href="lemonadeClown/index.html" class='games'>
@@ -101,11 +103,16 @@
     <div id='button' class='center'></div>
 
     <script>
-        //things I want to do: Pizza sim startup, Midnight motorist, Mini FNAF world, 2D Mazersize, princess quest, fruity mazy, lemonaid clowen
+        //things I want to do: Pizza sim startup, Midnight motorist, Mini FNAF world, 2D Mazersize, princess quest, fruity mazy,fun with plushtrap
 
-        //be able to swap the game when loading the page, maybe add a retro effect on top of screen?
+        //be able to swap the game when loading the page
 
-        //zoom in to game when starting
+        window.onload = function () {
+            if (!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
+        }
 
         var gameData
         gameData = getData()
