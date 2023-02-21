@@ -339,7 +339,8 @@
                     //movement logic
                     if (!shaken) {
                         img = document.getElementsByClassName('mini')[0]
-                        distance -= .07 / 100 * window.innerHeight
+                        distance -= .07 * window.innerHeight / 100
+
                         img.style.top = distance + "px"
                         if (distance < 50) {
                             death()
@@ -387,7 +388,8 @@
 
                     }
                 }
-            }, .01 * window.innerHeight);
+
+            }, 1 / 100 * window.innerHeight);
             springLogic = setInterval(() => {
                 //spring logic
                 for (spring of springs) {
