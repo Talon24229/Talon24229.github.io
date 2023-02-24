@@ -173,6 +173,16 @@
             top: 60%;
             z-index: 10;
         }
+
+        #button {
+            position: absolute;
+            top: 82.5vh;
+            height: 7vh;
+            width: 7vw;
+            left: 49.5%;
+            z-index: 1000;
+            cursor: pointer;
+        }
     </style>
     <title>Night 4</title>
 </head>
@@ -189,6 +199,7 @@
     <img class="center" id='cab' src=" ../cabinet.png">
     <img id='wiggle' src="Control Graphic.png">
     <img id='hover' src="Hover.png">
+    <div id='button' class='center'></div>
 
     <p class="center" id='settingsText'></p>
     <input type="range" min="1" max="100" value="10" class="center" id="sliderB">
@@ -578,7 +589,14 @@
 
 
         playElement.onclick = Game
-
+        var button = document.getElementById('button')
+        button.addEventListener('click', () => {
+            cabinet.src = '../cabinetRed.png'
+            setTimeout(() => {
+                cabinet.src = '../cabinet.png'
+                window.location.pathname = '/miniGames/index.html'
+            }, 300)
+        })
 
 
 
