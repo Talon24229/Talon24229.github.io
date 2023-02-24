@@ -53,6 +53,7 @@
     #GlichyZtherapper {
         margin-left: 79%;
         margin-top: 27%;
+        width: 10%;
         position: absolute;
         filter: opacity(60%);
         filter: drop-shadow(1px, 1px, 1px);
@@ -155,11 +156,13 @@
         }
         var isBuggy = false
         function glitchyBoi() {
+            glitchTrap = document.getElementById("GlichyZtherapper")
+
             if (!isBuggy) {
-                document.getElementById("GlichyZtherapper").style.display = ""
+                glitchTrap.style.display = ""
                 isBuggy = true
                 setTimeout(() => {
-                    document.getElementById("GlichyZtherapper").style.display = "none"
+                    glitchTrap.style.display = "none"
                     isBuggy = false
                 }, 30000);
             }
@@ -233,6 +236,7 @@
                     document.getElementById("buttonBoy").src = "buttonGreen.png"
                 }, 250);
                 var chance = Math.floor(Math.random() * 100)
+                chance = 69
                 if (chance == 0) {
                     document.getElementById("choo").innerText = '';
                     Jump()
