@@ -251,7 +251,7 @@
         var hover = false
         var mini = document.getElementById("mini")
         //create springlocks
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0;i < 8;i++) {
             let img = document.createElement("img")
             img.style.position = "absolute"
             img.className = "spring"
@@ -321,8 +321,9 @@
                 }
 
 
-                SText.innerHTML = `Background Brightness: ${S1 == 10 ? "Default" : S1}
-                <br><br>Decay Rate: ${S2 == 50 ? "Default" : S2}<br><br>Minireena Speed: ${S3 == 50 ? "Default" : S3}`
+                SText.innerHTML = `Background Brightness: ${S1 == 10 ? "Default" : S1 == 100 ? "Baby" : S1 == 1 ? "impossible " : S1}
+                <br><br>Decay Rate: ${S2 == 50 ? "Default" : S2 == 1 ? "Baby" : S2 == 100 ? "impossible " : S2}
+                <br><br>Minireena Speed: ${S3 == 50 ? "Default" : S3 == 1 ? "Baby" : S3 == 100 ? "impossible " : S3}`
 
                 BG.style.filter = `brightness(${S1 / 10}) blur(${S1}px) saturate(${S1 / 200})`
 
@@ -350,7 +351,7 @@
             img = document.getElementById("midleMini")
             img.src = "congaline.gif"
             var springs = []
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0;i < 8;i++) {
 
                 springs.push({ element: document.getElementById('spring' + i), hover: false, counter: 1 })
                 document.getElementById('spring' + i).addEventListener("mouseleave", function () { springs[i].hover = false });
