@@ -8,6 +8,7 @@
         .center {
             left: 50%;
             transform: translateX(-50%);
+            position: absolute;
         }
 
         body {
@@ -19,7 +20,7 @@
         }
 
         #cab {
-            position: absolute;
+
             height: 140%;
             z-index: 11;
             top: -25%;
@@ -28,7 +29,6 @@
 
 
         #facePlates {
-            position: absolute;
             top: 20%;
             height: 60%;
             width: 50%;
@@ -36,11 +36,11 @@
         }
 
         #background {
-            position: absolute;
             top: 18%;
             height: 60%;
             width: 50%;
             z-index: 0;
+            overflow: hidden;
         }
 
         #ballora {
@@ -64,12 +64,9 @@
         }
 
         #midleMini {
-
-            position: absolute;
             z-index: 6;
             bottom: 20%;
             width: 30%;
-
         }
 
         #timer {
@@ -77,30 +74,90 @@
             color: rgb(255, 255, 255);
             top: 24%;
             font-size: 5vh;
-            position: absolute;
+
             text-align: left;
             text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
                 1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
         }
 
         #shift {
-            position: absolute;
             z-index: 9;
             top: 25%;
             width: 22.5%;
         }
 
         #jumper {
-            position: absolute;
             top: 20%;
             z-index: 10;
         }
 
         #exit {
-            position: absolute;
             z-index: 9;
             top: 60%;
             /* visibility: hidden; */
+        }
+
+        #Play {
+            z-index: 9;
+            color: rgb(255, 255, 255);
+            top: 32%;
+            font-size: 4vh;
+            text-align: left;
+            text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+        }
+
+        #settings {
+            z-index: 9;
+            color: rgb(255, 255, 255);
+            top: 67%;
+            font-size: 4vh;
+            text-align: left;
+            text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+            text-decoration: none;
+            border: none;
+            background: none;
+        }
+
+        #sliderB {
+            z-index: 10;
+            top: 55%;
+        }
+
+        #sliderD {
+            z-index: 10;
+            top: 60%;
+        }
+
+        #sliderC {
+            z-index: 10;
+            top: 65%;
+        }
+
+        #settingsText {
+            z-index: 9;
+            color: rgb(255, 255, 255);
+            top: 50.2%;
+            font-size: 2vh;
+            text-align: left;
+            text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+        }
+
+        #left {
+            background-color: black;
+            position: absolute;
+            width: 25%;
+            height: 100%;
+        }
+
+        #right {
+            background-color: black;
+            position: absolute;
+            width: 25%;
+            height: 100%;
+            left: 75%;
         }
     </style>
     <title>Night 4</title>
@@ -108,18 +165,44 @@
 
 <body>
     <p class="center" id='timer'></p>
+    <p class="center" id='Play'>Play</p>
+    <button class="center" id='settings'>Settings</button>
     <img id="ballora" src="Baloora.png">
     <img class="center" id='midleMini'>
-    <img class="center" id="shift" src="">
-    <img class="center" id="exit" src="">
+    <img class="center" id="shift">
+    <img class="center" id="exit">
     <img id="background" class="center" src="miniGameN4.jpg">
     <img class="center" id='cab' src=" ../cabinet.png">
 
+    <p class="center" id='settingsText'></p>
+    <input type="range" min="1" max="100" value="10" class="center" id="sliderB">
+    <input type="range" min="1" max="100" value="50" class="center" id="sliderD">
+    <input type="range" min="1" max="100" value="50" class="center" id="sliderC">
+
     <img class="center" id="facePlates" src="Background.png">
+    <div id="left"></div>
+    <div id="right"></div>
+
     <script>
         var crawler = false
         var timerElement = document.getElementById("timer")
-        var time = { minutes: 5, seconds: 2 }
+        var playElement = document.getElementById("Play")
+        var settElement = document.getElementById("settings")
+        var SText = document.getElementById("settingsText")
+        var BG = document.getElementById("background")
+        settings = false
+        sliderB = document.getElementById("sliderB")
+        sliderD = document.getElementById("sliderD")
+        sliderC = document.getElementById("sliderC")
+        sliderB.style.visibility = 'hidden'
+        sliderD.style.visibility = 'hidden'
+        sliderC.style.visibility = 'hidden'
+        var S1 = sliderB.value;
+        var S2 = sliderD.value;
+        var S3 = sliderC.value;
+        BG.style.filter = `brightness(${S1 / 10}) blur(${S1}px) saturate(${S1 / 200})`
+        SText.style.visibility = 'hidden'
+        var time = { minutes: 3, seconds: 1 }
         var shaken = false
         var made = false
         var left = false
@@ -138,7 +221,7 @@
         var hover = false
         var mini = document.getElementById("mini")
 
-        for (let i = 0;i < 8;i++) {
+        for (let i = 0; i < 8; i++) {
             let img = document.createElement("img")
             img.style.position = "absolute"
             img.className = "spring"
@@ -175,15 +258,46 @@
         */
 
 
+        settElement.onclick = () => {
+            if (settings) {
+                settings = false
+                sliderB.style.visibility = 'hidden'
+                sliderD.style.visibility = 'hidden'
+                sliderC.style.visibility = 'hidden'
+                SText.style.visibility = 'hidden'
+
+            }
+            else {
+                settings = true
+                sliderB.style.visibility = ''
+                sliderD.style.visibility = ''
+                sliderC.style.visibility = ''
+                SText.style.visibility = ''
+            }
+        }
+        setInterval(() => {
+            if (settings) {
+                S1 = sliderB.value;
+                S2 = sliderD.value;
+                S3 = sliderC.value;
+                SText.innerHTML = `Background Brightness: ${S1}
+                    <br><br>sliderD Rate: ${S2}<br><br>Minireena Speed: ${S3}`
+                BG.style.filter = `brightness(${S1 / 10}) blur(${S1}px) saturate(${S1 / 200})`
+
+            }
+        }, 100);
+
 
         var Game = () => {
+            settElement.style.visibility = "hidden"
             timerElement.style.cursor = "auto"
             timerElement.onclick = ""
+            playElement.innerText = ""
 
             img = document.getElementById("midleMini")
             img.src = "congaline.gif"
             var springs = []
-            for (let i = 0;i < 8;i++) {
+            for (let i = 0; i < 8; i++) {
 
                 springs.push({ element: document.getElementById('spring' + i), hover: false, counter: 1 })
                 document.getElementById('spring' + i).addEventListener("mouseleave", function () { springs[i].hover = false });
@@ -225,12 +339,7 @@
                     //movement logic
                     if (!shaken) {
                         img = document.getElementsByClassName('mini')[0]
-
-                        // min 20 max 80
-
-                        distance -= (50 + 19) * window.innerHeight * .05 / 1000
-                        console.log((50 + 19) * window.innerHeight * .05 / 1000);
-
+                        distance -= .07 * window.innerHeight / 100
                         img.style.top = distance + "px"
                         if (distance < 50) {
                             death()
@@ -259,7 +368,7 @@
                             distance += 20
                             img.style.top = distance + "px"
                             //when they fall, de-spawn, and reset for new mini
-                            if (distance >= 800) {
+                            if (distance >= window.innerHeight * .3) {
 
                                 img.remove()
                                 crawler = false
@@ -278,6 +387,7 @@
 
                     }
                 }
+
             }, 1 / 100 * window.innerHeight);
             springLogic = setInterval(() => {
                 //spring logic
@@ -288,7 +398,7 @@
                     }
 
                     else if (spring.counter >= 0 && !spring.hover) {
-                        spring.counter += .02
+                        spring.counter += sliderD.value / 2500
 
                     }
                     else if (spring.counter >= 0 && spring.hover) {
@@ -418,11 +528,18 @@
                 }, 1550);
             }
         }
-        timerElement.innerText = "START"
-        timerElement.style.cursor = "pointer"
+        timerElement.innerText = "Minireenia Madness"
+        playElement.style.cursor = "pointer"
+        settElement.style.cursor = "pointer"
         // timerElement.addEventListener('click', Game)
 
-        timerElement.onclick = Game
+
+        playElement.onclick = Game
+
+
+
+
+
 
     </script>
 </body>
