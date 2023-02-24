@@ -119,7 +119,7 @@
     <script>
         var crawler = false
         var timerElement = document.getElementById("timer")
-        var time = { minutes: 0, seconds: 2 }
+        var time = { minutes: 5, seconds: 2 }
         var shaken = false
         var made = false
         var left = false
@@ -195,7 +195,7 @@
                 //create mini
                 if (!crawler) {
                     crawlerChance = Math.floor(Math.random() * 2000)
-                    crawlerChance = 1
+                    crawlerChance = 2
                     if (crawlerChance <= 1) {
                         crawler = true
                         if (!made) {
@@ -226,7 +226,10 @@
                     if (!shaken) {
                         img = document.getElementsByClassName('mini')[0]
 
-                        distance -= .07 * window.innerHeight / 100
+                        // min 20 max 80
+
+                        distance -= (50 + 19) * window.innerHeight * .05 / 1000
+                        console.log((50 + 19) * window.innerHeight * .05 / 1000);
 
                         img.style.top = distance + "px"
                         if (distance < 50) {

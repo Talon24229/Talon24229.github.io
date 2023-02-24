@@ -138,7 +138,12 @@
     const RIGHT_WAll = feddy.Location + WALL_DISTANCE - feddy.element.clientWidth / 2
 
     plunger.element.style.top = plunger.selfHight + "px"
+    // feddy.element.style.left = feddy.Location
+    // plunger.element.style.left = plunger.Location
+    // line.style.left = plunger.Location + plunger.element.clientWidth / 2
+
     feddy.element.style.left = feddy.Location
+    plunger.Location = feddy.Location + 10
     plunger.element.style.left = plunger.Location
     line.style.left = plunger.Location + plunger.element.clientWidth / 2
 
