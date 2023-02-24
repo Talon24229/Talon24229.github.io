@@ -159,6 +159,13 @@
             height: 100%;
             left: 75%;
         }
+
+        #wiggle {
+            position: absolute;
+            left: 67.25%;
+            top: 63%;
+            z-index: 10;
+        }
     </style>
     <title>Night 4</title>
 </head>
@@ -173,6 +180,7 @@
     <img class="center" id="exit">
     <img id="background" class="center" src="miniGameN4.jpg">
     <img class="center" id='cab' src=" ../cabinet.png">
+    <img id='wiggle' src="Control Graphic.png">
 
     <p class="center" id='settingsText'></p>
     <input type="range" min="1" max="100" value="10" class="center" id="sliderB">
@@ -223,6 +231,7 @@
         var made = false
         var hover = false
         var mini = document.getElementById("mini")
+        //create springlocks
         for (let i = 0; i < 8; i++) {
             let img = document.createElement("img")
             img.style.position = "absolute"
@@ -303,6 +312,7 @@
 
 
         var Game = () => {
+            document.getElementById("wiggle").style.visibility = 'hidden'
             if (settings) {
                 settings = false
                 sliderB.style.visibility = 'hidden'
@@ -311,6 +321,7 @@
                 SText.style.visibility = 'hidden'
 
             }
+
             settElement.style.visibility = "hidden"
             timerElement.style.cursor = "auto"
             timerElement.onclick = ""
