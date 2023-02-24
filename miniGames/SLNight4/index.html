@@ -127,12 +127,12 @@
 
         #sliderD {
             z-index: 10;
-            top: 60%;
+            top: 59%;
         }
 
         #sliderC {
             z-index: 10;
-            top: 65%;
+            top: 64%;
         }
 
         #settingsText {
@@ -197,9 +197,11 @@
         sliderB.style.visibility = 'hidden'
         sliderD.style.visibility = 'hidden'
         sliderC.style.visibility = 'hidden'
-        var S1 = sliderB.value;
-        var S2 = sliderD.value;
-        var S3 = sliderC.value;
+        // sliderB.min
+        var S1 = parseInt(sliderB.value);
+        var S2 = parseInt(sliderD.value);
+        var S3 = parseInt(sliderC.value);
+
         BG.style.filter = `brightness(${S1 / 10}) blur(${S1}px) saturate(${S1 / 200})`
         SText.style.visibility = 'hidden'
         var time = { minutes: 3, seconds: 1 }
@@ -208,6 +210,7 @@
         var left = false
         var right = false
         var timer
+        var modifier
         var flash
         var miniLogic
         var springLogic
@@ -220,7 +223,6 @@
         var made = false
         var hover = false
         var mini = document.getElementById("mini")
-
         for (let i = 0; i < 8; i++) {
             let img = document.createElement("img")
             img.style.position = "absolute"
@@ -277,11 +279,23 @@
         }
         setInterval(() => {
             if (settings) {
-                S1 = sliderB.value;
-                S2 = sliderD.value;
-                S3 = sliderC.value;
-                SText.innerHTML = `Background Brightness: ${S1}
-                    <br><br>sliderD Rate: ${S2}<br><br>Minireena Speed: ${S3}`
+                S1 = parseInt(sliderB.value);
+                S2 = parseInt(sliderD.value);
+                S3 = parseInt(sliderC.value);
+                if (S3 >= 70) {
+                    modifier = .5
+                }
+                else if (S3 <= 30) {
+                    modifier = 2
+                }
+                else {
+                    modifier = 1
+                }
+
+
+                SText.innerHTML = `Background Brightness: ${S1 == 10 ? "Default" : S1}
+                <br><br>Decay Rate: ${S2 == 50 ? "Default" : S2}<br><br>Minireena Speed: ${S3 == 50 ? "Default" : S3}`
+
                 BG.style.filter = `brightness(${S1 / 10}) blur(${S1}px) saturate(${S1 / 200})`
 
             }
@@ -289,6 +303,14 @@
 
 
         var Game = () => {
+            if (settings) {
+                settings = false
+                sliderB.style.visibility = 'hidden'
+                sliderD.style.visibility = 'hidden'
+                sliderC.style.visibility = 'hidden'
+                SText.style.visibility = 'hidden'
+
+            }
             settElement.style.visibility = "hidden"
             timerElement.style.cursor = "auto"
             timerElement.onclick = ""
@@ -308,8 +330,8 @@
             miniLogic = setInterval(() => {
                 //create mini
                 if (!crawler) {
-                    crawlerChance = Math.floor(Math.random() * 2000)
-                    crawlerChance = 1
+                    crawlerChance = Math.floor(Math.random() * 5000 * modifier)
+                    // crawlerChance = 1
                     if (crawlerChance <= 1) {
                         crawler = true
                         if (!made) {
@@ -321,6 +343,7 @@
 
                             document.body.appendChild(img)
                             img.style.top = "800px"
+                            distance = window.innerHeight
                             sideChance = Math.round(Math.random() * 1)
                             if (sideChance == 0) {
                                 img.style.left = "29%"
@@ -339,7 +362,7 @@
                     //movement logic
                     if (!shaken) {
                         img = document.getElementsByClassName('mini')[0]
-                        distance -= .07 * window.innerHeight / 100
+                        distance -= (S3 + 19) * window.innerHeight * .1 / 1000
 
                         img.style.top = distance + "px"
                         if (distance < 50) {
@@ -361,6 +384,7 @@
                                 shaken = false
                                 made = false
                                 left = false
+
                             }
                         }
 
@@ -399,8 +423,7 @@
                     }
 
                     else if (spring.counter >= 0 && !spring.hover) {
-                        spring.counter += sliderD.value / 2500
-
+                        spring.counter += S2 / 2500
                     }
                     else if (spring.counter >= 0 && spring.hover) {
                         if (spring.counter > 1) {
