@@ -1,12 +1,10 @@
 function getData() {
-	return JSON.parse(localStorage.getItem('gameData'))
-}
-function sendData(variable) {
-	localStorage.setItem('gameData', JSON.stringify(variable))
-}
-function resetData() {
-	return {
-		LemonadeClown: {
+	let currentData = JSON.parse(localStorage.getItem('gameData'))
+	let newData = {}
+	change = false
+	if (!currentData.LemonadeClown) {
+		change = true
+		newData.LemonadeClown = {
 			normal: {
 				highScore: 0
 			},
@@ -16,8 +14,13 @@ function resetData() {
 			timed: {
 				highScore: 0
 			}
-		},
-		fruitPunchClown: {
+		}
+	}
+	else newData.LemonadeClown = currentData.LemonadeClown
+
+	if (!currentData.fruitPunchClown) {
+		change = true
+		newData.fruitPunchClown = {
 			normal: {
 				highScore: 0
 			},
@@ -27,9 +30,21 @@ function resetData() {
 			timed: {
 				highScore: 0
 			}
-		},
-		SLNight4: {
+		}
+	}
+	else newData.fruitPunchClown = currentData.fruitPunchClown
+
+	if (!currentData.SLNight4) {
+		change = true
+		newData.SLNight4 = {
 			highScore: 0
 		}
 	}
+	else newData.SLNight4 = currentData.SLNight4
+
+	return ({ data: newData, change: change })
+}
+
+function sendData(variable) {
+	localStorage.setItem('gameData', JSON.stringify(variable))
 }
