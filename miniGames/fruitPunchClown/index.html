@@ -239,12 +239,15 @@
         var time = { minutes: 1, seconds: 0 }
         var timer
         var timerFlash = true
+
+        var score = 0
         var gameData
         gameData = getData()
-        if (gameData == null) {
-            gameData = resetData()
+        if (gameData.change) {
             sendData(gameData)
         }
+        gameData = gameData.data
+
         var button = document.getElementById('button')
         button.addEventListener('click', () => {
             cabinet.src = '../cabinetRed.png'
@@ -265,7 +268,7 @@
                 kid.element.remove()
             }
             kids = []
-            for (let i = 0; i < 9; i++) {
+            for (let i = 0;i < 9;i++) {
                 let img = document.createElement("img")
                 img.className = "kids"
                 img.src = "ChildWalk.gif"
@@ -338,7 +341,7 @@
                     scaredKids += 1
                 }
             }
-            for (let i = 0; i < kids.length; i++) {
+            for (let i = 0;i < kids.length;i++) {
                 for (scaredKid of kids) {
                     if (scaredKid.scared) {
                         for (kid of kids) {
