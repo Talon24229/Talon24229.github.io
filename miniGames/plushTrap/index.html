@@ -1,0 +1,169 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>minigameName</title>
+	<script type='text/javascript' src='../functions.js'></script>
+	<style>
+		body {
+			margin: 0;
+			background-repeat: no-repeat;
+			overflow: hidden;
+			background-size: 100vw;
+			background-color: rgb(0, 0, 0);
+			font-family: "Comic Sans MS";
+			text-align: center;
+		}
+
+		p {
+			margin: 0;
+		}
+
+		#cabinet {
+			position: absolute;
+			height: 140%;
+			z-index: 6;
+			top: -25%;
+			pointer-events: none;
+		}
+
+		#background {
+			position: absolute;
+			top: 24%;
+			height: 55%;
+			width: 50%;
+			z-index: 0;
+		}
+
+		.center {
+			left: 50%;
+			transform: translateX(-50%)
+		}
+
+		#button {
+			position: absolute;
+			top: 82.5vh;
+			height: 7vh;
+			width: 7vw;
+			left: 49.5%;
+			z-index: 1000;
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body>
+	<img id='cabinet' class='center' src=" ../cabinet.png">
+	<img id='background' class='center'>
+	<div id='button' class='center'></div>
+
+	<script>
+		//min time 1 second max time 10 seconds
+
+		//Plushtrap is 45 second sessions
+		//BB Extras is 60 seconds.
+
+		// -There are sound cues for each position he advances to. 
+		//First, there will be small, quiet footsteps, meaning he got up from the chair, 
+		//but didn't advance yet. 
+		//Then there will be a scurry sound, meaning he advanced to the first set of doors. 
+		//Then there will be the small footsteps again, 
+		//meaning he came out of the door and is in the middle of the hallway. 
+		//Another scurry after that means he advanced to the second set of doors. 
+		//One more small footsteps sound after the second scurry and he is on the X. 
+		//If you hear a third scurry, that means he will jumpscare you if you flash your light.
+
+		// -The above means you can win every time, 
+		//RNG permitting (it's random when he moves). Listen for 2 scurries. 
+		//After that, as soon as you hear small, quiet footsteps, flash your light. You win!
+
+		// Other than that, there isn't really much to know, unfortunately. 
+		//We are still in the midst of getting a decompiled game without corrupt 
+		//events and textures, so we can't see EXACTLY what's going on yet. 
+		//We can only vaguely estimate.
+
+		//noise gets louder as it increases in stage
+		//plushtrap 
+		var displayState = document.getElementById("background")
+		var stage = 1
+		displayState.src = `${stage}.png`
+		var seen = false
+		var rand
+		var light = false
+		var side
+		// var speed = Math.round(Math.random() * 10000) + 3000
+		// setInterval(() => {
+		// 	speed = Math.round(Math.random() * 10000) + 3000
+		// }, 10);
+
+		var speed = 10000
+
+		document.addEventListener('keydown', (event) => {
+			if (event.keyCode == 32) {
+				light = true
+			}
+		})
+		document.addEventListener('keyup', (event) => {
+			if (event.keyCode == 32) {
+				light = false
+			}
+		})
+
+		console.log(speed);
+		setInterval(() => {
+			if (!light && stage < 7) {
+				stage += 1
+				rand = Math.round(Math.random())
+				if (rand == 0)
+					side = "L"
+				else {
+					side = "R"
+				}
+				console.log(speed, light, stage);
+
+
+				if (stage == 1 || stage == 4 || stage == 6) {
+					displayState.src = `${stage}.png`
+				}
+				else if (stage == 4 || stage == 6) {
+					displayState.src = `${stage}.gif`
+				}
+				else if ((stage == 3 || stage == 5) && !seen) {
+					displayState.src = `${stage + side}.gif`
+				}
+
+			}
+			else {
+
+			}
+		}, speed);
+
+		var score = 0
+		var gameData
+		gameData = getData()
+		if (gameData == null) {
+			gameData = resetData()
+			sendData(gameData)
+		}
+
+		var button = document.getElementById('button')
+		button.addEventListener('click', () => {
+			cabinet.src = '../cabinetRed.png'
+			setTimeout(() => {
+				cabinet.src = '../cabinet.png'
+				window.location.pathname = '/miniGames/index.html'
+			}, 300)
+		})
+
+		// setInterval(() => {
+		// 	if (gameData != null && score > gameData.PlushTrap.highScore) {
+		// 		gameData.PlushTrap.highScore = score
+		// 		sendData(gameData)
+		// 	}
+		// }, 1)
+	</script>
+</body>
+
+</html>

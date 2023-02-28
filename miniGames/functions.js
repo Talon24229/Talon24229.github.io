@@ -30,6 +30,9 @@ function resetData() {
 		},
 		SLNight4: {
 			highScore: 0
-		}
+		},
+		// PlushTrap: {
+		// 	highScore: 0
+		// }
 	}
 }
