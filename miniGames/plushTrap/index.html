@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>minigameName</title>
+	<title>Fun With Plushtrap</title>
 	<script type='text/javascript' src='../functions.js'></script>
 	<style>
 		body {
@@ -45,10 +45,10 @@
 			z-index: 0;
 		}
 
-
 		.center {
 			left: 50%;
-			transform: translateX(-50%)
+			transform: translateX(-50%);
+			position: absolute;
 		}
 
 		#button {
@@ -60,6 +60,17 @@
 			z-index: 1000;
 			cursor: pointer;
 		}
+
+		#timer {
+			z-index: 3;
+			color: rgb(94, 94, 94);
+			top: 24%;
+			font-size: 5vh;
+			text-align: left;
+			left: 70%;
+			text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+		}
 	</style>
 </head>
 
@@ -68,6 +79,7 @@
 	<img id='background' class='center'>
 	<div id='button' class='center'></div>
 	<img id='bbackground' class='center' src="empty.png">
+	<p class="center" id='timer'></p>
 
 	<script>
 		//min time 1 second max time 10 seconds
@@ -96,34 +108,71 @@
 
 		//noise gets louder as it increases in stage
 		//plushtrap 
+		var timerElement = document.getElementById("timer")
 		var displayState = document.getElementById("background")
 		var bback = document.getElementById("bbackground")
-		var stage = 6
+		var stage = 1
 		displayState.src = `Off.png`
-		var seen = false
+		var time = { minutes: 0, seconds: 45 }
 		var rand
 		var light = false
 		var killed = false
+		var ambiance= new Audio('ambiancealt.mp3');
+		var reload = false
+		var seen = false
+		var skurry = new Audio('skurry.mp3');
+		var started = false
+		changed = false
 		var side
+		var tapped = false
+		var deathSpeed = []
+		let userAgent = navigator.userAgent;
+		if (userAgent.match(/firefox|fxios/i)) {
+			deathSpeed = [.9, 1.5]
+		}
+		else {
+			deathSpeed = [.3, .5]
+		}      
+		
+		
+		//speed
 		// var speed = Math.round(Math.random() * 10000) + 3000
 		// setInterval(() => {
 		// 	speed = Math.round(Math.random() * 10000) + 3000
 		// }, 10);
-
 		var speed = 2000
 
+			//light logic
 		document.addEventListener('keydown', (event) => {
-			if (event.keyCode == 32) {
+			if (!killed && event.keyCode == 32) {
 				light = true
-			}
-		})
-		document.addEventListener('keyup', (event) => {
-			if (event.keyCode == 32) {
-				light = false
-			}
-		})
+				if(!changed){
+					changed = true
+					let light = new Audio('FlashlightFNAF4.ogg');
+					light.play()
+					}
+				}
+				if (!tapped) {
+					tapped=true
+					setInterval(() => {
+				ambiance.play()
+				}, ambiance.duration*1000);
+				}
+			})
+			document.addEventListener('keyup', (event) => {
+				if (!killed && event.keyCode == 32) {          
+					light = false
+					if(changed){
+						changed = false
+						let light = new Audio('FlashlightFNAF4.ogg');
+						light.play()
+					}
+				}
+			})
+
 		setInterval(() => {
-			if (!light && stage < 7) {
+			//movement, while there is no light
+			if (!light && stage < 7 && !killed) {
 				stage += 1
 				seen = false
 				rand = Math.round(Math.random())
@@ -132,44 +181,94 @@
 				else {
 					side = "R"
 				}
+				volume = '0.'+ stage
+				volume = parseFloat(volume)
+				console.log(seen);
+				skurry.volume = volume
+				skurry.play()
 			}
 		}, speed);
 
-		setInterval(() => {
-			console.log(stage, seen, killed);
-			if (light && stage < 7) {
-
+		setInterval(() => {  
+			//if there is a light on, and not dead
+			if (light && stage < 7 && !killed) {
+				skurry.pause()
 				if (stage == 1) {
 					displayState.src = `${stage}.png`
 				}
-				// doors
+				 
 				else if (stage == 2) {
-					displayState.src = `2.gif`
-					setTimeout(() => {
-						stage = 1
+					if(!seen){
+						if(!started){
+							displayState.src = `2.gif`
+							started = true
+						}
+						else if (started) {
+							setTimeout(() => {
+								stage = 1
+								displayState.src = `${stage}.png`
+								seen = true
+								started = false
+							}, 300);				
+						}
+					}
+					else if (seen){
 						displayState.src = `${stage}.png`
-					}, 400);
+					}
+				}
+				// doors
+				else if ((stage == 3 || stage == 5)) {
+					if(!seen){
+						if(!started){
+							displayState.src = `${stage + side}.gif`
+							started = true
+						}
+						else if (started) {
+							setTimeout(() => {
+								displayState.src = ``
+								seen = true
+								started = false
+							}, 1700);				
+						}
+					}
+					else if (seen){
+						displayState.src = ``
+					}
+				}
+				//sitting in hall
+				else if ((stage == 4 || stage == 6)) {
+					if(!seen){
+						if(!started){
+							displayState.src = `${stage}.gif`
+							started = true
+						}
+						else if (started) {
+							setTimeout(() => {
+								displayState.src = `${stage}.png`
+								seen = true
+								started = false
+							}, 490);				
+						}
+					}
+					else if (seen){
+						displayState.src = `${stage}.png`
+					}
 				}
 
-				else if ((stage == 3 || stage == 5) && !seen) {
-					seen = true
-					displayState.src = `${stage + side}.gif`
-					setTimeout(() => {
-						displayState.src = `empty.png`
-					}, 1740);
-				}
-				else if ((stage == 4 || stage == 6) && !seen) {
-					seen = true
-					displayState.src = `${stage}.gif`
-					setTimeout(() => {
-						displayState.src = `${stage}.png`
-					}, 500)
-				}
-
-			}
+			}      
+			//kill
 			else if (stage == 7 && !killed) {
 				killed = true
-				displayState.src = `${stage}.gif`
+				if (side == "R") {
+					let scream = new Audio('scream.mp3');
+					scream.play()
+					displayState.src = `${stage}.gif`
+				}
+				else {
+					displayState.src = `${stage}alt.gif`
+				}
+				let scream = new Audio('scream.mp3');
+				scream.play()
 				setTimeout(() => {
 					let bright = 250
 					let bbright = 100
@@ -178,30 +277,28 @@
 					bback.style.filter = `brightness(${bright}%)`
 					bback.src = `tooBad.png`
 					setInterval(() => {
-						bright -= .3
+						bright -= deathSpeed[0]
 						bback.style.filter = `brightness(${bright}%)`
 						if (bright <= 20) {
-							bbright -= .5
+							bbright -= deathSpeed[1]
 							displayState.style.filter = `brightness(${bbright}%)`
-							if (bbright == 0) {
-								location.reload();
+							if (bbright <= 0) {
+								if (!reload) {
+									reload = true
+									location.reload();
+								}
 							}
 						}
 					}, 1);
-				}, 1000)
+				}, 1800)
 			}
+			//light controller
 			else if (!killed) {
 				displayState.src = 'Off.png'
-			}
+			}       
 		}, 1);
-		// var score = 0
-		// var gameData
-		// gameData = getData()
-		// if (gameData == null) {
-		// 	gameData = resetData()
-		// 	sendData(gameData)
-		// }
 
+		//Cabinet button
 		var button = document.getElementById('button')
 		button.addEventListener('click', () => {
 			cabinet.src = '../cabinetRed.png'
@@ -210,14 +307,69 @@
 				window.location.pathname = '/miniGames/index.html'
 			}, 300)
 		})
+		//timer
+		timer = setInterval(() => {
+			if (!killed) {
+				if (time.seconds > 0 || time.minutes > 0)
+				if (time.seconds > 0)
+				time.seconds -= 1
+					else {
+						time.minutes -= 1
+						time.seconds = 59
+					}
+					if (time.seconds < 10) {
+						timerElement.innerText = '0' + time.seconds
+				}
+				else {
+					timerElement.innerText = time.seconds
+				}
+				//timed Out
+				if (time.minutes <= 0 && time.seconds == 0 && !killed) {
+					killed = true
+					let bright = 250
+					let bbright = 100
+					displayState.src = `tooBadText.png`
+					displayState.style.filter = `brightness(${bright}%)`
 
+					bback.style.filter = `brightness(${bright}%)`
+					bback.src = `tooBad.png`
+
+					setInterval(() => {
+						bright -= deathSpeed[0]
+						bback.style.filter = `brightness(${bright}%)`
+						if (bright <= 20) {
+							bbright -= deathSpeed[1]
+							displayState.style.filter = `brightness(${bbright}%)`
+							if (bbright <= 0) {
+								if (!reload) {
+									reload = true
+									location.reload();
+								}
+							}
+						}
+					}, 1);
+                }
+			}
+			else {
+				timerElement.innerText = ""
+			}
+		}, 1000);
+		
+		// var score = 0
+		// var gameData
+		// gameData = getData()
+		// if (gameData == null) {
+		// 	gameData = resetData()
+		// 	sendData(gameData)
+		// }
+		
 		// setInterval(() => {
 		// 	if (gameData != null && score > gameData.PlushTrap.highScore) {
-		// 		gameData.PlushTrap.highScore = score
-		// 		sendData(gameData)
-		// 	}
-		// }, 1)
-	</script>
+			// 		gameData.PlushTrap.highScore = score
+			// 		sendData(gameData)
+			// 	}
+			// }, 1)
+			</script>
 </body>
 
 </html>

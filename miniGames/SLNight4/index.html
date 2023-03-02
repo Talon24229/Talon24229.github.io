@@ -223,6 +223,7 @@
 
         var crawler = false
         var timerElement = document.getElementById("timer")
+        var time = { minutes: 3, seconds: 1 }
         var playElement = document.getElementById("Play")
         var settElement = document.getElementById("settings")
         var SText = document.getElementById("settingsText")
@@ -241,7 +242,6 @@
 
         BG.style.filter = `brightness(${S1 / 10}) blur(${S1}px) saturate(${S1 / 200})`
         SText.style.visibility = 'hidden'
-        var time = { minutes: 3, seconds: 1 }
         var shaken = false
         var made = false
         var left = false
@@ -261,7 +261,7 @@
         var hover = false
         var mini = document.getElementById("mini")
         //create springlocks
-        for (let i = 0;i < 8;i++) {
+        for (let i = 0; i < 8; i++) {
             let img = document.createElement("img")
             img.style.position = "absolute"
             img.className = "spring"
@@ -361,7 +361,7 @@
             img = document.getElementById("midleMini")
             img.src = "congaline.gif"
             var springs = []
-            for (let i = 0;i < 8;i++) {
+            for (let i = 0; i < 8; i++) {
 
                 springs.push({ element: document.getElementById('spring' + i), hover: false, counter: 1 })
                 document.getElementById('spring' + i).addEventListener("mouseleave", function () { springs[i].hover = false });
