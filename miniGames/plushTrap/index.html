@@ -117,7 +117,6 @@
 		var rand
 		var light = false
 		var killed = false
-		var ambiance= new Audio('ambiancealt.mp3');
 		var reload = false
 		var seen = false
 		var skurry = new Audio('skurry.mp3');
@@ -134,7 +133,12 @@
 			deathSpeed = [.3, .5]
 		}      
 		
-		
+		let ambiance= new Audio('Ambience.ogg');
+		ambiance.play()
+		setInterval(() => {
+			ambiance.play()
+		}, ambiance.duration*1000);
+	
 		//speed
 		// var speed = Math.round(Math.random() * 10000) + 3000
 		// setInterval(() => {
@@ -152,12 +156,7 @@
 					light.play()
 					}
 				}
-				if (!tapped) {
-					tapped=true
-					setInterval(() => {
-				ambiance.play()
-				}, ambiance.duration*1000);
-				}
+			
 			})
 			document.addEventListener('keyup', (event) => {
 				if (!killed && event.keyCode == 32) {          
@@ -183,7 +182,6 @@
 				}
 				volume = '0.'+ stage
 				volume = parseFloat(volume)
-				console.log(seen);
 				skurry.volume = volume
 				skurry.play()
 			}
@@ -225,18 +223,18 @@
 						}
 						else if (started) {
 							setTimeout(() => {
-								displayState.src = ``
+								displayState.src = `empty.png`
 								seen = true
 								started = false
 							}, 1700);				
 						}
 					}
 					else if (seen){
-						displayState.src = ``
+						displayState.src = `empty.png`
 					}
 				}
 				//sitting in hall
-				else if ((stage == 4 || stage == 6)) {
+				else if ((stage == 4)) {
 					if(!seen){
 						if(!started){
 							displayState.src = `${stage}.gif`
@@ -254,10 +252,30 @@
 						displayState.src = `${stage}.png`
 					}
 				}
-
+				else if ((stage == 6)) {
+					if(!seen){
+						if(!started){
+							displayState.src = `${stage}.gif`
+							started = true
+						}
+						else if (started) {
+							setTimeout(() => {
+								displayState.src = `${stage}.png`
+								seen = true
+								started = false
+							}, 490);				
+						}
+					}
+					else if (seen){
+						displayState.src = `great.png`
+						bback.src = `${stage}.png`
+					}
+				}
 			}      
 			//kill
 			else if (stage == 7 && !killed) {
+				skurry.pause()
+				ambiance.pause()
 				killed = true
 				if (side == "R") {
 					let scream = new Audio('scream.mp3');
@@ -325,6 +343,8 @@
 				}
 				//timed Out
 				if (time.minutes <= 0 && time.seconds == 0 && !killed) {
+					skurry.pause()
+					ambiance.pause()
 					killed = true
 					let bright = 250
 					let bbright = 100
