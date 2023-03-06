@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Fun With Plushtrap</title>
+	<title>Fun With..?</title>
 	<script type='text/javascript' src='../functions.js'></script>
 	<style>
 		body {
@@ -13,7 +13,6 @@
 			overflow: hidden;
 			background-size: 100vw;
 			background-color: rgb(0, 0, 0);
-			font-family: "Comic Sans MS";
 			text-align: center;
 		}
 
@@ -24,7 +23,7 @@
 		#cabinet {
 			position: absolute;
 			height: 140%;
-			z-index: 6;
+			z-index: 10;
 			top: -25%;
 			pointer-events: none;
 		}
@@ -71,6 +70,49 @@
 			text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
 				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
 		}
+		#Play {
+            z-index: 9;
+            color: rgb(255, 255, 255);
+            top: 42%;
+            font-size: 4vh;
+            text-align: left;
+            text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+        }
+		#title {
+            z-index: 9;
+            color: rgb(255, 255, 255);
+            top: 35%;
+            font-size: 4vh;
+            text-align: left;
+            text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+        }
+		#Bicon{
+			top: 55%;
+			z-index: 9;
+			left: 66%;
+			position: absolute;
+		}
+		#Picon{
+			top: 55%;
+			z-index: 9;
+			left: 33%;
+			position: absolute;
+		}
+		#BiconW{
+			top: 55%;
+			z-index: 8;
+			left: 66%;
+			position: absolute;
+		}
+		#PiconW{
+			top: 55%;
+			z-index: 8;
+			left: 33%;
+			position: absolute;
+		}
+
 	</style>
 </head>
 
@@ -80,44 +122,37 @@
 	<div id='button' class='center'></div>
 	<img id='bbackground' class='center' src="empty.png">
 	<p class="center" id='timer'></p>
+	<p class="center" id='Play'>Play</p>
+	<p class="center" id='title'>Fun With..?</p>
+	<img class='center' id='Bicon'src="BB_Icon.png">
+	<img class='center' id='Picon'src="Plush_Icon.png">
+
+	<img class='center' id='BiconW'src="White.png">
+	<img class='center' id='PiconW'src="White.png">
 
 	<script>
-		//min time 1 second max time 10 seconds
+		var BBIcon = document.getElementById("Bicon")
+		var PlushIcon = document.getElementById("Picon")
 
-		//Plushtrap is 45 second sessions
-		//BB Extras is 60 seconds.
+		var WhiteB = document.getElementById("BiconW")
+		var WhiteP = document.getElementById("PiconW")
 
-		// -There are sound cues for each position he advances to. 
-		//First, there will be small, quiet footsteps, meaning he got up from the chair, 
-		//but didn't advance yet. 
-		//Then there will be a scurry sound, meaning he advanced to the first set of doors. 
-		//Then there will be the small footsteps again, 
-		//meaning he came out of the door and is in the middle of the hallway. 
-		//Another scurry after that means he advanced to the second set of doors. 
-		//One more small footsteps sound after the second scurry and he is on the X. 
-		//If you hear a third scurry, that means he will jumpscare you if you flash your light.
-
-		// -The above means you can win every time, 
-		//RNG permitting (it's random when he moves). Listen for 2 scurries. 
-		//After that, as soon as you hear small, quiet footsteps, flash your light. You win!
-
-		// Other than that, there isn't really much to know, unfortunately. 
-		//We are still in the midst of getting a decompiled game without corrupt 
-		//events and textures, so we can't see EXACTLY what's going on yet. 
-		//We can only vaguely estimate.
-
-		//noise gets louder as it increases in stage
-		//plushtrap 
+		var playElement = document.getElementById("Play")
+		var titleElement = document.getElementById("title")
+		playElement.style.cursor = "pointer"
+		BBIcon.style.cursor = "pointer"
+		PlushIcon.style.cursor = "pointer"
 		var timerElement = document.getElementById("timer")
 		var displayState = document.getElementById("background")
 		var bback = document.getElementById("bbackground")
 		var stage = 1
-		displayState.src = `Off.png`
+		displayState.src = `empty.png`
 		var time = { minutes: 0, seconds: 45 }
 		var rand
 		var light = false
 		var killed = false
 		var reload = false
+		var player = ""
 		var seen = false
 		var skurry = new Audio('skurry.mp3');
 		var started = false
@@ -132,6 +167,59 @@
 		else {
 			deathSpeed = [.3, .5]
 		}      
+		
+		playElement.onclick = ()=>{
+			if(player){
+				Game()
+			}
+		}
+
+		
+		function selectE(player) {
+			if(player == "Plush"){
+				WhiteP.style.filter = `blur(10px)`
+				WhiteB.style.filter = `blur(0px)`
+				document.title = "Fun With Plushtrap"; 
+				titleElement.innerHTML = "Fun With Plushtrap"
+				displayState.src = `Plush/1.png`
+				
+
+			}
+			else if(player == "BB"){
+				WhiteP.style.filter = `blur(0px)`
+				WhiteB.style.filter = `blur(10px)`
+				document.title = "Fun With BB"; 
+				titleElement.innerHTML = "Fun With Balloon"
+			}
+			else{
+				WhiteP.style.filter = `blur(0px)`
+				WhiteB.style.filter = `blur(0px)`
+				document.title = "Fun With..?"
+				titleElement.innerHTML = "Fun With..?"
+			}
+			Player=player
+		}
+		PlushIcon.onclick = ()=>{
+			player="Plush"
+			selectE("Plush")
+		}
+		BBIcon.onclick = ()=>{
+			selectE("BB")
+			player="BB"
+		}
+		
+
+
+		var Game = (player) => {
+		player = player
+		playElement.innerText = ""
+		displayState.src = `Off.png`
+		WhiteP.src=""
+		WhiteB.src=""
+		PlushIcon.src=""
+		BBIcon.src=""
+		titleElement.innerHTML=""
+
 		
 		let ambiance= new Audio('Ambience.ogg');
 		ambiance.play()
@@ -174,6 +262,7 @@
 			if (!light && stage < 7 && !killed) {
 				stage += 1
 				seen = false
+				console.log("HIII");
 				rand = Math.round(Math.random())
 				if (rand == 0)
 					side = "L"
@@ -192,33 +281,33 @@
 			if (light && stage < 7 && !killed) {
 				skurry.pause()
 				if (stage == 1) {
-					displayState.src = `${stage}.png`
+					displayState.src = `${Player}/${stage}.png`
 				}
 				 
 				else if (stage == 2) {
 					if(!seen){
 						if(!started){
-							displayState.src = `2.gif`
+							displayState.src = `${Player}/2.gif`
 							started = true
 						}
 						else if (started) {
 							setTimeout(() => {
 								stage = 1
-								displayState.src = `${stage}.png`
+								displayState.src = `${Player}/${stage}.png`
 								seen = true
 								started = false
 							}, 300);				
 						}
 					}
 					else if (seen){
-						displayState.src = `${stage}.png`
+						displayState.src = `${Player}/${stage}.png`
 					}
 				}
 				// doors
 				else if ((stage == 3 || stage == 5)) {
 					if(!seen){
 						if(!started){
-							displayState.src = `${stage + side}.gif`
+							displayState.src = `${Player}/${stage + side}.gif`
 							started = true
 						}
 						else if (started) {
@@ -233,45 +322,33 @@
 						displayState.src = `empty.png`
 					}
 				}
+
 				//sitting in hall
-				else if ((stage == 4)) {
+				else if ((stage == 4 || stage == 6)) {
 					if(!seen){
 						if(!started){
-							displayState.src = `${stage}.gif`
+							displayState.src = `${Player}/${stage}.gif`
 							started = true
 						}
 						else if (started) {
 							setTimeout(() => {
-								displayState.src = `${stage}.png`
+								displayState.src = `${Player}/${stage}.png`
 								seen = true
 								started = false
 							}, 490);				
 						}
 					}
 					else if (seen){
-						displayState.src = `${stage}.png`
-					}
-				}
-				else if ((stage == 6)) {
-					if(!seen){
-						if(!started){
-							displayState.src = `${stage}.gif`
-							started = true
+						if(stage == 6){
+							displayState.src = `great.png`
+							bback.src = `${Player}/${stage}.png`
 						}
-						else if (started) {
-							setTimeout(() => {
-								displayState.src = `${stage}.png`
-								seen = true
-								started = false
-							}, 490);				
+						else{
+							displayState.src = `${Player}/${stage}.png`
 						}
 					}
-					else if (seen){
-						displayState.src = `great.png`
-						bback.src = `${stage}.png`
-					}
 				}
-			}      
+
 			//kill
 			else if (stage == 7 && !killed) {
 				skurry.pause()
@@ -280,10 +357,10 @@
 				if (side == "R") {
 					let scream = new Audio('scream.mp3');
 					scream.play()
-					displayState.src = `${stage}.gif`
+					displayState.src = `${Player}/${stage}.gif`
 				}
 				else {
-					displayState.src = `${stage}alt.gif`
+					displayState.src = `${Player}/${stage}alt.gif`
 				}
 				let scream = new Audio('scream.mp3');
 				scream.play()
@@ -374,7 +451,7 @@
 				timerElement.innerText = ""
 			}
 		}, 1000);
-		
+	}
 		// var score = 0
 		// var gameData
 		// gameData = getData()
