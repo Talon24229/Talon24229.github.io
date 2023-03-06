@@ -116,10 +116,6 @@
 
         var gameData
         gameData = getData()
-        if (gameData == null) {
-            gameData = resetData()
-            sendData(gameData)
-        }
 
         var button = document.getElementById('button')
         button.addEventListener('click', () => {
@@ -129,12 +125,6 @@
                 window.location.pathname = '../index.html'
             }, 300)
         })
-
-        setInterval(() => {
-            if (gameData != null) {
-                sendData(gameData)
-            }
-        }, 1)
     </script>
 </body>
 
