@@ -162,7 +162,8 @@
 		var skurry = new Audio('skurry.mp3');
 		var started = false
 		changed = false
-		var side
+		// var side
+		var side = "L"
 		var tapped = false
 		var deathSpeed = []
 		let userAgent = navigator.userAgent;
@@ -171,15 +172,15 @@
 		}
 		else {
 			deathSpeed = [.3, .5]
+
 		}
 
+		//setup
 		playElement.onclick = () => {
 			if (player) {
 				Game()
 			}
 		}
-
-
 		function selectE(player) {
 			if (player == "Plush") {
 				WhiteP.style.filter = `blur(10px)`
@@ -195,6 +196,7 @@
 				WhiteB.style.filter = `blur(10px)`
 				document.title = "Fun With BB";
 				titleElement.innerHTML = "Fun With Balloon"
+				displayState.src = `BB/1.png`
 			}
 			else {
 				WhiteP.style.filter = `blur(0px)`
