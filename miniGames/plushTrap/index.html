@@ -70,49 +70,54 @@
 			text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
 				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
 		}
+
 		#Play {
-            z-index: 9;
-            color: rgb(255, 255, 255);
-            top: 42%;
-            font-size: 4vh;
-            text-align: left;
-            text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
-                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
-        }
+			z-index: 9;
+			color: rgb(255, 255, 255);
+			top: 42%;
+			font-size: 4vh;
+			text-align: left;
+			text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+		}
+
 		#title {
-            z-index: 9;
-            color: rgb(255, 255, 255);
-            top: 35%;
-            font-size: 4vh;
-            text-align: left;
-            text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
-                1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
-        }
-		#Bicon{
+			z-index: 9;
+			color: rgb(255, 255, 255);
+			top: 35%;
+			font-size: 4vh;
+			text-align: left;
+			text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+		}
+
+		#Bicon {
 			top: 55%;
 			z-index: 9;
 			left: 66%;
 			position: absolute;
 		}
-		#Picon{
+
+		#Picon {
 			top: 55%;
 			z-index: 9;
-			left: 33%;
-			position: absolute;
-		}
-		#BiconW{
-			top: 55%;
-			z-index: 8;
-			left: 66%;
-			position: absolute;
-		}
-		#PiconW{
-			top: 55%;
-			z-index: 8;
 			left: 33%;
 			position: absolute;
 		}
 
+		#BiconW {
+			top: 55%;
+			z-index: 8;
+			left: 66%;
+			position: absolute;
+		}
+
+		#PiconW {
+			top: 55%;
+			z-index: 8;
+			left: 33%;
+			position: absolute;
+		}
 	</style>
 </head>
 
@@ -124,11 +129,11 @@
 	<p class="center" id='timer'></p>
 	<p class="center" id='Play'>Play</p>
 	<p class="center" id='title'>Fun With..?</p>
-	<img class='center' id='Bicon'src="BB_Icon.png">
-	<img class='center' id='Picon'src="Plush_Icon.png">
+	<img class='center' id='Bicon' src="BB_Icon.png">
+	<img class='center' id='Picon' src="Plush_Icon.png">
 
-	<img class='center' id='BiconW'src="White.png">
-	<img class='center' id='PiconW'src="White.png">
+	<img class='center' id='BiconW' src="White.png">
+	<img class='center' id='PiconW' src="White.png">
 
 	<script>
 		var BBIcon = document.getElementById("Bicon")
@@ -166,90 +171,90 @@
 		}
 		else {
 			deathSpeed = [.3, .5]
-		}      
-		
-		playElement.onclick = ()=>{
-			if(player){
+		}
+
+		playElement.onclick = () => {
+			if (player) {
 				Game()
 			}
 		}
 
-		
+
 		function selectE(player) {
-			if(player == "Plush"){
+			if (player == "Plush") {
 				WhiteP.style.filter = `blur(10px)`
 				WhiteB.style.filter = `blur(0px)`
-				document.title = "Fun With Plushtrap"; 
+				document.title = "Fun With Plushtrap";
 				titleElement.innerHTML = "Fun With Plushtrap"
 				displayState.src = `Plush/1.png`
-				
+
 
 			}
-			else if(player == "BB"){
+			else if (player == "BB") {
 				WhiteP.style.filter = `blur(0px)`
 				WhiteB.style.filter = `blur(10px)`
-				document.title = "Fun With BB"; 
+				document.title = "Fun With BB";
 				titleElement.innerHTML = "Fun With Balloon"
 			}
-			else{
+			else {
 				WhiteP.style.filter = `blur(0px)`
 				WhiteB.style.filter = `blur(0px)`
 				document.title = "Fun With..?"
 				titleElement.innerHTML = "Fun With..?"
 			}
-			Player=player
+			Player = player
 		}
-		PlushIcon.onclick = ()=>{
-			player="Plush"
+		PlushIcon.onclick = () => {
+			player = "Plush"
 			selectE("Plush")
 		}
-		BBIcon.onclick = ()=>{
+		BBIcon.onclick = () => {
 			selectE("BB")
-			player="BB"
+			player = "BB"
 		}
-		
+
 
 
 		var Game = (player) => {
-		player = player
-		playElement.innerText = ""
-		displayState.src = `Off.png`
-		WhiteP.src=""
-		WhiteB.src=""
-		PlushIcon.src=""
-		BBIcon.src=""
-		titleElement.innerHTML=""
+			player = player
+			playElement.innerText = ""
+			displayState.src = `Off.png`
+			WhiteP.src = ""
+			WhiteB.src = ""
+			PlushIcon.src = ""
+			BBIcon.src = ""
+			titleElement.innerHTML = ""
 
-		
-		let ambiance= new Audio('Ambience.ogg');
-		ambiance.play()
-		setInterval(() => {
+
+			let ambiance = new Audio('Ambience.ogg');
 			ambiance.play()
-		}, ambiance.duration*1000);
-	
-		//speed
-		// var speed = Math.round(Math.random() * 10000) + 3000
-		// setInterval(() => {
-		// 	speed = Math.round(Math.random() * 10000) + 3000
-		// }, 10);
-		var speed = 2000
+			setInterval(() => {
+				ambiance.play()
+			}, ambiance.duration * 1000);
+
+			//speed
+			// var speed = Math.round(Math.random() * 10000) + 3000
+			// setInterval(() => {
+			// 	speed = Math.round(Math.random() * 10000) + 3000
+			// }, 10);
+			var speed = 2000
 
 			//light logic
-		document.addEventListener('keydown', (event) => {
-			if (!killed && event.keyCode == 32) {
-				light = true
-				if(!changed){
-					changed = true
-					let light = new Audio('FlashlightFNAF4.ogg');
-					light.play()
+			document.addEventListener('keydown', (event) => {
+				if (!killed && event.keyCode == 32) {
+					light = true
+					if (!changed) {
+						changed = true
+						let light = new Audio('FlashlightFNAF4.ogg');
+						light.play()
 					}
 				}
-			
+
 			})
 			document.addEventListener('keyup', (event) => {
-				if (!killed && event.keyCode == 32) {          
+				if (!killed && event.keyCode == 32) {
 					light = false
-					if(changed){
+					if (changed) {
 						changed = false
 						let light = new Audio('FlashlightFNAF4.ogg');
 						light.play()
@@ -257,216 +262,214 @@
 				}
 			})
 
-		setInterval(() => {
-			//movement, while there is no light
-			if (!light && stage < 7 && !killed) {
-				stage += 1
-				seen = false
-				console.log("HIII");
-				rand = Math.round(Math.random())
-				if (rand == 0)
-					side = "L"
-				else {
-					side = "R"
-				}
-				volume = '0.'+ stage
-				volume = parseFloat(volume)
-				skurry.volume = volume
-				skurry.play()
-			}
-		}, speed);
-
-		setInterval(() => {  
-			//if there is a light on, and not dead
-			if (light && stage < 7 && !killed) {
-				skurry.pause()
-				if (stage == 1) {
-					displayState.src = `${Player}/${stage}.png`
-				}
-				 
-				else if (stage == 2) {
-					if(!seen){
-						if(!started){
-							displayState.src = `${Player}/2.gif`
-							started = true
-						}
-						else if (started) {
-							setTimeout(() => {
-								stage = 1
-								displayState.src = `${Player}/${stage}.png`
-								seen = true
-								started = false
-							}, 300);				
-						}
+			setInterval(() => {
+				//movement, while there is no light
+				if (!light && stage < 7 && !killed) {
+					stage += 1
+					seen = false
+					console.log("HIII");
+					rand = Math.round(Math.random())
+					if (rand == 0)
+						side = "L"
+					else {
+						side = "R"
 					}
-					else if (seen){
+					volume = '0.' + stage
+					volume = parseFloat(volume)
+					skurry.volume = volume
+					skurry.play()
+				}
+			}, speed);
+
+			setInterval(() => {
+				//if there is a light on, and not dead
+				if (light && stage < 7 && !killed) {
+					skurry.pause()
+					if (stage == 1) {
 						displayState.src = `${Player}/${stage}.png`
 					}
-				}
-				// doors
-				else if ((stage == 3 || stage == 5)) {
-					if(!seen){
-						if(!started){
-							displayState.src = `${Player}/${stage + side}.gif`
-							started = true
-						}
-						else if (started) {
-							setTimeout(() => {
-								displayState.src = `empty.png`
-								seen = true
-								started = false
-							}, 1700);				
-						}
-					}
-					else if (seen){
-						displayState.src = `empty.png`
-					}
-				}
 
-				//sitting in hall
-				else if ((stage == 4 || stage == 6)) {
-					if(!seen){
-						if(!started){
-							displayState.src = `${Player}/${stage}.gif`
-							started = true
+					else if (stage == 2) {
+						if (!seen) {
+							if (!started) {
+								displayState.src = `${Player}/2.gif`
+								started = true
+							}
+							else if (started) {
+								setTimeout(() => {
+									stage = 1
+									displayState.src = `${Player}/${stage}.png`
+									seen = true
+									started = false
+								}, 300);
+							}
 						}
-						else if (started) {
-							setTimeout(() => {
-								displayState.src = `${Player}/${stage}.png`
-								seen = true
-								started = false
-							}, 490);				
-						}
-					}
-					else if (seen){
-						if(stage == 6){
-							displayState.src = `great.png`
-							bback.src = `${Player}/${stage}.png`
-						}
-						else{
+						else if (seen) {
 							displayState.src = `${Player}/${stage}.png`
 						}
 					}
-				}
-
-			//kill
-			else if (stage == 7 && !killed) {
-				skurry.pause()
-				ambiance.pause()
-				killed = true
-				if (side == "R") {
-					let scream = new Audio('scream.mp3');
-					scream.play()
-					displayState.src = `${Player}/${stage}.gif`
-				}
-				else {
-					displayState.src = `${Player}/${stage}alt.gif`
-				}
-				let scream = new Audio('scream.mp3');
-				scream.play()
-				setTimeout(() => {
-					let bright = 250
-					let bbright = 100
-					displayState.src = `tooBadText.png`
-					displayState.style.filter = `brightness(${bright}%)`
-					bback.style.filter = `brightness(${bright}%)`
-					bback.src = `tooBad.png`
-					setInterval(() => {
-						bright -= deathSpeed[0]
-						bback.style.filter = `brightness(${bright}%)`
-						if (bright <= 20) {
-							bbright -= deathSpeed[1]
-							displayState.style.filter = `brightness(${bbright}%)`
-							if (bbright <= 0) {
-								if (!reload) {
-									reload = true
-									location.reload();
-								}
+					// doors
+					else if ((stage == 3 || stage == 5)) {
+						if (!seen) {
+							if (!started) {
+								displayState.src = `${Player}/${stage + side}.gif`
+								started = true
+							}
+							else if (started) {
+								setTimeout(() => {
+									displayState.src = `empty.png`
+									seen = true
+									started = false
+								}, 1700);
 							}
 						}
-					}, 1);
-				}, 1800)
-			}
-			//light controller
-			else if (!killed) {
-				displayState.src = 'Off.png'
-			}       
-		}, 1);
-
-		//Cabinet button
-		var button = document.getElementById('button')
-		button.addEventListener('click', () => {
-			cabinet.src = '../cabinetRed.png'
-			setTimeout(() => {
-				cabinet.src = '../cabinet.png'
-				window.location.pathname = '/miniGames/index.html'
-			}, 300)
-		})
-		//timer
-		timer = setInterval(() => {
-			if (!killed) {
-				if (time.seconds > 0 || time.minutes > 0)
-				if (time.seconds > 0)
-				time.seconds -= 1
-					else {
-						time.minutes -= 1
-						time.seconds = 59
+						else if (seen) {
+							displayState.src = `empty.png`
+						}
 					}
+
+					//sitting in hall
+					else if ((stage == 4 || stage == 6)) {
+						if (!seen) {
+							if (!started) {
+								displayState.src = `${Player}/${stage}.gif`
+								started = true
+							}
+							else if (started) {
+								setTimeout(() => {
+									displayState.src = `${Player}/${stage}.png`
+									seen = true
+									started = false
+								}, 490);
+							}
+						}
+						else if (seen) {
+							if (stage == 6) {
+								displayState.src = `great.png`
+								bback.src = `${Player}/${stage}.png`
+							}
+							else {
+								displayState.src = `${Player}/${stage}.png`
+							}
+						}
+					}
+
+					//kill
+					else if (stage == 7 && !killed) {
+						skurry.pause()
+						ambiance.pause()
+						killed = true
+						if (side == "R") {
+							let scream = new Audio('scream.mp3');
+							scream.play()
+							displayState.src = `${Player}/${stage}.gif`
+						}
+						else {
+							displayState.src = `${Player}/${stage}alt.gif`
+						}
+						let scream = new Audio('scream.mp3');
+						scream.play()
+						setTimeout(() => {
+							let bright = 250
+							let bbright = 100
+							displayState.src = `tooBadText.png`
+							displayState.style.filter = `brightness(${bright}%)`
+							bback.style.filter = `brightness(${bright}%)`
+							bback.src = `tooBad.png`
+							setInterval(() => {
+								bright -= deathSpeed[0]
+								bback.style.filter = `brightness(${bright}%)`
+								if (bright <= 20) {
+									bbright -= deathSpeed[1]
+									displayState.style.filter = `brightness(${bbright}%)`
+									if (bbright <= 0) {
+										if (!reload) {
+											reload = true
+											location.reload();
+										}
+									}
+								}
+							}, 1);
+						}, 1800)
+					}
+				}
+				//light controller
+				else if (!killed) {
+					displayState.src = 'Off.png'
+				}
+			}, 1);
+
+			//Cabinet button
+			var button = document.getElementById('button')
+			button.addEventListener('click', () => {
+				cabinet.src = '../cabinetRed.png'
+				setTimeout(() => {
+					cabinet.src = '../cabinet.png'
+					window.location.pathname = '/miniGames/index.html'
+				}, 300)
+			})
+			//timer
+			timer = setInterval(() => {
+				if (!killed) {
+					if (time.seconds > 0 || time.minutes > 0)
+						if (time.seconds > 0)
+							time.seconds -= 1
+						else {
+							time.minutes -= 1
+							time.seconds = 59
+						}
 					if (time.seconds < 10) {
 						timerElement.innerText = '0' + time.seconds
-				}
-				else {
-					timerElement.innerText = time.seconds
-				}
-				//timed Out
-				if (time.minutes <= 0 && time.seconds == 0 && !killed) {
-					skurry.pause()
-					ambiance.pause()
-					killed = true
-					let bright = 250
-					let bbright = 100
-					displayState.src = `tooBadText.png`
-					displayState.style.filter = `brightness(${bright}%)`
+					}
+					else {
+						timerElement.innerText = time.seconds
+					}
+					//timed Out
+					if (time.minutes <= 0 && time.seconds == 0 && !killed) {
+						skurry.pause()
+						ambiance.pause()
+						killed = true
+						let bright = 250
+						let bbright = 100
+						displayState.src = `tooBadText.png`
+						displayState.style.filter = `brightness(${bright}%)`
 
-					bback.style.filter = `brightness(${bright}%)`
-					bback.src = `tooBad.png`
-
-					setInterval(() => {
-						bright -= deathSpeed[0]
 						bback.style.filter = `brightness(${bright}%)`
-						if (bright <= 20) {
-							bbright -= deathSpeed[1]
-							displayState.style.filter = `brightness(${bbright}%)`
-							if (bbright <= 0) {
-								if (!reload) {
-									reload = true
-									location.reload();
+						bback.src = `tooBad.png`
+
+						setInterval(() => {
+							bright -= deathSpeed[0]
+							bback.style.filter = `brightness(${bright}%)`
+							if (bright <= 20) {
+								bbright -= deathSpeed[1]
+								displayState.style.filter = `brightness(${bbright}%)`
+								if (bbright <= 0) {
+									if (!reload) {
+										reload = true
+										location.reload();
+									}
 								}
 							}
-						}
-					}, 1);
-                }
+						}, 1);
+					}
+				}
+				else {
+					timerElement.innerText = ""
+				}
+			}, 1000);
+		}
+
+		var score = 0
+		var gameData
+		gameData = getData()
+
+		setInterval(() => {
+			if (gameData != null && score > gameData.PlushTrap.highScore) {
+				gameData.PlushTrap.highScore = score
+				sendData(gameData)
 			}
-			else {
-				timerElement.innerText = ""
-			}
-		}, 1000);
-	}
-		// var score = 0
-		// var gameData
-		// gameData = getData()
-		// if (gameData == null) {
-		// 	gameData = resetData()
-		// 	sendData(gameData)
-		// }
-		
-		// setInterval(() => {
-		// 	if (gameData != null && score > gameData.PlushTrap.highScore) {
-			// 		gameData.PlushTrap.highScore = score
-			// 		sendData(gameData)
-			// 	}
-			// }, 1)
-			</script>
+		}, 1)
+	</script>
 </body>
 
 </html>

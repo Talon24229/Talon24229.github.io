@@ -243,10 +243,6 @@
         var score = 0
         var gameData
         gameData = getData()
-        if (gameData.change) {
-            sendData(gameData)
-        }
-        gameData = gameData.data
 
         var button = document.getElementById('button')
         button.addEventListener('click', () => {

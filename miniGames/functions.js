@@ -1,9 +1,13 @@
 function getData() {
 	let currentData = JSON.parse(localStorage.getItem('gameData'))
 	let newData = {}
-	change = false
+	changed = false
+
+	if (!currentData)
+		currentData = {}
+
 	if (!currentData.LemonadeClown) {
-		change = true
+		changed = true
 		newData.LemonadeClown = {
 			normal: {
 				highScore: 0
@@ -19,7 +23,7 @@ function getData() {
 	else newData.LemonadeClown = currentData.LemonadeClown
 
 	if (!currentData.fruitPunchClown) {
-		change = true
+		changed = true
 		newData.fruitPunchClown = {
 			normal: {
 				highScore: 0
@@ -35,17 +39,26 @@ function getData() {
 	else newData.fruitPunchClown = currentData.fruitPunchClown
 
 	if (!currentData.SLNight4) {
-		change = true
+		changed = true
 		newData.SLNight4 = {
 			highScore: 0
-		},
-		// PlushTrap: {
-		// 	highScore: 0
-		// }
+		}
 	}
 	else newData.SLNight4 = currentData.SLNight4
 
-	return ({ data: newData, change: change })
+	if (!currentData.PlushTrap) {
+		changed = true
+		newData.PlushTrap = {
+			highScore: 0
+		}
+	}
+	else newData.PlushTrap = currentData.PlushTrap
+
+	if (changed) {
+		sendData(newData)
+	}
+
+	return (newData)
 }
 
 function sendData(variable) {
