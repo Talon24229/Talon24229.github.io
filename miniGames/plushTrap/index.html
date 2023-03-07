@@ -150,12 +150,14 @@
 		var timerElement = document.getElementById("timer")
 		var displayState = document.getElementById("background")
 		var bback = document.getElementById("bbackground")
-		var stage = 1
+		displayState.style.top = "24%"
+		var stage = 6
 		displayState.src = `empty.png`
 		var time = { minutes: 0, seconds: 45 }
 		var rand
 		var light = false
 		var killed = false
+		var won = false
 		var reload = false
 		var player = ""
 		var seen = false
@@ -243,7 +245,7 @@
 
 			//light logic
 			document.addEventListener('keydown', (event) => {
-				if (!killed && event.keyCode == 32) {
+				if (!killed && !won && event.keyCode == 32) {
 					light = true
 					if (!changed) {
 						changed = true
@@ -254,7 +256,7 @@
 
 			})
 			document.addEventListener('keyup', (event) => {
-				if (!killed && event.keyCode == 32) {
+				if (!killed && !won && event.keyCode == 32) {
 					light = false
 					if (changed) {
 						changed = false
@@ -266,10 +268,9 @@
 
 			setInterval(() => {
 				//movement, while there is no light
-				if (!light && stage < 7 && !killed) {
+				if (!light && stage < 7 && !killed && !won) {
 					stage += 1
 					seen = false
-					console.log("HIII");
 					rand = Math.round(Math.random())
 					if (rand == 0)
 						side = "L"
@@ -284,9 +285,11 @@
 			}, speed);
 
 			setInterval(() => {
+				console.log(stage, killed);
 				//if there is a light on, and not dead
 				if (light && stage < 7 && !killed) {
 					skurry.pause()
+
 					if (stage == 1) {
 						displayState.src = `${Player}/${stage}.png`
 					}
@@ -345,8 +348,11 @@
 								}, 490);
 							}
 						}
+						//win!!
 						else if (seen) {
 							if (stage == 6) {
+								won = true
+								displayState.style.top = "15%"
 								displayState.src = `great.png`
 								bback.src = `${Player}/${stage}.png`
 							}
@@ -357,47 +363,51 @@
 					}
 
 					//kill
-					else if (stage == 7 && !killed) {
-						skurry.pause()
-						ambiance.pause()
-						killed = true
-						if (side == "R") {
-							let scream = new Audio('scream.mp3');
-							scream.play()
-							displayState.src = `${Player}/${stage}.gif`
-						}
-						else {
-							displayState.src = `${Player}/${stage}alt.gif`
-						}
+				}
+				else if (stage == 7 && !killed) {
+					displayState.style.top = "24%"
+					skurry.pause()
+					ambiance.pause()
+					bback.src = `empty.png`
+					killed = true
+					if (side == "R") {
 						let scream = new Audio('scream.mp3');
 						scream.play()
-						setTimeout(() => {
-							let bright = 250
-							let bbright = 100
-							displayState.src = `tooBadText.png`
-							displayState.style.filter = `brightness(${bright}%)`
+						displayState.src = `${Player}/${stage}.gif`
+					}
+					else {
+						displayState.src = `${Player}/${stage}alt.gif`
+					}
+					let scream = new Audio('scream.mp3');
+					scream.play()
+					setTimeout(() => {
+						let bright = 250
+						let bbright = 100
+						displayState.src = `tooBadText.png`
+						displayState.style.filter = `brightness(${bright}%)`
+						bback.style.filter = `brightness(${bright}%)`
+						bback.src = `tooBad.png`
+						setInterval(() => {
+							bright -= deathSpeed[0]
 							bback.style.filter = `brightness(${bright}%)`
-							bback.src = `tooBad.png`
-							setInterval(() => {
-								bright -= deathSpeed[0]
-								bback.style.filter = `brightness(${bright}%)`
-								if (bright <= 20) {
-									bbright -= deathSpeed[1]
-									displayState.style.filter = `brightness(${bbright}%)`
-									if (bbright <= 0) {
-										if (!reload) {
-											reload = true
-											location.reload();
-										}
+							if (bright <= 20) {
+								bbright -= deathSpeed[1]
+								displayState.style.filter = `brightness(${bbright}%)`
+								if (bbright <= 0) {
+									if (!reload) {
+										reload = true
+										location.reload();
 									}
 								}
-							}, 1);
-						}, 1800)
-					}
+							}
+						}, 1);
+					}, 1200)
+
 				}
 				//light controller
 				else if (!killed) {
 					displayState.src = 'Off.png'
+					displayState.style.top = "24%"
 				}
 			}, 1);
 
@@ -412,7 +422,7 @@
 			})
 			//timer
 			timer = setInterval(() => {
-				if (!killed) {
+				if (!killed || !won) {
 					if (time.seconds > 0 || time.minutes > 0)
 						if (time.seconds > 0)
 							time.seconds -= 1
