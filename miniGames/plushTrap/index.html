@@ -118,6 +118,29 @@
 			left: 33%;
 			position: absolute;
 		}
+
+		#plushText {
+			top: 55%;
+			z-index: 8;
+			position: absolute;
+			color: rgb(255, 255, 255);
+			font-size: 2vh;
+			text-align: left;
+			text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+		}
+
+		#bbText {
+			top: 55%;
+			z-index: 8;
+
+			position: absolute;
+			color: rgb(255, 255, 255);
+			font-size: 2vh;
+			text-align: left;
+			text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+		}
 	</style>
 </head>
 
@@ -134,13 +157,28 @@
 
 	<img class='center' id='BiconW' src="White.png">
 	<img class='center' id='PiconW' src="White.png">
-
+	<p id="plushText">Plushtrap:<br>
+		45 seconds<br>
+		Mute<br>
+	</p>
+	<p id="bbText">Balloon Boy:<br>
+		60 seconds<br>
+		Annoying<br>
+		Obscured<br>
+	</p>
 	<script>
 		var BBIcon = document.getElementById("Bicon")
 		var PlushIcon = document.getElementById("Picon")
 
 		var WhiteB = document.getElementById("BiconW")
 		var WhiteP = document.getElementById("PiconW")
+
+		var BBT = document.getElementById("bbText")
+		var PLT = document.getElementById("plushText")
+		var BBleft = 63
+		var PLleft = 30
+		BBT.style.left = `${BBleft}%`//			left: 57%;
+		PLT.style.left = `${PLleft}%`//			left: 37%;
 
 		var playElement = document.getElementById("Play")
 		var titleElement = document.getElementById("title")
@@ -153,7 +191,7 @@
 		displayState.style.top = "24%"
 		var stage = 6
 		displayState.src = `empty.png`
-		var time = { minutes: 0, seconds: 45 }
+		var time = { minutes: 0, seconds: 0 }
 		var rand
 		var light = false
 		var killed = false
@@ -190,8 +228,17 @@
 				document.title = "Fun With Plushtrap";
 				titleElement.innerHTML = "Fun With Plushtrap"
 				displayState.src = `Plush/1.png`
+				BBleft = 63
 
-
+				setInterval(() => {
+					if (PLleft !== 37) {
+						PLleft++
+					}
+					else {
+						clearInterval()
+					}
+					PLT.style.left = `${PLleft}%`
+				}, 2);
 			}
 			else if (player == "BB") {
 				WhiteP.style.filter = `blur(0px)`
@@ -199,6 +246,19 @@
 				document.title = "Fun With BB";
 				titleElement.innerHTML = "Fun With Balloon"
 				displayState.src = `BB/1.png`
+				PLleft = 30
+
+				setInterval(() => {
+					console.log("UH");
+					if (BBleft !== 57) {
+						BBleft--
+					}
+					else {
+						console.log("D");
+						clearInterval()
+					}
+					BBT.style.left = `${BBleft}%`
+				}, 2);
 			}
 			else {
 				WhiteP.style.filter = `blur(0px)`
@@ -211,10 +271,12 @@
 		PlushIcon.onclick = () => {
 			player = "Plush"
 			selectE("Plush")
+			time = { minutes: 0, seconds: 45 }
 		}
 		BBIcon.onclick = () => {
 			selectE("BB")
 			player = "BB"
+			time = { minutes: 0, seconds: 60 }
 		}
 
 
