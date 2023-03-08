@@ -189,7 +189,7 @@
 		var displayState = document.getElementById("background")
 		var bback = document.getElementById("bbackground")
 		displayState.style.top = "24%"
-		var stage = 6
+		var stage = 1
 		displayState.src = `empty.png`
 		var time = { minutes: 0, seconds: 0 }
 		var rand
@@ -197,12 +197,13 @@
 		var killed = false
 		var won = false
 		var reload = false
+		var established = false
 		var player = ""
+		var Player = ""
 		var seen = false
 		var skurry = new Audio('skurry.mp3');
 		var started = false
 		changed = false
-		// var side
 		var side = "L"
 		var tapped = false
 		var deathSpeed = []
@@ -218,7 +219,7 @@
 		//setup
 		playElement.onclick = () => {
 			if (player) {
-				Game()
+				Game(player)
 			}
 		}
 		function selectE(player) {
@@ -229,13 +230,14 @@
 				titleElement.innerHTML = "Fun With Plushtrap"
 				displayState.src = `Plush/1.png`
 				BBleft = 63
+				BBT.style.left = `${BBleft}%`
 
-				setInterval(() => {
-					if (PLleft !== 37) {
-						PLleft++
+				let bab = setInterval(() => {
+					if (PLleft <= 37) {
+						PLleft += .5
 					}
 					else {
-						clearInterval()
+						clearInterval(bab)
 					}
 					PLT.style.left = `${PLleft}%`
 				}, 2);
@@ -247,15 +249,14 @@
 				titleElement.innerHTML = "Fun With Balloon"
 				displayState.src = `BB/1.png`
 				PLleft = 30
+				PLT.style.left = `${PLleft}%`
 
-				setInterval(() => {
-					console.log("UH");
-					if (BBleft !== 57) {
-						BBleft--
+				let setup = setInterval(() => {
+					if (BBleft >= 57) {
+						BBleft -= .5
 					}
 					else {
-						console.log("D");
-						clearInterval()
+						clearInterval(setup)
 					}
 					BBT.style.left = `${BBleft}%`
 				}, 2);
@@ -279,10 +280,14 @@
 			time = { minutes: 0, seconds: 60 }
 		}
 
-
+		//Thing to get done:
+		//BB audio - Done
+		//fix visuals for bb - Done
+		//BB distractions/balloons that move
+		//Glitch event
 
 		var Game = (player) => {
-			player = player
+			Player = player
 			playElement.innerText = ""
 			displayState.src = `Off.png`
 			WhiteP.src = ""
@@ -290,21 +295,35 @@
 			PlushIcon.src = ""
 			BBIcon.src = ""
 			titleElement.innerHTML = ""
+			PLT.innerHTML = ""
+			BBT.innerHTML = ""
 
 
 			let ambiance = new Audio('Ambience.ogg');
 			ambiance.play()
 			setInterval(() => {
-				ambiance.play()
+				if (!won && !killed) {
+					ambiance.play()
+				}
 			}, ambiance.duration * 1000);
 
 			//speed
-			// var speed = Math.round(Math.random() * 10000) + 3000
-			// setInterval(() => {
-			// 	speed = Math.round(Math.random() * 10000) + 3000
-			// }, 10);
+			var speed = Math.round(Math.random() * 10000) + 3000
+			setInterval(() => {
+				speed = Math.round(Math.random() * 10000) + 3000
+			}, 10);
 			var speed = 2000
-
+			//BB distraction 1
+			if (Player == 'BB' && !established) {
+				established = true
+				setInterval(() => {
+					if (!won && !killed) {
+						let choice = Math.floor(Math.random() * 3) + 1
+						let noise = new Audio(`Bb${choice}b.ogg`);
+						noise.play()
+					}
+				}, speed * 3.4);
+			}
 			//light logic
 			document.addEventListener('keydown', (event) => {
 				if (!killed && !won && event.keyCode == 32) {
@@ -328,8 +347,8 @@
 				}
 			})
 
+			//movement, while there is no light aka moment logic
 			setInterval(() => {
-				//movement, while there is no light
 				if (!light && stage < 7 && !killed && !won) {
 					stage += 1
 					seen = false
@@ -345,17 +364,18 @@
 					skurry.play()
 				}
 			}, speed);
-
+			//logic that controls visuals 
 			setInterval(() => {
-				console.log(stage, killed);
+				console.log(stage);
 				//if there is a light on, and not dead
 				if (light && stage < 7 && !killed) {
 					skurry.pause()
 
+					//chair
 					if (stage == 1) {
 						displayState.src = `${Player}/${stage}.png`
 					}
-
+					//off chair
 					else if (stage == 2) {
 						if (!seen) {
 							if (!started) {
@@ -368,7 +388,7 @@
 									displayState.src = `${Player}/${stage}.png`
 									seen = true
 									started = false
-								}, 300);
+								}, 300 / (player == "BB" ? 2 : 1));// / ;
 							}
 						}
 						else if (seen) {
@@ -387,7 +407,7 @@
 									displayState.src = `empty.png`
 									seen = true
 									started = false
-								}, 1700);
+								}, 1700 / (player == "BB" ? 5 : 1));
 							}
 						}
 						else if (seen) {
@@ -396,7 +416,7 @@
 					}
 
 					//sitting in hall
-					else if ((stage == 4 || stage == 6)) {
+					else if ((stage == 4)) {
 						if (!seen) {
 							if (!started) {
 								displayState.src = `${Player}/${stage}.gif`
@@ -407,23 +427,27 @@
 									displayState.src = `${Player}/${stage}.png`
 									seen = true
 									started = false
-								}, 490);
-							}
-						}
-						//win!!
-						else if (seen) {
-							if (stage == 6) {
-								won = true
-								displayState.style.top = "15%"
-								displayState.src = `great.png`
-								bback.src = `${Player}/${stage}.png`
-							}
-							else {
-								displayState.src = `${Player}/${stage}.png`
+								}, 490 / (player == "BB" ? 2 : 1));
 							}
 						}
 					}
-
+					//win!!
+					else if ((stage == 6)) {
+						if (!seen) {
+							if (!started) {
+								displayState.src = `${Player}/${stage}.gif`
+								started = true
+							}
+							else if (started) {
+								setTimeout(() => {
+									won = true
+									displayState.src = `great.png`
+									displayState.style.top = "15%"
+									bback.src = `${Player}/${stage}.png`
+								}, 490 / (player == "BB" ? 5 : 1));
+							}
+						}
+					}
 					//kill
 				}
 				else if (stage == 7 && !killed) {
@@ -472,19 +496,9 @@
 					displayState.style.top = "24%"
 				}
 			}, 1);
-
-			//Cabinet button
-			var button = document.getElementById('button')
-			button.addEventListener('click', () => {
-				cabinet.src = '../cabinetRed.png'
-				setTimeout(() => {
-					cabinet.src = '../cabinet.png'
-					window.location.pathname = '/miniGames/index.html'
-				}, 300)
-			})
 			//timer
 			timer = setInterval(() => {
-				if (!killed || !won) {
+				if (!killed && !won) {
 					if (time.seconds > 0 || time.minutes > 0)
 						if (time.seconds > 0)
 							time.seconds -= 1
@@ -532,6 +546,15 @@
 				}
 			}, 1000);
 		}
+		//Cabinet button
+		var button = document.getElementById('button')
+		button.addEventListener('click', () => {
+			cabinet.src = '../cabinetRed.png'
+			setTimeout(() => {
+				cabinet.src = '../cabinet.png'
+				window.location.pathname = '/miniGames/index.html'
+			}, 300)
+		})
 
 		var score = 0
 		var gameData
