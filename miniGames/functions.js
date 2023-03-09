@@ -46,13 +46,14 @@ function getData() {
 	}
 	else newData.SLNight4 = currentData.SLNight4
 
-	if (!currentData.PlushTrap) {
+	if (!currentData.Trap) {
 		changed = true
-		newData.PlushTrap = {
-			highScore: 0
+		newData.Trap = {
+			plushWon: false,
+			bbWon: false
 		}
 	}
-	else newData.PlushTrap = currentData.PlushTrap
+	else newData.Trap = currentData.Trap
 
 	if (changed) {
 		sendData(newData)
