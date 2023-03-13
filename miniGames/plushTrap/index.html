@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" type="image/x-icon" href="vaf/favicon.ico">
 	<title>Fun With..?</title>
 	<script type='text/javascript' src='../functions.js'></script>
 	<style>
@@ -150,11 +151,22 @@
 		.BALLOON {
 			z-index: 9;
 		}
+
+		/* #bbstar {
+			top: 55%;
+			left: 66%;
+			z-index: 8;
+		}
+
+		#plushstar {
+			top: 55%;
+			z-index: 8;
+			left: 33%;
+		} */
 	</style>
 </head>
 
 <body>
-	<link rel="shortcut icon" type="image/x-icon" href="vaf/favicon.ico">
 	<img id='cabinet' class='center' src=" ../cabinet.png">
 	<img id='background' class='center'>
 	<div id='button' class='center'></div>
@@ -162,6 +174,8 @@
 	<p class="center" id='timer'></p>
 	<p class="center" id='Play'>Play</p>
 	<p class="center" id='title'>Fun With..?</p>
+	<p id="plushstar">⭐</p>
+	<p id="bbstar">⭐</p>
 	<img class='center' id='Bicon' src="BB_Icon.png">
 	<!-- <img class="BALLOON" src="balloon.png"> -->
 	<img class='center' id='Picon' src="Plush_Icon.png">
@@ -215,6 +229,7 @@
 		var player = ""
 		var Player = ""
 		var seen = false
+		moved = false
 		var skurry = new Audio('skurry.mp3');
 		var started = false
 		changed = false
@@ -369,7 +384,7 @@
 			//movement, while there is no light aka moment logic
 			setInterval(() => {
 				if (!light && stage < 7 && !killed && !won) {
-					seen = false
+					moved = true
 					rand = Math.round(Math.random())
 					if (rand == 0)
 						side = "L"
@@ -396,6 +411,10 @@
 			//logic that controls visuals 
 			setInterval(() => {
 				console.log(stage);
+				if (moved) {
+					moved = false
+					seen = false
+				}
 				//if there is a light on, and not dead
 				if (light && stage < 7 && !killed) {
 					skurry.pause()
@@ -445,7 +464,6 @@
 
 					//sitting in hall
 					else if ((stage == 4)) {
-						console.log("start");
 						if (!seen) {
 							if (!started) {
 								displayState.src = `${Player}/${stage}.gif`
@@ -465,17 +483,30 @@
 					}
 					//win!!
 					else if ((stage == 6)) {
+						console.log("6-1", seen);
 						if (!seen) {
+							console.log("6 not seen");
 							if (!started) {
+								console.log("6 not started");
 								displayState.src = `${Player}/${stage}.gif`
 								started = true
 							}
 							else if (started) {
+								console.log("6 started");
 								setTimeout(() => {
 									won = true
 									displayState.src = `great.png`
 									displayState.style.top = "15%"
 									bback.src = `${Player}/${stage}.png`
+									// setTimeout(() => {
+									// 	if (player == "BB") {
+									// 		gameData.Trap.bbWon = true
+									// 	}
+									// 	else {
+									// 		gameData.Trap.plushWon = true
+									// 	}
+									// 	location.reload();
+									// }, 5000);
 								}, 490 / (player == "BB" ? 5 : 1));
 							}
 						}
@@ -591,13 +622,6 @@
 		var score = 0
 		var gameData
 		gameData = getData()
-
-		setInterval(() => {
-			if (gameData != null && score > gameData.PlushTrap.highScore) {
-				gameData.PlushTrap.highScore = score
-				sendData(gameData)
-			}
-		}, 1)
 	</script>
 </body>
 
