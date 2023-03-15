@@ -383,7 +383,7 @@
 
 			//movement, while there is no light aka moment logic
 			setInterval(() => {
-				if (/*!light &&*/ stage < 7 && !killed && !won) {
+				if (!light && stage < 7 && !killed && !won) {
 					moved = true
 					rand = Math.round(Math.random())
 					if (rand == 0)
@@ -415,7 +415,7 @@
 					seen = false
 				}
 				//if there is a light on, and not dead
-				if (/*light &&*/ stage < 7 && !killed) {
+				if (light && stage < 7 && !killed) {
 					skurry.pause()
 					//chair
 					if (stage == 1) {
