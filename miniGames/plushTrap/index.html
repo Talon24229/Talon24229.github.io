@@ -148,8 +148,10 @@
 				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
 		}
 
-		.BALLOON {
+		.balloon {
+			position: absolute;
 			z-index: 9;
+			width: 6%
 		}
 
 		/* #bbstar {
@@ -179,7 +181,6 @@
 	<img class='center' id='Bicon' src="BB_Icon.png">
 	<!-- <img class="BALLOON" src="balloon.png"> -->
 	<img class='center' id='Picon' src="Plush_Icon.png">
-
 	<img class='center' id='BiconW' src="White.png">
 	<img class='center' id='PiconW' src="White.png">
 	<p id="plushText">Plushtrap:<br>
@@ -192,7 +193,67 @@
 		Annoying<br>
 		Obscured(WIP)<br>
 	</p>
+	<img src="balloon.png" class="balloon">
 	<script>
+		balloon = document.getElementsByClassName('balloon')[0]
+		const SCREEN_TOP = 225
+		const SCREEN_BOTTOM = 617
+		const SCREEN_LEFT = 484
+		const SCREEN_RIGHT = 1307
+		var BALLOON_SPEED = 1
+		var balloonX = 0
+		var balloonY = 0
+		var balloonSpeedX = 0
+		var balloonSpeedY = 0
+
+		var randomSide = Math.round(Math.random() * 3)
+		if (randomSide == 0) {
+			balloonX = SCREEN_RIGHT
+			balloonY = Math.round(Math.random() * (SCREEN_BOTTOM - SCREEN_TOP)) + SCREEN_TOP
+		}
+		if (randomSide == 1) {
+			balloonY = SCREEN_TOP
+			balloonX = Math.round(Math.random() * (SCREEN_RIGHT - SCREEN_LEFT)) + SCREEN_LEFT
+		}
+		if (randomSide == 2) {
+			balloonX = SCREEN_LEFT
+			balloonY = Math.round(Math.random() * (SCREEN_BOTTOM - SCREEN_TOP)) + SCREEN_TOP
+		}
+		if (randomSide == 3) {
+			balloonY = SCREEN_BOTTOM
+			balloonX = Math.round(Math.random() * (SCREEN_RIGHT - SCREEN_LEFT)) + SCREEN_LEFT
+		}
+
+		balloonSpeedX = (Math.random() * 2 - 1) * BALLOON_SPEED
+		balloonSpeedY = (Math.sqrt((BALLOON_SPEED ^ 2) - (balloonSpeedX ^ 2)))
+		balloonSpeedY = (Math.round(Math.random()) == 1 ? balloonSpeedY : -balloonSpeedY)
+
+		console.log(balloonSpeedX, balloonSpeedY);
+
+		setInterval(() => {
+			if (balloonY <= SCREEN_TOP) {
+				balloonSpeedY = -balloonSpeedY
+				balloonSpeedX = -balloonSpeedX
+			}
+			if (balloonY >= SCREEN_BOTTOM) {
+				balloonSpeedY = -balloonSpeedY
+				balloonSpeedX = -balloonSpeedX
+			}
+			if (balloonX <= SCREEN_LEFT) {
+				balloonSpeedY = -balloonSpeedY
+				balloonSpeedX = -balloonSpeedX
+			}
+			if (balloonX >= SCREEN_RIGHT) {
+				balloonSpeedY = -balloonSpeedY
+				balloonSpeedX = -balloonSpeedX
+			}
+
+			balloonX += balloonSpeedX
+			balloonY += balloonSpeedY
+			balloon.style.left = balloonX
+			balloon.style.top = balloonY
+		}, 1)
+
 		var BBIcon = document.getElementById("Bicon")
 		var PlushIcon = document.getElementById("Picon")
 
