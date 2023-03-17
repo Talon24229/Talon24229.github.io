@@ -236,6 +236,7 @@
 		var side = "L"
 		var tapped = false
 		var deathSpeed = []
+		var timeRunning = false
 		let userAgent = navigator.userAgent;
 		if (userAgent.match(/firefox|fxios/i)) {
 			deathSpeed = [.9, 1.5]
@@ -321,17 +322,18 @@
 		//Glitch event
 
 		var Game = (player) => {
+			//Clear stuff
 			Player = player
 			playElement.innerText = ""
 			displayState.src = `Off.png`
-			WhiteP.src = ""
-			WhiteB.src = ""
-			PlushIcon.src = ""
-			BBIcon.src = ""
-			titleElement.innerHTML = ""
+			WhiteP.remove()
+			WhiteB.remove()
+			PlushIcon.remove()
+			BBIcon.remove()
+			titleElement.remove()
 			PLT.innerHTML = ""
 			BBT.innerHTML = ""
-			// var time = { minutes: 0, seconds: 10000 }
+			var time = { minutes: 0, seconds: 10000 }
 
 			let ambiance = new Audio('Ambience.ogg');
 			ambiance.play()
@@ -347,6 +349,7 @@
 				speed = Math.round(Math.random() * 10000) + 3000
 			}, 10);
 			var speed = 2000
+
 			//BB distraction 1
 			if (Player == 'BB' && !established) {
 				established = true
@@ -358,6 +361,7 @@
 					}
 				}, speed * 3.4);
 			}
+
 			//light logic
 			document.addEventListener('keydown', (event) => {
 				if (!killed && !won && event.keyCode == 32) {
@@ -385,6 +389,7 @@
 			setInterval(() => {
 				if (!light && stage < 7 && !killed && !won) {
 					moved = true
+					timeRunning = false
 					rand = Math.round(Math.random())
 					if (rand == 0)
 						side = "L"
@@ -393,7 +398,6 @@
 					}
 					if (player == "Plush") {
 						let chance = Math.floor(Math.random() * 6)
-						// chance = 5
 						if (chance == 5) {
 							if (stage >= 4) {
 								stage -= 2
@@ -406,6 +410,7 @@
 					volume = parseFloat(volume)
 					skurry.volume = volume
 					skurry.play()
+					console.log(stage);
 				}
 			}, speed);
 			//logic that controls visuals
@@ -413,6 +418,7 @@
 				if (moved) {
 					moved = false
 					seen = false
+					console.log(seen);
 				}
 				//if there is a light on, and not dead
 				if (light && stage < 7 && !killed) {
@@ -422,7 +428,7 @@
 						displayState.src = `${Player}/${stage}.png`
 					}
 					//off chair
-					else if (stage == 2 && false) {
+					else if (stage == 2) {
 						if (!seen) {
 							if (!started) {
 								displayState.src = `${Player}/2.gif`
@@ -430,10 +436,12 @@
 							}
 							else if (started) {
 								setTimeout(() => {
-									stage = 1
-									displayState.src = `${Player}/${stage}.png`
-									seen = true
-									started = false
+									if (stage == 2) {
+										stage = 1
+										displayState.src = `${Player}/${stage}.png`
+										seen = true
+										started = false
+									}
 								}, 300 / (player == "BB" ? 2 : 1));// / ;
 							}
 						}
@@ -450,9 +458,13 @@
 							}
 							else if (started) {
 								setTimeout(() => {
-									displayState.src = `empty.png`
-									seen = true
-									started = false
+									if (!timeRunning && (stage == 3 || stage == 5)) {
+										timeRunning = true
+										displayState.src = `empty.png`
+										seen = true
+										started = false
+									}
+
 								}, 1700 / (player == "BB" ? 5 : 1));
 							}
 						}
@@ -470,9 +482,11 @@
 							}
 							else if (started) {
 								setTimeout(() => {
-									displayState.src = `${Player}/${stage}.png`
-									seen = true
-									started = false
+									if (stage == 4) {
+										displayState.src = `${Player}/${stage}.png`
+										seen = true
+										started = false
+									}
 								}, 490 / (player == "BB" ? 2 : 1));
 							}
 						}
@@ -484,8 +498,11 @@
 					else if ((stage == 6)) {
 						if (!seen) {
 							if (!started) {
+								// if (!timeRunning) {
+								// timeRunning = true
 								displayState.src = `${Player}/${stage}.gif`
 								started = true
+								// }
 							}
 							else if (started) {
 								setTimeout(() => {
@@ -502,6 +519,7 @@
 									// 	}
 									// 	location.reload();
 									// }, 5000);
+
 								}, 490 / (player == "BB" ? 5 : 1));
 							}
 						}
