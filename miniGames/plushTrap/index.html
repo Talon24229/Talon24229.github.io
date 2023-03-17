@@ -216,7 +216,6 @@
 		var bback = document.getElementById("bbackground")
 		displayState.style.top = "24%"
 		var stage = 1
-		displayState.src = `empty.png`
 		var time = { minutes: 0, seconds: 0 }
 		var rand
 		var light = false
@@ -410,7 +409,6 @@
 					volume = parseFloat(volume)
 					skurry.volume = volume
 					skurry.play()
-					console.log(stage);
 				}
 			}, speed);
 			//logic that controls visuals
@@ -418,7 +416,6 @@
 				if (moved) {
 					moved = false
 					seen = false
-					console.log(seen);
 				}
 				//if there is a light on, and not dead
 				if (light && stage < 7 && !killed) {
@@ -482,7 +479,7 @@
 							}
 							else if (started) {
 								setTimeout(() => {
-									if (stage == 4) {
+									if (stage == 4 && !seen) {
 										displayState.src = `${Player}/${stage}.png`
 										seen = true
 										started = false
