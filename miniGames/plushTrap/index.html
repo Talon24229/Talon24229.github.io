@@ -148,7 +148,12 @@
 				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
 		}
 
+		* {
+			visibility: hidden;
+		}
+
 		.balloon {
+			visibility: visible;
 			position: absolute;
 			z-index: 9;
 			width: 6%
@@ -196,58 +201,39 @@
 	<img src="balloon.png" class="balloon">
 	<script>
 		balloon = document.getElementsByClassName('balloon')[0]
-		const SCREEN_TOP = 225
-		const SCREEN_BOTTOM = 617
-		const SCREEN_LEFT = 484
-		const SCREEN_RIGHT = 1307
-		var BALLOON_SPEED = 1
-		var balloonX = 0
-		var balloonY = 0
+		var SCREEN_TOP = 0
+		var SCREEN_BOTTOM = 100 - (balloon.clientWidth / (window.innerWidth / 100))
+		var SCREEN_LEFT = 0
+		var SCREEN_RIGHT = 100 - (balloon.clientWidth / (window.innerWidth / 100))
+		var BALLOON_SPEED = 0.1
+		var balloonX = 50
+		var balloonY = 50
 		var balloonSpeedX = 0
 		var balloonSpeedY = 0
 
-		var randomSide = Math.round(Math.random() * 3)
-		if (randomSide == 0) {
-			balloonX = SCREEN_RIGHT
-			balloonY = Math.round(Math.random() * (SCREEN_BOTTOM - SCREEN_TOP)) + SCREEN_TOP
-		}
-		if (randomSide == 1) {
-			balloonY = SCREEN_TOP
-			balloonX = Math.round(Math.random() * (SCREEN_RIGHT - SCREEN_LEFT)) + SCREEN_LEFT
-		}
-		if (randomSide == 2) {
-			balloonX = SCREEN_LEFT
-			balloonY = Math.round(Math.random() * (SCREEN_BOTTOM - SCREEN_TOP)) + SCREEN_TOP
-		}
-		if (randomSide == 3) {
-			balloonY = SCREEN_BOTTOM
-			balloonX = Math.round(Math.random() * (SCREEN_RIGHT - SCREEN_LEFT)) + SCREEN_LEFT
-		}
+		var angle
+		do {
+			angle = Math.round(Math.random() * 359)
+		} while (angle % 90 < 20 || angle % 90 > 70)
+		angle = 90
+		console.log(angle, angle % 90);
 
-		balloonSpeedX = (Math.random() * 2 - 1) * BALLOON_SPEED
-		balloonSpeedY = (Math.sqrt((BALLOON_SPEED ^ 2) - (balloonSpeedX ^ 2)))
-		balloonSpeedY = (Math.round(Math.random()) == 1 ? balloonSpeedY : -balloonSpeedY)
-
+		balloonSpeedX = BALLOON_SPEED * Math.sin(angle)
+		balloonSpeedY = BALLOON_SPEED * Math.cos(angle)
 		console.log(balloonSpeedX, balloonSpeedY);
 
 		setInterval(() => {
-			if (balloonY <= SCREEN_TOP) {
+			if (balloonY <= SCREEN_TOP || balloonY >= SCREEN_BOTTOM) {
 				balloonSpeedY = -balloonSpeedY
 			}
-			if (balloonY >= SCREEN_BOTTOM) {
-				balloonSpeedY = -balloonSpeedY
-			}
-			if (balloonX <= SCREEN_LEFT) {
-				balloonSpeedX = -balloonSpeedX
-			}
-			if (balloonX >= SCREEN_RIGHT) {
+			if (balloonX <= SCREEN_LEFT || balloonX >= SCREEN_RIGHT) {
 				balloonSpeedX = -balloonSpeedX
 			}
 
 			balloonX += balloonSpeedX
 			balloonY += balloonSpeedY
-			balloon.style.left = balloonX
-			balloon.style.top = balloonY
+			balloon.style.left = balloonX + '%'
+			balloon.style.top = balloonY + '%'
 		}, 1)
 
 		var BBIcon = document.getElementById("Bicon")
