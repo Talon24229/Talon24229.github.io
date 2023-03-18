@@ -323,8 +323,6 @@
 			}
 			move() {
 				this.time++
-				console.log(this.time);
-				console.log(light);
 				if (light) {
 					this.element.style.visibility = ''
 				} else {
@@ -345,8 +343,8 @@
 					else if (this.time >= 60 * 5) {
 						this.element.remove()
 						const index = balloons.indexOf(this);
-						if (index > -1) { // only splice array when item is found
-							balloons.splice(index, 1); // 2nd parameter means remove one item only
+						if (index > -1) {
+							balloons.splice(index, 1);
 						}
 					}
 				}
@@ -685,7 +683,7 @@
 								if (bbright <= 0) {
 									if (!reload) {
 										reload = true
-										// location.reload();
+										location.reload();
 									}
 								}
 							}
@@ -737,7 +735,7 @@
 								if (bbright <= 0) {
 									if (!reload) {
 										reload = true
-										// location.reload();
+										location.reload();
 									}
 								}
 							}
