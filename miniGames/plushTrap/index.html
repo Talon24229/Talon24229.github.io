@@ -29,7 +29,7 @@
 		#cabinet {
 			position: absolute;
 			height: 140%;
-			z-index: 10;
+			z-index: 11;
 			top: -25%;
 			pointer-events: none;
 		}
@@ -148,8 +148,29 @@
 				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
 		}
 
-		.BALLOON {
+		.balloon {
+			position: absolute;
 			z-index: 9;
+			width: 6%
+		}
+
+		#left {
+			background-color: black;
+			position: absolute;
+			width: 25%;
+			height: 100%;
+			top: 0%;
+			z-index: 10;
+		}
+
+		#right {
+			background-color: black;
+			position: absolute;
+			width: 25%;
+			height: 100%;
+			left: 75%;
+			top: 0%;
+			z-index: 10;
 		}
 
 		/* #bbstar {
@@ -168,7 +189,7 @@
 
 <body>
 	<img id='cabinet' class='center' src=" ../cabinet.png">
-	<img id='background' class='center'>
+	<img id='background' class='center' src="empty.png">
 	<div id='button' class='center'></div>
 	<img id='bbackground' class='center' src="empty.png">
 	<p class="center" id='timer'></p>
@@ -177,9 +198,7 @@
 	<p id="plushstar">⭐</p>
 	<p id="bbstar">⭐</p>
 	<img class='center' id='Bicon' src="BB_Icon.png">
-	<!-- <img class="BALLOON" src="balloon.png"> -->
 	<img class='center' id='Picon' src="Plush_Icon.png">
-
 	<img class='center' id='BiconW' src="White.png">
 	<img class='center' id='PiconW' src="White.png">
 	<p id="plushText">Plushtrap:<br>
@@ -192,7 +211,13 @@
 		Annoying<br>
 		Obscured(WIP)<br>
 	</p>
+	<div id="left"></div>
+	<div id="right"></div>
 	<script>
+		var cabinet = document.getElementById('cabinet')
+
+		var balloons = []
+
 		var BBIcon = document.getElementById("Bicon")
 		var PlushIcon = document.getElementById("Picon")
 
@@ -242,8 +267,109 @@
 		}
 		else {
 			deathSpeed = [.3, .5]
-
 		}
+
+		class balloon {
+			constructor() {
+				this.element = document.createElement('img')
+				this.element.src = 'balloon.png'
+				this.element.className = 'balloon'
+				this.element.style.filter = `hue-rotate(${Math.random() * 359}deg)`
+				document.body.appendChild(this.element)
+				setTimeout(() => {
+					this.screenTop = (377 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top) / (window.innerHeight / 100)
+					this.screenBottom = (779 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top - (478 / 750 * this.element.clientHeight)) / (window.innerHeight / 100)
+					this.screenLeft = (137 / 1027 * cabinet.clientWidth + cabinet.getBoundingClientRect().left) / (window.innerWidth / 100)
+					this.screenRight = (873 / 1027 * cabinet.clientWidth + cabinet.getBoundingClientRect().left - this.element.getBoundingClientRect().width) / (window.innerWidth / 100)
+					this.speed = 0.1
+					this.x = 50 - ((this.element.clientWidth / 4) / (window.innerHeight / 100))
+					this.y = 50 - ((this.element.clientHeight / 4) / (window.innerHeight / 100))
+					this.started = false
+
+					do {
+						this.angle = Math.random() * 359
+					} while (this.angle % 90 < 5 || this.angle % 90 > 85)
+
+					let minX = (this.screenRight - this.screenLeft) * 0.3 + this.screenLeft
+					let maxX = (this.screenRight - this.screenLeft) * 0.7 + this.screenLeft
+					let minY = (this.screenBottom - this.screenTop) * 0.3 + this.screenTop
+					let maxY = (this.screenBottom - this.screenTop) * 0.7 + this.screenTop
+					if (Math.round(this.angle / 90) == 0 || Math.round(this.angle / 90) == 4) {
+						this.x = this.screenRight
+						this.y = Math.random() * (maxY - minY) + minY
+					}
+					if (Math.round(this.angle / 90) == 1) {
+						this.y = this.screenTop
+						this.x = Math.random() * (maxX - minX) + minX
+					}
+					if (Math.round(this.angle / 90) == 2) {
+						this.x = this.screenLeft
+						this.y = Math.random() * (maxY - minY) + minY
+					}
+					if (Math.round(this.angle / 90) == 3) {
+						this.y = this.screenBottom
+						this.x = Math.random() * (maxX - minX) + minX
+					}
+
+					this.x += (this.element.clientWidth) / (window.innerWidth / 100) * Math.cos((360 - this.angle) * Math.PI / 180)
+					this.y += (this.element.clientHeight) / (window.innerHeight / 100) * Math.sin((360 - this.angle) * Math.PI / 180)
+
+					this.speedX = this.speed * Math.cos((360 - this.angle) * Math.PI / 180)
+					this.speedY = this.speed * Math.sin((360 - this.angle) * Math.PI / 180)
+					this.element.style.left = this.x + 'vw'
+					this.element.style.top = this.y + 'vh'
+					this.time = 0
+				}, 16);
+			}
+			move() {
+				this.time++
+				console.log(this.time);
+				console.log(light);
+				if (light) {
+					this.element.style.visibility = ''
+				} else {
+					this.element.style.visibility = 'hidden'
+				}
+
+				if (
+					!this.started
+				) {
+					if (
+						this.y >= this.screenTop &&
+						this.y <= this.screenBottom &&
+						this.x >= this.screenLeft &&
+						this.x <= this.screenRight
+					) {
+						this.started = true
+					}
+					else if (this.time >= 60 * 5) {
+						this.element.remove()
+						const index = balloons.indexOf(this);
+						if (index > -1) { // only splice array when item is found
+							balloons.splice(index, 1); // 2nd parameter means remove one item only
+						}
+					}
+				}
+				if (this.started) {
+					if (this.x <= this.screenLeft || this.x >= this.screenRight) {
+						this.speedX = -this.speedX
+					}
+					if (this.y <= this.screenTop || this.y >= this.screenBottom) {
+						this.speedY = -this.speedY
+					}
+				}
+
+				this.x -= this.speedX
+				this.y -= this.speedY
+				this.element.style.left = this.x + 'vw'
+				this.element.style.top = this.y + 'vh'
+			}
+		}
+		setInterval(() => {
+			for (balloon of balloons) {
+				balloon.move()
+			}
+		}, 16)
 
 		//setup
 		playElement.onclick = () => {
@@ -320,7 +446,11 @@
 		//BB distractions/balloons that move
 		//Glitch event
 
-		var Game = (player) => {
+		var Game = () => {
+			if (player == 'BB')
+				for (let i = 0;i < 100;i++) {
+					balloons.push(new balloon())
+				}
 			//Clear stuff
 			Player = player
 			playElement.innerText = ""
@@ -559,7 +689,7 @@
 									}
 								}
 							}
-						}, 1);
+						}, 16);
 					}, 1200)
 
 				}
@@ -568,7 +698,7 @@
 					displayState.src = 'Off.png'
 					displayState.style.top = "24%"
 				}
-			}, 1);
+			}, 16);
 			//timer
 			timer = setInterval(() => {
 				if (!killed && !won) {
@@ -611,7 +741,7 @@
 									}
 								}
 							}
-						}, 1);
+						}, 16);
 					}
 				}
 				else {
