@@ -150,6 +150,7 @@
             position: absolute;
             width: 25%;
             height: 100%;
+            top: 0%;
         }
 
         #right {
@@ -158,6 +159,7 @@
             width: 25%;
             height: 100%;
             left: 75%;
+            top: 0%;
         }
 
         #wiggle {
@@ -261,7 +263,7 @@
         var hover = false
         var mini = document.getElementById("mini")
         //create springlocks
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0;i < 8;i++) {
             let img = document.createElement("img")
             img.style.position = "absolute"
             img.className = "spring"
@@ -361,7 +363,7 @@
             img = document.getElementById("midleMini")
             img.src = "congaline.gif"
             var springs = []
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0;i < 8;i++) {
 
                 springs.push({ element: document.getElementById('spring' + i), hover: false, counter: 1 })
                 document.getElementById('spring' + i).addEventListener("mouseleave", function () { springs[i].hover = false });
