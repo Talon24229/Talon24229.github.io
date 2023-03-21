@@ -65,6 +65,13 @@
 		// 	score: 0
 		// }
 
+		var cabinet = document.getElementById('cabinet')
+
+		const screenTop = (377 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top) / (window.innerHeight / 100)
+		const screenBottom = (779 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top) / (window.innerHeight / 100)
+		const screenLeft = (137 / 1027 * cabinet.clientWidth + cabinet.getBoundingClientRect().left) / (window.innerWidth / 100)
+		const screenRight = (873 / 1027 * cabinet.clientWidth + cabinet.getBoundingClientRect().left) / (window.innerWidth / 100)
+
 		var score = 0
 		var gameData
 		gameData = getData()
