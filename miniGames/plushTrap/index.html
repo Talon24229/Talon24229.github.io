@@ -35,6 +35,7 @@
 		}
 
 		#background {
+			pointer-events: none;
 			position: absolute;
 			top: 24%;
 			height: 52%;
@@ -43,6 +44,7 @@
 		}
 
 		#bbackground {
+			pointer-events: none;
 			position: absolute;
 			top: 24%;
 			height: 52%;
@@ -90,7 +92,6 @@
 		#title {
 			z-index: 9;
 			color: rgb(255, 255, 255);
-			top: 35%;
 			font-size: 4vh;
 			text-align: left;
 			text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
@@ -150,7 +151,7 @@
 
 		.balloon {
 			position: absolute;
-			z-index: 9;
+			z-index: 2;
 			width: 6%
 		}
 
@@ -171,6 +172,14 @@
 			left: 75%;
 			top: 0%;
 			z-index: 10;
+		}
+
+		#textbox {
+			position: absolute;
+			top: 24%;
+			height: 52%;
+			width: 50%;
+			z-index: -1;
 		}
 
 		/* #bbstar {
@@ -201,6 +210,10 @@
 	<img class='center' id='Picon' src="Plush_Icon.png">
 	<img class='center' id='BiconW' src="White.png">
 	<img class='center' id='PiconW' src="White.png">
+	<form>
+		<input type="text" autocomplete="off" class='center' id="textbox">
+	</form>
+
 	<p id="plushText">Plushtrap:<br>
 		45 seconds<br>
 		Mute<br>
@@ -214,7 +227,8 @@
 	<div id="left"></div>
 	<div id="right"></div>
 	<script>
-		var cabinet = document.getElementById('cabinet')
+		if (!setup) {
+			var cabinet = document.getElementById('cabinet')
 
 		const screenTop = (377 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top) / (window.innerHeight / 100)
 		const screenBottom = (779 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top) / (window.innerHeight / 100)
@@ -223,63 +237,72 @@
 
 		var balloons = []
 
-		var BBIcon = document.getElementById("Bicon")
-		var PlushIcon = document.getElementById("Picon")
+			var BBIcon = document.getElementById("Bicon")
+			var PlushIcon = document.getElementById("Picon")
 
-		var WhiteB = document.getElementById("BiconW")
-		var WhiteP = document.getElementById("PiconW")
+			var WhiteB = document.getElementById("BiconW")
+			var WhiteP = document.getElementById("PiconW")
 
-		var BBT = document.getElementById("bbText")
-		var PLT = document.getElementById("plushText")
-		var BBleft = 63
-		var PLleft = 30
-		BBT.style.left = `${BBleft}%`//			left: 57%;
-		PLT.style.left = `${PLleft}%`//			left: 37%;
+			var BBT = document.getElementById("bbText")
+			var PLT = document.getElementById("plushText")
+			var BBleft = 63
+			var PLleft = 30
+			BBT.style.left = `${BBleft}%`//			left: 57%;
+			PLT.style.left = `${PLleft}%`//			left: 37%;
 
-		var playElement = document.getElementById("Play")
-		var titleElement = document.getElementById("title")
-		playElement.style.cursor = "pointer"
-		BBIcon.style.cursor = "pointer"
-		PlushIcon.style.cursor = "pointer"
-		var timerElement = document.getElementById("timer")
-		var displayState = document.getElementById("background")
-		var bback = document.getElementById("bbackground")
-		displayState.style.top = "24%"
-		var stage = 1
-		var time = { minutes: 0, seconds: 0 }
-		var rand
-		var light = false
-		var killed = false
-		var won = false
-		var reload = false
-		var established = false
-		BBT.style.visibility = "hidden"
-		PLT.style.visibility = "hidden"
-		var player = ""
-		var Player = ""
-		var seen = false
-		var moved = false
-		var skurry = new Audio('skurry.mp3')
-		var started = false
-		var changed = false
-		var side = "L"
-		var tapped = false
-		var deathSpeed = []
-		var timeRunning = false
-		let userAgent = navigator.userAgent
-		if (userAgent.match(/firefox|fxios/i)) {
-			deathSpeed = [.9, 1.5]
+			var playElement = document.getElementById("Play")
+			playElement.style.top = "42%"
+			var titleElement = document.getElementById("title")
+			titleElement.style.top = "35%"
+			playElement.style.cursor = "pointer"
+			BBIcon.style.cursor = "pointer"
+			PlushIcon.style.cursor = "pointer"
+			var timerElement = document.getElementById("timer")
+			var displayState = document.getElementById("background")
+			var bback = document.getElementById("bbackground")
+			displayState.style.top = "24%"
+			var stage = 1
+			var time = { minutes: 0, seconds: 0 }
+			var settup = false
+			var rand
+			var light = false
+			var killed = false
+			var won = false
+			var reload = false
+			var established = false
+			BBT.style.visibility = "hidden"
+			PLT.style.visibility = "hidden"
+			var player = ""
+			var Player = ""
+			var seen = false
+			var moved = false
+			var skurry = new Audio('skurry.mp3');
+			var started = false
+			var changed = false
+			var side = "L"
+			var tapped = false
+			var deathSpeed = []
+			var timeRunning = false
+			var glitched = false
+			var input = document.getElementById("textbox");
+			let userAgent = navigator.userAgent;
+			if (userAgent.match(/firefox|fxios/i)) {
+				deathSpeed = [.9, 1.5]
+			}
+			else {
+				deathSpeed = [.3, .5]
+			}
+			var setup = true
 		}
-		else {
-			deathSpeed = [.3, .5]
-		}
+		var debug = true
 
 		class balloon {
 			constructor() {
 				this.element = document.createElement('img')
 				this.element.src = 'balloon.png'
 				this.element.className = 'balloon'
-				this.element.style.filter = `hue-rotate(${Math.random() * 359}deg)`
+				this.colorr = `hue-rotate(${Math.random() * 359}deg)`
+				this.element.style.filter = this.colorr
 				document.body.appendChild(this.element)
 				setTimeout(() => {
 					this.hitBoxTop = screenTop
@@ -327,10 +350,14 @@
 			}
 			move() {
 				this.time++
-				if (light) {
-					this.element.style.visibility = ''
-				} else {
-					this.element.style.visibility = 'hidden'
+				//change so in darkness they are black
+				if (this.element) {
+					if (light) {
+						this.element.style.filter = `brightness(100%)`
+						this.element.style.filter = this.colorr
+					} else {
+						this.element.style.filter = `brightness(0%)`
+					}
 				}
 
 				if (
@@ -363,64 +390,113 @@
 
 				this.x -= this.speedX
 				this.y -= this.speedY
-				this.element.style.left = this.x + 'vw'
-				this.element.style.top = this.y + 'vh'
+				if (this.element) {
+					this.element.style.left = this.x + 'vw'
+					this.element.style.top = this.y + 'vh'
+				}
 			}
 		}
-		setInterval(() => {
-			for (balloon of balloons) {
+		var balloonMovement = setInterval(() => {
+			for (let balloon of balloons) {
 				balloon.move()
 			}
 		}, 16)
 
-		//setup
+		//face stuff
+		input.addEventListener("keydown", function (event) {
+			if (event.keyCode == 13) {
+				event.preventDefault();
+				input = input.value.toLowerCase();
+				if (input == "them" || input == "glitchtrap" || input == "1987" || input == "fish" || input == "choo" || input == "bab" || input == "error" || input == "404" || input == "bug" || input == "395248" || input == "418") {
+					glitched = true
+					titleElement.innerHTML = "Fun With Them"
+					WhiteP.remove()
+					WhiteB.remove()
+					PlushIcon.remove()
+					BBIcon.remove()
+					displayState.src = `warning.png`
+					PLT.style.visibility = ""
+					titleElement.style.top = "27%"
+					playElement.style.top = "69%"
+					PLT.innerHTML = "<br><br><br><br><br><br><br><br>Warning Flashing lights, play at your own risk"
+					BBT.innerHTML = ""
+					player = 'BB'
+					document.title = "It's Me";
+				}
+			}
+			//krill urself
+			if (event.keyCode == 75) {
+				if (debug) {
+					console.log("git gud");
+					stage = 7
+				}
+				else {
+					console.log("nice try");
+				}
+			}
+			//quick win
+			if (event.keyCode == 87) {
+				if (debug) {
+					stage = 6
+					light = true
+				}
+				else {
+					console.log("nice try");
+				}
+			}
+		});
 		playElement.onclick = () => {
 			if (player) {
 				Game(player)
 			}
 		}
 		function selectE(player) {
-			if (player == "Plush") {
-				WhiteP.style.filter = `blur(10px)`
-				WhiteB.style.filter = `blur(0px)`
-				document.title = "Fun With Plushtrap"
-				titleElement.innerHTML = "Fun With Plushtrap"
-				displayState.src = `Plush/1.png`
-				BBleft = 63
-				PLT.style.visibility = ""
-				BBT.style.visibility = "hidden"
-				BBT.style.left = `${BBleft}%`
 
-				let bab = setInterval(() => {
-					if (PLleft <= 37) {
-						PLleft += .5
-					}
-					else {
-						clearInterval(bab)
-					}
-					PLT.style.left = `${PLleft}%`
-				}, 2)
+			if (player == "Plush") {
+				if (!glitched) {
+					WhiteP.style.filter = `blur(10px)`
+					WhiteB.style.filter = `blur(0px)`
+					document.title = "Fun With Plushtrap";
+					titleElement.innerHTML = "Fun With Plushtrap"
+					displayState.src = `Plush/1.png`
+					BBleft = 63
+					PLT.style.visibility = ""
+					BBT.style.visibility = "hidden"
+					BBT.style.left = `${BBleft}%`
+
+					let bab = setInterval(() => {
+						if (PLleft <= 37) {
+							PLleft += .5
+						}
+						else {
+							clearInterval(bab)
+						}
+						PLT.style.left = `${PLleft}%`
+					}, 2);
+				}
 			}
 			else if (player == "BB") {
-				WhiteP.style.filter = `blur(0px)`
-				WhiteB.style.filter = `blur(10px)`
-				document.title = "Fun With BB"
-				titleElement.innerHTML = "Fun With Balloon Boy"
-				displayState.src = `BB/1.png`
-				PLleft = 30
-				PLT.style.visibility = "hidden"
-				BBT.style.visibility = ""
-				PLT.style.left = `${PLleft}%`
+				if (!glitched) {
+					WhiteP.style.filter = `blur(0px)`
+					WhiteB.style.filter = `blur(10px)`
+					document.title = "Fun With BB";
+					titleElement.innerHTML = "Fun With Balloon Boy"
+					displayState.src = `BB/1.png`
+					PLleft = 30
+					PLT.style.visibility = "hidden"
+					BBT.style.visibility = ""
+					PLT.style.left = `${PLleft}%`
 
-				let setup = setInterval(() => {
-					if (BBleft >= 57) {
-						BBleft -= .5
-					}
-					else {
-						clearInterval(setup)
-					}
-					BBT.style.left = `${BBleft}%`
-				}, 2)
+					let setup = setInterval(() => {
+						if (BBleft >= 57) {
+							BBleft -= .5
+						}
+						else {
+							clearInterval(setup)
+						}
+						BBT.style.left = `${BBleft}%`
+					}, 2);
+				}
 			}
 			else {
 				WhiteP.style.filter = `blur(0px)`
@@ -445,16 +521,51 @@
 		//BB audio - Done
 		//fix visuals for bb - Done
 		//Plushtrap back stepping - Done
-		//BB distractions/balloons that move
+		//BB distractions/balloons that move - Done
 		//Glitch event
+		//Star system (one for each character)
 
 		var Game = () => {
-			if (player == 'BB')
-				for (let i = 0; i < 100; i++) {
+			setInterval(() => {
+				if (glitched) {
+					if (player == "BB") {
+						player = "Plush"
+						Player = "Plush"
+					}
+					else if (player == "Plush") {
+						player = "BB"
+						Player = "BB"
+					}
+					if (light) {
+						let hueshift = document.getElementsByClassName("balloon")
+						for (let i = 0; i < hueshift.length; i++) {
+							let element = hueshift[i];
+							element.style.filter = `hue-rotate(${Math.random() * 1000}deg)`
+						}
+					}
+				}
+				else {
+					Player = player
+				}
+				if (!settup && glitched) {
+					settup = true
+					for (let i = 0; i < 10; i++) {
+						balloons.push(new balloon())
+					}
+					time = { minutes: 0, seconds: 30 }
+					if (debug) {
+						time = { minutes: 0, seconds: 10000 }
+					}
+				}
+			}, 17);
+			if (debug) {
+				time = { minutes: 0, seconds: 10000 }
+			}
+			if (player == 'BB' && !glitched)
+				for (let i = 0; i < 10; i++) {
 					balloons.push(new balloon())
 				}
 			//Clear stuff
-			Player = player
 			playElement.innerText = ""
 			displayState.src = `Off.png`
 			WhiteP.remove()
@@ -464,9 +575,9 @@
 			titleElement.remove()
 			PLT.innerHTML = ""
 			BBT.innerHTML = ""
-			var time = { minutes: 0, seconds: 10000 }
 
-			let ambiance = new Audio('Ambience.ogg')
+
+			let ambiance = new Audio('Ambience.ogg');
 			ambiance.play()
 			setInterval(() => {
 				if (!won && !killed) {
@@ -481,9 +592,10 @@
 			}, 10)
 			var speed = 2000
 
-			//BB distraction 1
+			//BB distractions
 			if (Player == 'BB' && !established) {
 				established = true
+				//BB distraction 1
 				setInterval(() => {
 					if (!won && !killed) {
 						let choice = Math.floor(Math.random() * 3) + 1
@@ -516,7 +628,7 @@
 				}
 			})
 
-			//movement, while there is no light aka moment logic
+			//movement LOGIC
 			setInterval(() => {
 				if (!light && stage < 7 && !killed && !won) {
 					moved = true
@@ -527,23 +639,74 @@
 					else {
 						side = "R"
 					}
-					if (player == "Plush") {
-						let chance = Math.floor(Math.random() * 6)
-						if (chance == 5) {
+					if (!glitched) {
+						if (player == "Plush") {
+							let chance = Math.floor(Math.random() * 6)
+							if (chance == 5) {
+								if (stage >= 4) {
+									stage -= 2
+
+									volume = '0.' + stage
+									volume = parseFloat(volume)
+									skurry.volume = volume
+									skurry.play()
+								}
+							}
+							else {
+								volume = '0.' + stage
+								volume = parseFloat(volume)
+								skurry.volume = volume
+								skurry.play()
+							}
+						}
+						if (player == "BB") {
+							let chance = Math.floor(Math.random() * 6)
+							// chance = 5
+							if (chance == 5) {
+								balloons.push(new balloon())
+								stage--
+							}
+							else {
+								volume = '0.' + stage
+								volume = parseFloat(volume)
+								skurry.volume = volume
+								skurry.play()
+							}
+						}
+					}
+					if (glitched) {
+						let chance = Math.floor(Math.random() * 10 + 1)
+						if (chance >= 5 && chance <= 8) {
+							balloons.push(new balloon())
+						}
+						else if (chance <= 4) {
 							if (stage >= 4) {
 								stage -= 2
 							}
 						}
+						else if (chance == 9) {
+							stage = 4
+						}
+						else {
+							volume = '0.' + stage
+							volume = parseFloat(volume)
+							skurry.volume = volume
+							skurry.play()
+						}
+						let fiftyfifty = Math.floor(Math.random() * 2)
+						if (fiftyfifty == 1 && stage <= 5) {
+							stage++
+							volume = '0.' + stage
+							volume = parseFloat(volume)
+							skurry.volume = volume
+							skurry.play()
+						}
 					}
-					stage += 1
-
-					volume = '0.' + stage
-					volume = parseFloat(volume)
-					skurry.volume = volume
-					skurry.play()
+					stage++
+					console.log(stage);
 				}
-			}, speed)
-			//logic that controls visuals
+			}, speed);
+			//visual logic
 			setInterval(() => {
 				if (moved) {
 					moved = false
@@ -602,6 +765,7 @@
 						}
 					}
 
+
 					//sitting in hall
 					else if (stage == 4) {
 						if (!seen) {
@@ -636,6 +800,7 @@
 							else if (started) {
 								setTimeout(() => {
 									won = true
+									clearInterval(balloonMovement)
 									displayState.src = `great.png`
 									displayState.style.top = "15%"
 									bback.src = `${Player}/${stage}.png`
@@ -656,6 +821,12 @@
 				}
 				//kill
 				else if (stage == 7 && !killed) {
+					for (let balloon of balloons) {
+						balloon.element.remove()
+					}
+					for (let balloon of balloons) {
+						balloons.pop()
+					}
 					displayState.style.top = "24%"
 					skurry.pause()
 					ambiance.pause()
@@ -719,6 +890,12 @@
 					}
 					//timed Out
 					if (time.minutes <= 0 && time.seconds == 0 && !killed) {
+						for (let balloon of balloons) {
+							balloon.element.remove()
+						}
+						for (let balloon of balloons) {
+							balloons.pop()
+						}
 						skurry.pause()
 						ambiance.pause()
 						killed = true
