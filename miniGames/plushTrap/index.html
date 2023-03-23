@@ -230,7 +230,12 @@
 		if (!setup) {
 			var cabinet = document.getElementById('cabinet')
 
-			var balloons = []
+		const screenTop = (377 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top) / (window.innerHeight / 100)
+		const screenBottom = (779 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top) / (window.innerHeight / 100)
+		const screenLeft = (137 / 1027 * cabinet.clientWidth + cabinet.getBoundingClientRect().left) / (window.innerWidth / 100)
+		const screenRight = (873 / 1027 * cabinet.clientWidth + cabinet.getBoundingClientRect().left) / (window.innerWidth / 100)
+
+		var balloons = []
 
 			var BBIcon = document.getElementById("Bicon")
 			var PlushIcon = document.getElementById("Picon")
@@ -300,10 +305,10 @@
 				this.element.style.filter = this.colorr
 				document.body.appendChild(this.element)
 				setTimeout(() => {
-					this.screenTop = (377 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top) / (window.innerHeight / 100)
-					this.screenBottom = (779 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top - (478 / 750 * this.element.clientHeight)) / (window.innerHeight / 100)
-					this.screenLeft = (137 / 1027 * cabinet.clientWidth + cabinet.getBoundingClientRect().left) / (window.innerWidth / 100)
-					this.screenRight = (873 / 1027 * cabinet.clientWidth + cabinet.getBoundingClientRect().left - this.element.getBoundingClientRect().width) / (window.innerWidth / 100)
+					this.hitBoxTop = screenTop
+					this.hitBoxBottom = screenBottom - (478 / 750 * this.element.clientHeight) / (window.innerHeight / 100)
+					this.hitBoxLeft = screenLeft
+					this.hitBoxRight = screenRight - (this.element.getBoundingClientRect().width) / (window.innerWidth / 100)
 					this.speed = 0.1
 					this.x = 50 - ((this.element.clientWidth / 4) / (window.innerHeight / 100))
 					this.y = 50 - ((this.element.clientHeight / 4) / (window.innerHeight / 100))
@@ -312,25 +317,24 @@
 					do {
 						this.angle = Math.random() * 359
 					} while (this.angle % 90 < 5 || this.angle % 90 > 85)
-
-					let minX = (this.screenRight - this.screenLeft) * 0.3 + this.screenLeft
-					let maxX = (this.screenRight - this.screenLeft) * 0.7 + this.screenLeft
-					let minY = (this.screenBottom - this.screenTop) * 0.3 + this.screenTop
-					let maxY = (this.screenBottom - this.screenTop) * 0.7 + this.screenTop
-					if (Math.round(this.angle / 90) == 0 || Math.round(this.angle / 90) == 4) {
-						this.x = this.screenRight
+					let minX = (this.hitBoxRight - this.hitBoxLeft) * 0.3 + this.hitBoxLeft
+					let maxX = (this.hitBoxRight - this.hitBoxLeft) * 0.7 + this.hitBoxLeft
+					let minY = (this.hitBoxBottom - this.hitBoxTop) * 0.3 + this.hitBoxTop
+					let maxY = (this.hitBoxBottom - this.hitBoxTop) * 0.7 + this.hitBoxTop
+					if (Math.round(this.angle / 90) == 0 || Math.round(this.angle / 90) == 2 || Math.round(this.angle / 90) == 4) {
+						this.x = this.hitBoxRight
 						this.y = Math.random() * (maxY - minY) + minY
 					}
 					if (Math.round(this.angle / 90) == 1) {
-						this.y = this.screenTop
+						this.y = this.hitBoxTop
 						this.x = Math.random() * (maxX - minX) + minX
 					}
 					if (Math.round(this.angle / 90) == 2) {
-						this.x = this.screenLeft
+						this.x = this.hitBoxLeft
 						this.y = Math.random() * (maxY - minY) + minY
 					}
 					if (Math.round(this.angle / 90) == 3) {
-						this.y = this.screenBottom
+						this.y = this.hitBoxBottom
 						this.x = Math.random() * (maxX - minX) + minX
 					}
 
@@ -342,7 +346,7 @@
 					this.element.style.left = this.x + 'vw'
 					this.element.style.top = this.y + 'vh'
 					this.time = 0
-				}, 16);
+				}, 16)
 			}
 			move() {
 				this.time++
@@ -360,26 +364,26 @@
 					!this.started
 				) {
 					if (
-						this.y >= this.screenTop &&
-						this.y <= this.screenBottom &&
-						this.x >= this.screenLeft &&
-						this.x <= this.screenRight
+						this.y >= this.hitBoxTop &&
+						this.y <= this.hitBoxBottom &&
+						this.x >= this.hitBoxLeft &&
+						this.x <= this.hitBoxRight
 					) {
 						this.started = true
 					}
-					else if (this.time >= 60 * 5) {
+					else if (this.time >= 60 * 5 * 100) {
 						this.element.remove()
-						const index = balloons.indexOf(this);
+						const index = balloons.indexOf(this)
 						if (index > -1) {
-							balloons.splice(index, 1);
+							balloons.splice(index, 1)
 						}
 					}
 				}
 				if (this.started) {
-					if (this.x <= this.screenLeft || this.x >= this.screenRight) {
+					if (this.x <= this.hitBoxLeft || this.x >= this.hitBoxRight) {
 						this.speedX = -this.speedX
 					}
-					if (this.y <= this.screenTop || this.y >= this.screenBottom) {
+					if (this.y <= this.hitBoxTop || this.y >= this.hitBoxBottom) {
 						this.speedY = -this.speedY
 					}
 				}
@@ -579,13 +583,13 @@
 				if (!won && !killed) {
 					ambiance.play()
 				}
-			}, ambiance.duration * 1000);
+			}, ambiance.duration * 1000)
 
 			//speed
 			var speed = Math.round(Math.random() * 10000) + 3000
 			setInterval(() => {
 				speed = Math.round(Math.random() * 10000) + 3000
-			}, 10);
+			}, 10)
 			var speed = 2000
 
 			//BB distractions
@@ -595,10 +599,10 @@
 				setInterval(() => {
 					if (!won && !killed) {
 						let choice = Math.floor(Math.random() * 3) + 1
-						let noise = new Audio(`Bb${choice}b.ogg`);
+						let noise = new Audio(`Bb${choice}b.ogg`)
 						noise.play()
 					}
-				}, speed * 3.4);
+				}, speed * 3.4)
 			}
 
 			//light logic
@@ -607,7 +611,7 @@
 					light = true
 					if (!changed) {
 						changed = true
-						let sound = new Audio('FlashlightFNAF4.ogg');
+						let sound = new Audio('FlashlightFNAF4.ogg')
 						sound.play()
 					}
 				}
@@ -618,7 +622,7 @@
 					light = false
 					if (changed) {
 						changed = false
-						let sound = new Audio('FlashlightFNAF4.ogg');
+						let sound = new Audio('FlashlightFNAF4.ogg')
 						sound.play()
 					}
 				}
@@ -730,7 +734,7 @@
 										seen = true
 										started = false
 									}
-								}, 300 / (player == "BB" ? 2 : 1));// / ;
+								}, 300 / (player == "BB" ? 2 : 1))// / ;
 							}
 						}
 						else if (seen) {
@@ -753,7 +757,7 @@
 										started = false
 									}
 
-								}, 1700 / (player == "BB" ? 5 : 1));
+								}, 1700 / (player == "BB" ? 5 : 1))
 							}
 						}
 						else if (seen) {
@@ -776,7 +780,7 @@
 										seen = true
 										started = false
 									}
-								}, 490 / (player == "BB" ? 2 : 1));
+								}, 490 / (player == "BB" ? 2 : 1))
 							}
 						}
 						else if (seen) {
@@ -810,7 +814,7 @@
 									// 	location.reload();
 									// }, 5000);
 
-								}, 490 / (player == "BB" ? 5 : 1));
+								}, 490 / (player == "BB" ? 5 : 1))
 							}
 						}
 					}
@@ -829,14 +833,14 @@
 					bback.src = `empty.png`
 					killed = true
 					if (side == "R") {
-						let scream = new Audio('scream.mp3');
+						let scream = new Audio('scream.mp3')
 						scream.play()
 						displayState.src = `${Player}/${stage}.gif`
 					}
 					else {
 						displayState.src = `${Player}/${stage}alt.gif`
 					}
-					let scream = new Audio('scream.mp3');
+					let scream = new Audio('scream.mp3')
 					scream.play()
 					setTimeout(() => {
 						let bright = 250
@@ -854,11 +858,11 @@
 								if (bbright <= 0) {
 									if (!reload) {
 										reload = true
-										location.reload();
+										location.reload()
 									}
 								}
 							}
-						}, 16);
+						}, 16)
 					}, 1200)
 
 				}
@@ -867,7 +871,7 @@
 					displayState.src = 'Off.png'
 					displayState.style.top = "24%"
 				}
-			}, 16);
+			}, 16)
 			//timer
 			timer = setInterval(() => {
 				if (!killed && !won) {
@@ -912,17 +916,17 @@
 								if (bbright <= 0) {
 									if (!reload) {
 										reload = true
-										location.reload();
+										location.reload()
 									}
 								}
 							}
-						}, 16);
+						}, 16)
 					}
 				}
 				else {
 					timerElement.innerText = ""
 				}
-			}, 1000);
+			}, 1000)
 		}
 		//Cabinet button
 		var button = document.getElementById('button')
