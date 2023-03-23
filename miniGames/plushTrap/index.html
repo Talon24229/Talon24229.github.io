@@ -227,15 +227,14 @@
 	<div id="left"></div>
 	<div id="right"></div>
 	<script>
-		if (!setup) {
-			var cabinet = document.getElementById('cabinet')
-
+		var cabinet = document.getElementById('cabinet')
 		const screenTop = (377 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top) / (window.innerHeight / 100)
 		const screenBottom = (779 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top) / (window.innerHeight / 100)
 		const screenLeft = (137 / 1027 * cabinet.clientWidth + cabinet.getBoundingClientRect().left) / (window.innerWidth / 100)
 		const screenRight = (873 / 1027 * cabinet.clientWidth + cabinet.getBoundingClientRect().left) / (window.innerWidth / 100)
+		if (!setup) {
 
-		var balloons = []
+			var balloons = []
 
 			var BBIcon = document.getElementById("Bicon")
 			var PlushIcon = document.getElementById("Picon")
@@ -276,7 +275,7 @@
 			var Player = ""
 			var seen = false
 			var moved = false
-			var skurry = new Audio('skurry.mp3');
+			var skurry = new Audio('skurry.mp3')
 			var started = false
 			var changed = false
 			var side = "L"
@@ -284,8 +283,8 @@
 			var deathSpeed = []
 			var timeRunning = false
 			var glitched = false
-			var input = document.getElementById("textbox");
-			let userAgent = navigator.userAgent;
+			var input = document.getElementById("textbox")
+			let userAgent = navigator.userAgent
 			if (userAgent.match(/firefox|fxios/i)) {
 				deathSpeed = [.9, 1.5]
 			}
@@ -405,8 +404,8 @@
 		//face stuff
 		input.addEventListener("keydown", function (event) {
 			if (event.keyCode == 13) {
-				event.preventDefault();
-				input = input.value.toLowerCase();
+				event.preventDefault()
+				input = input.value.toLowerCase()
 				if (input == "them" || input == "glitchtrap" || input == "1987" || input == "fish" || input == "choo" || input == "bab" || input == "error" || input == "404" || input == "bug" || input == "395248" || input == "418") {
 					glitched = true
 					titleElement.innerHTML = "Fun With Them"
@@ -421,17 +420,17 @@
 					PLT.innerHTML = "<br><br><br><br><br><br><br><br>Warning Flashing lights, play at your own risk"
 					BBT.innerHTML = ""
 					player = 'BB'
-					document.title = "It's Me";
+					document.title = "It's Me"
 				}
 			}
 			//krill urself
 			if (event.keyCode == 75) {
 				if (debug) {
-					console.log("git gud");
+					console.log("git gud")
 					stage = 7
 				}
 				else {
-					console.log("nice try");
+					console.log("nice try")
 				}
 			}
 			//quick win
@@ -441,10 +440,10 @@
 					light = true
 				}
 				else {
-					console.log("nice try");
+					console.log("nice try")
 				}
 			}
-		});
+		})
 		playElement.onclick = () => {
 			if (player) {
 				Game(player)
@@ -456,7 +455,7 @@
 				if (!glitched) {
 					WhiteP.style.filter = `blur(10px)`
 					WhiteB.style.filter = `blur(0px)`
-					document.title = "Fun With Plushtrap";
+					document.title = "Fun With Plushtrap"
 					titleElement.innerHTML = "Fun With Plushtrap"
 					displayState.src = `Plush/1.png`
 					BBleft = 63
@@ -472,14 +471,14 @@
 							clearInterval(bab)
 						}
 						PLT.style.left = `${PLleft}%`
-					}, 2);
+					}, 2)
 				}
 			}
 			else if (player == "BB") {
 				if (!glitched) {
 					WhiteP.style.filter = `blur(0px)`
 					WhiteB.style.filter = `blur(10px)`
-					document.title = "Fun With BB";
+					document.title = "Fun With BB"
 					titleElement.innerHTML = "Fun With Balloon Boy"
 					displayState.src = `BB/1.png`
 					PLleft = 30
@@ -495,7 +494,7 @@
 							clearInterval(setup)
 						}
 						BBT.style.left = `${BBleft}%`
-					}, 2);
+					}, 2)
 				}
 			}
 			else {
@@ -539,7 +538,7 @@
 					if (light) {
 						let hueshift = document.getElementsByClassName("balloon")
 						for (let i = 0; i < hueshift.length; i++) {
-							let element = hueshift[i];
+							let element = hueshift[i]
 							element.style.filter = `hue-rotate(${Math.random() * 1000}deg)`
 						}
 					}
@@ -557,7 +556,7 @@
 						time = { minutes: 0, seconds: 10000 }
 					}
 				}
-			}, 17);
+			}, 17)
 			if (debug) {
 				time = { minutes: 0, seconds: 10000 }
 			}
@@ -577,7 +576,7 @@
 			BBT.innerHTML = ""
 
 
-			let ambiance = new Audio('Ambience.ogg');
+			let ambiance = new Audio('Ambience.ogg')
 			ambiance.play()
 			setInterval(() => {
 				if (!won && !killed) {
@@ -703,9 +702,9 @@
 						}
 					}
 					stage++
-					console.log(stage);
+					console.log(stage)
 				}
-			}, speed);
+			}, speed)
 			//visual logic
 			setInterval(() => {
 				if (moved) {
