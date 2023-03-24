@@ -177,9 +177,14 @@
 		#textbox {
 			position: absolute;
 			top: 24%;
-			height: 52%;
+			height: 53%;
 			width: 50%;
-			z-index: -1;
+			z-index: 6;
+			background: none;
+			color: transparent;
+			text-decoration: none;
+			border-style: none;
+			z-index: 0;
 		}
 
 		/* #bbstar {
@@ -210,9 +215,7 @@
 	<img class='center' id='Picon' src="Plush_Icon.png">
 	<img class='center' id='BiconW' src="White.png">
 	<img class='center' id='PiconW' src="White.png">
-	<form>
-		<input type="text" autocomplete="off" class='center' id="textbox">
-	</form>
+	<input type="text" autocomplete="off" class='center' id="textbox">
 
 	<p id="plushText">Plushtrap:<br>
 		45 seconds<br>
@@ -235,6 +238,7 @@
 		if (!setup) {
 
 			var balloons = []
+			var textBoxBoxtext = document.getElementById("textbox")
 
 			var BBIcon = document.getElementById("Bicon")
 			var PlushIcon = document.getElementById("Picon")
@@ -403,6 +407,7 @@
 
 		//face stuff
 		input.addEventListener("keydown", function (event) {
+			console.log("hi");
 			if (event.keyCode == 13) {
 				event.preventDefault()
 				input = input.value.toLowerCase()
@@ -410,6 +415,7 @@
 					glitched = true
 					titleElement.innerHTML = "Fun With Them"
 					WhiteP.remove()
+					textBoxBoxtext.remove()
 					WhiteB.remove()
 					PlushIcon.remove()
 					BBIcon.remove()
@@ -423,27 +429,8 @@
 					document.title = "It's Me"
 				}
 			}
-			//krill urself
-			if (event.keyCode == 75) {
-				if (debug) {
-					console.log("git gud")
-					stage = 7
-				}
-				else {
-					console.log("nice try")
-				}
-			}
-			//quick win
-			if (event.keyCode == 87) {
-				if (debug) {
-					stage = 6
-					light = true
-				}
-				else {
-					console.log("nice try")
-				}
-			}
 		})
+
 		playElement.onclick = () => {
 			if (player) {
 				Game(player)
@@ -525,6 +512,19 @@
 		//Star system (one for each character)
 
 		var Game = () => {
+			//Clear stuff
+			playElement.innerText = ""
+			displayState.src = `off.png`
+			WhiteP.remove()
+			WhiteB.remove()
+			textBoxBoxtext.remove()
+			PlushIcon.remove()
+			BBIcon.remove()
+			titleElement.remove()
+			PLT.innerHTML = ""
+			BBT.innerHTML = ""
+
+			//Starting situation
 			setInterval(() => {
 				if (glitched) {
 					if (player == "BB") {
@@ -564,18 +564,6 @@
 				for (let i = 0; i < 10; i++) {
 					balloons.push(new balloon())
 				}
-			//Clear stuff
-			playElement.innerText = ""
-			displayState.src = `Off.png`
-			WhiteP.remove()
-			WhiteB.remove()
-			PlushIcon.remove()
-			BBIcon.remove()
-			titleElement.remove()
-			PLT.innerHTML = ""
-			BBT.innerHTML = ""
-
-
 			let ambiance = new Audio('Ambience.ogg')
 			ambiance.play()
 			setInterval(() => {
@@ -604,7 +592,7 @@
 				}, speed * 3.4)
 			}
 
-			//light logic
+			//light logic + debug(in keydown)
 			document.addEventListener('keydown', (event) => {
 				if (!killed && !won && event.keyCode == 32) {
 					light = true
@@ -614,6 +602,27 @@
 						sound.play()
 					}
 				}
+				//krill urself
+				if (event.keyCode == 75) {
+					if (debug) {
+						console.log("git gud")
+						stage = 7
+					}
+					else {
+						console.log("nice try")
+					}
+				}
+				//quick win
+				if (event.keyCode == 87) {
+					if (debug) {
+						stage = 6
+						light = true
+					}
+					else {
+						console.log("nice try")
+					}
+				}
+
 
 			})
 			document.addEventListener('keyup', (event) => {
@@ -867,7 +876,7 @@
 				}
 				//light controller
 				else if (!killed) {
-					displayState.src = 'Off.png'
+					displayState.src = 'off.png'
 					displayState.style.top = "24%"
 				}
 			}, 16)
