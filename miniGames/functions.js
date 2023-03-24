@@ -50,7 +50,8 @@ function getData() {
 		changed = true
 		newData.Trap = {
 			plushWon: false,
-			bbWon: false
+			bbWon: false,
+			glitchedWon: false
 		}
 	}
 	else newData.Trap = currentData.Trap
