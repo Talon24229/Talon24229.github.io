@@ -263,7 +263,7 @@
         var hover = false
         var mini = document.getElementById("mini")
         //create springlocks
-        for (let i = 0;i < 8;i++) {
+        for (let i = 0; i < 8; i++) {
             let img = document.createElement("img")
             img.style.position = "absolute"
             img.className = "spring"
@@ -363,7 +363,7 @@
             img = document.getElementById("midleMini")
             img.src = "congaline.gif"
             var springs = []
-            for (let i = 0;i < 8;i++) {
+            for (let i = 0; i < 8; i++) {
 
                 springs.push({ element: document.getElementById('spring' + i), hover: false, counter: 1 })
                 document.getElementById('spring' + i).addEventListener("mouseleave", function () { springs[i].hover = false });
@@ -610,7 +610,14 @@
                 window.location.pathname = '/miniGames/index.html'
             }, 300)
         })
-
+        var button = document.getElementById('button')
+        button.addEventListener('click', () => {
+            cabinet.src = '../cabinetRed.png'
+            setTimeout(() => {
+                cabinet.src = '../cabinet.png'
+                window.location.pathname = '/miniGames/index.html'
+            }, 300)
+        })
 
     </script>
 </body>
