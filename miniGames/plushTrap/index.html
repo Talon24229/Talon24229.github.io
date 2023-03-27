@@ -535,7 +535,7 @@
 		//fix visuals for bb - Done
 		//Plushtrap back stepping - Done
 		//BB distractions/balloons that move - Done
-		//Glitch event
+		//Glitch event - Done-ish: make gif flip between the two
 		//Star system (one for each character)
 
 		var Game = () => {
@@ -587,12 +587,15 @@
 			if (debug) {
 				time = { minutes: 0, seconds: 10000 }
 			}
-			if (player == 'BB' && !glitched)
+			if (player == 'BB' && !glitched) {
 				for (let i = 0; i < 10; i++) {
 					balloons.push(new balloon())
 				}
+			}
+
 			let ambiance = new Audio('Ambience.ogg')
 			ambiance.play()
+
 			setInterval(() => {
 				if (!won && !killed) {
 					ambiance.play()
@@ -663,7 +666,7 @@
 				}
 			})
 
-			//movement LOGIC
+			//stage changer
 			setInterval(() => {
 				if (!light && stage < 7 && !killed && !won) {
 					moved = true
@@ -796,7 +799,7 @@
 								}, 1700 / (player == "BB" ? 5 : 1))
 							}
 						}
-						else if (seen) {
+						else {
 							displayState.src = `empty.png`
 						}
 					}
@@ -819,7 +822,7 @@
 								}, 490 / (player == "BB" ? 2 : 1))
 							}
 						}
-						else if (seen) {
+						else {
 							displayState.src = `${Player}/${stage}.png`
 						}
 					}
