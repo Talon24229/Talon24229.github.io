@@ -291,11 +291,13 @@
 			var displayState = document.getElementById("background")
 			var bback = document.getElementById("bbackground")
 			displayState.style.top = "24%"
-			var stage = 1
+			//CHANGE STAGE
+			var stage = 3
 			var time = { minutes: 0, seconds: 0 }
 			var settup = false
 			var rand
 			var light = false
+			var ballooned = true
 			var killed = false
 			var won = false
 			var reload = false
@@ -434,7 +436,6 @@
 
 		//face stuff
 		input.addEventListener("keydown", function (event) {
-			console.log("hi");
 			if (event.keyCode == 13) {
 				event.preventDefault()
 				input = input.value.toLowerCase()
@@ -585,7 +586,7 @@
 				}
 			}, 17)
 			if (debug) {
-				time = { minutes: 0, seconds: 10000 }
+				time = { minutes: 10000, seconds: 10000000000000 }
 			}
 			if (player == 'BB' && !glitched) {
 				for (let i = 0; i < 10; i++) {
@@ -679,36 +680,23 @@
 					}
 					if (!glitched) {
 						if (player == "Plush") {
-							let chance = Math.floor(Math.random() * 6)
-							if (chance == 5) {
-								if (stage >= 4) {
-									stage -= 2
-
-									volume = '0.' + stage
-									volume = parseFloat(volume)
-									skurry.volume = volume
-									skurry.play()
-								}
-							}
-							else {
-								volume = '0.' + stage
-								volume = parseFloat(volume)
-								skurry.volume = volume
-								skurry.play()
-							}
+							// let chance = Math.floor(Math.random() * 6)
+							// if (chance == 5) {
+							// 	if (stage >= 4) {
+							// 		stage -= 2
+							// 	}
+							// }
+							// else {
+							stage--
+							// }
 						}
 						if (player == "BB") {
 							let chance = Math.floor(Math.random() * 6)
 							// chance = 5
 							if (chance == 5) {
 								balloons.push(new balloon())
+								ballooned = true
 								stage--
-							}
-							else {
-								volume = '0.' + stage
-								volume = parseFloat(volume)
-								skurry.volume = volume
-								skurry.play()
 							}
 						}
 					}
@@ -716,6 +704,7 @@
 						let chance = Math.floor(Math.random() * 10 + 1)
 						if (chance >= 5 && chance <= 8) {
 							balloons.push(new balloon())
+							ballooned = true
 						}
 						else if (chance <= 4) {
 							if (stage >= 4) {
@@ -725,23 +714,24 @@
 						else if (chance == 9) {
 							stage = 4
 						}
-						else {
-							volume = '0.' + stage
-							volume = parseFloat(volume)
-							skurry.volume = volume
-							skurry.play()
-						}
 						let fiftyfifty = Math.floor(Math.random() * 2)
 						if (fiftyfifty == 1 && stage <= 5) {
 							stage++
-							volume = '0.' + stage
-							volume = parseFloat(volume)
-							skurry.volume = volume
-							skurry.play()
 						}
 					}
 					stage++
-					console.log(stage)
+					if (!ballooned) {
+						volume = '0.' + stage
+						volume = parseFloat(volume)
+						skurry.volume = volume
+						skurry.play()
+					}
+					else {
+						ballooned = false
+					}
+					if (debug) {
+						console.log(stage)
+					}
 				}
 			}, speed)
 			//visual logic
@@ -768,7 +758,6 @@
 								setTimeout(() => {
 									if (stage == 2) {
 										stage = 1
-										console.log(`${Player}/${stage}.png`);
 										displayState.src = `${Player}/${stage}.png`
 										seen = true
 										started = false
@@ -789,18 +778,32 @@
 							}
 							else if (started) {
 								setTimeout(() => {
-									if (!timeRunning && (stage == 3 || stage == 5)) {
-										timeRunning = true
-										displayState.src = `empty.png`
+									if (light && !seen) {
 										seen = true
 										started = false
 									}
+									else if (!light) {
+										displayState.src = `off.png`
+									}
+									else if (light) {
+										displayState.src = `empty.png`
+									}
 
 								}, 1700 / (player == "BB" ? 5 : 1))
+								displayState.src = `empty.png`
+							}
+
+						}
+						else if (seen) {
+							if (!light) {
+								displayState.src = `off.png`
+							}
+							else if (light) {
+								displayState.src = `empty.png`
 							}
 						}
 						else {
-							displayState.src = `empty.png`
+							displayState.src = `Plush_Icon.png`
 						}
 					}
 
