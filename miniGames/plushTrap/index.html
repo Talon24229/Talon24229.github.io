@@ -292,12 +292,11 @@
 			var bback = document.getElementById("bbackground")
 			displayState.style.top = "24%"
 			//CHANGE STAGE
-			var stage = 3
+			var stage = 1
 			var time = { minutes: 0, seconds: 0 }
 			var settup = false
 			var rand
 			var light = false
-			var ballooned = true
 			var killed = false
 			var won = false
 			var reload = false
@@ -314,7 +313,6 @@
 			var side = "L"
 			var tapped = false
 			var deathSpeed = []
-			var timeRunning = false
 			var glitched = false
 			var input = document.getElementById("textbox")
 			let userAgent = navigator.userAgent
@@ -670,8 +668,6 @@
 			//stage changer
 			setInterval(() => {
 				if (!light && stage < 7 && !killed && !won) {
-					moved = true
-					timeRunning = false
 					rand = Math.round(Math.random())
 					if (rand == 0)
 						side = "L"
@@ -680,22 +676,22 @@
 					}
 					if (!glitched) {
 						if (player == "Plush") {
-							// let chance = Math.floor(Math.random() * 6)
-							// if (chance == 5) {
-							// 	if (stage >= 4) {
-							// 		stage -= 2
-							// 	}
-							// }
-							// else {
-							stage--
-							// }
+							let chance = Math.floor(Math.random() * 6)
+							if (chance == 5) {
+								if (stage >= 4) {
+									stage -= 2
+								}
+							}
+							else {
+								// stage-- //stay still
+								moved = true
+							}
 						}
 						if (player == "BB") {
 							let chance = Math.floor(Math.random() * 6)
 							// chance = 5
 							if (chance == 5) {
 								balloons.push(new balloon())
-								ballooned = true
 								stage--
 							}
 						}
@@ -704,15 +700,17 @@
 						let chance = Math.floor(Math.random() * 10 + 1)
 						if (chance >= 5 && chance <= 8) {
 							balloons.push(new balloon())
-							ballooned = true
+
 						}
 						else if (chance <= 4) {
 							if (stage >= 4) {
 								stage -= 2
+								moved = true
 							}
 						}
 						else if (chance == 9) {
 							stage = 4
+							moved = true
 						}
 						let fiftyfifty = Math.floor(Math.random() * 2)
 						if (fiftyfifty == 1 && stage <= 5) {
@@ -720,15 +718,15 @@
 						}
 					}
 					stage++
-					if (!ballooned) {
+					//noise setter
+					if (moved) {
 						volume = '0.' + stage
 						volume = parseFloat(volume)
 						skurry.volume = volume
 						skurry.play()
+						moved = true
 					}
-					else {
-						ballooned = false
-					}
+
 					if (debug) {
 						console.log(stage)
 					}
@@ -833,11 +831,8 @@
 					else if ((stage == 6)) {
 						if (!seen) {
 							if (!started) {
-								// if (!timeRunning) {
-								// timeRunning = true
 								displayState.src = `${Player}/${stage}.gif`
 								started = true
-								// }
 							}
 							else if (started) {
 								setTimeout(() => {
