@@ -187,6 +187,27 @@
 			z-index: 0;
 		}
 
+		#gear {
+			top: 25%;
+			z-index: 8;
+			left: 28%;
+			width: 3%;
+			cursor: pointer;
+			position: absolute;
+		}
+
+		#gearText {
+			top: 40%;
+			z-index: 8;
+
+			position: absolute;
+			color: rgb(255, 255, 255);
+			font-size: 2vh;
+			text-align: left;
+			text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
+				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
+		}
+
 		/* #bbstar {
 			top: 55%;
 			left: 66%;
@@ -242,6 +263,7 @@
 	<img class='center' id='Picon' src="Plush_Icon.png">
 	<img class='center' id='BiconW' src="White.png">
 	<img class='center' id='PiconW' src="White.png">
+	<img class='center' id='gear' src="settings.png">
 	<input type="text" autocomplete="off" class='center' id="textbox">
 
 	<p id="plushText">Plushtrap:<br>
@@ -253,6 +275,8 @@
 		60 seconds<br>
 		Annoying<br>
 		Obscured(WIP)<br>
+	</p>
+	<p id="settingsText">Settings stuff
 	</p>
 	<div id="left"></div>
 	<div id="right"></div>
@@ -275,6 +299,7 @@
 
 			var BBT = document.getElementById("bbText")
 			var PLT = document.getElementById("plushText")
+			var ST = document.getElementById("settingsText")
 			var BBleft = 63
 			var PLleft = 30
 			BBT.style.left = `${BBleft}%`//			left: 57%;
@@ -315,6 +340,8 @@
 			var deathSpeed = []
 			var glitched = false
 			var input = document.getElementById("textbox")
+			settings = false
+			var settElement = document.getElementById("gear")
 			let userAgent = navigator.userAgent
 			if (userAgent.match(/firefox|fxios/i)) {
 				deathSpeed = [.9, 1.5]
@@ -463,7 +490,6 @@
 			}
 		}
 		function selectE(player) {
-
 			if (player == "Plush") {
 				if (!glitched) {
 					WhiteP.style.filter = `blur(10px)`
@@ -517,6 +543,17 @@
 				titleElement.innerHTML = "Fun With..?"
 			}
 			Player = player
+		}
+		settElement.onclick = () => {
+			if (settings) {
+				settings = false
+
+			}
+			else {
+				settings = true
+				ST.style.visibility = ""
+				ST.innerHTML = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+			}
 		}
 		PlushIcon.onclick = () => {
 			player = "Plush"
