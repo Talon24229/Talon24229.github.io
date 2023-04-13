@@ -199,8 +199,14 @@
 			left: 33%;
 		} */
 	</style>
+	<link rel="prefetch" href="../cabinet.png" />
+	<link rel="prefetch" href="../cabinetRed.png" />
+
 	<link rel="prefetch" href="great.png" />
 	<link rel="prefetch" href="off.png" />
+	<link rel="prefetch" href="empty.png" />
+	<link rel="prefetch" href="BB_Icon.png" />
+	<link rel="prefetch" href="Plush_Icon.png" />
 
 	<link rel="prefetch" href="Plush/1.png" />
 	<link rel="prefetch" href="Plush/4.png" />
@@ -242,7 +248,6 @@
 	<img class='center' id='Picon' src="Plush_Icon.png">
 	<img class='center' id='BiconW' src="White.png">
 	<img class='center' id='PiconW' src="White.png">
-	<!-- <img class='center' id='gear' src="settings.png"> -->
 	<input type="text" autocomplete="off" class='center' id="textbox">
 
 	<p id="plushText">Plushtrap:<br>
@@ -255,7 +260,6 @@
 		Annoying<br>
 		Obscured(WIP)<br>
 	</p>
-	<!-- <p id="settingsText">Settings stuff -->
 	</p>
 	<div id="left"></div>
 	<div id="right"></div>
@@ -296,7 +300,7 @@
 			var bback = document.getElementById("bbackground")
 			displayState.style.top = "24%"
 			//CHANGE STAGE
-			var stage = 1
+			var stage = 3
 			var time = { minutes: 0, seconds: 0 }
 			var settup = false
 			var rand
@@ -674,21 +678,22 @@
 			setInterval(() => {
 				if (!light && stage < 7 && !killed && !won) {
 					rand = Math.round(Math.random())
-					if (rand == 0)
-						side = "L"
-					else {
-						side = "R"
-					}
+					if (rand == 0) side = "L"
+
+					else side = "R"
+
 					if (!glitched) {
 						if (player == "Plush") {
 							let chance = Math.floor(Math.random() * 6)
+							chance = 3 //stay still
 							if (chance == 5) {
 								if (stage >= 4) {
 									stage -= 2
+									moved = true
 								}
 							}
 							else {
-								// stage-- //stay still
+								stage-- //stay still
 								moved = true
 							}
 						}
