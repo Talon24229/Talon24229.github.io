@@ -334,6 +334,7 @@
 			var setup = true
 		}
 		var debug = true
+		var stagetrue = false;
 
 		class balloon {
 			constructor() {
@@ -786,32 +787,19 @@
 							}
 							else if (started) {
 								setTimeout(() => {
-									if (light && !seen) {
+									if (!seen) {
 										seen = true
 										started = false
 									}
-									else if (!light) {
-										displayState.src = `off.png`
-									}
-									else if (light) {
-										displayState.src = `empty.png`
-									}
+								}, 1600 / (player == "BB" ? 5 : 1))
+								if (displayState.src.endsWith(`off.png`)) {
+									displayState.src = `empty.png`
+								}
 
-								}, 1700 / (player == "BB" ? 5 : 1))
-								displayState.src = `empty.png`
 							}
-
 						}
 						else if (seen) {
-							if (!light) {
-								displayState.src = `off.png`
-							}
-							else if (light) {
-								displayState.src = `empty.png`
-							}
-						}
-						else {
-							displayState.src = `Plush_Icon.png`
+							displayState.src = `empty.png`
 						}
 					}
 
