@@ -186,18 +186,6 @@
 			border-style: none;
 			z-index: 0;
 		}
-
-		/* #bbstar {
-			top: 55%;
-			left: 66%;
-			z-index: 8;
-		}
-
-		#plushstar {
-			top: 55%;
-			z-index: 8;
-			left: 33%;
-		} */
 	</style>
 	<link rel="prefetch" href="../cabinet.png" />
 	<link rel="prefetch" href="../cabinetRed.png" />
@@ -241,14 +229,14 @@
 	<p class="center" id='timer'></p>
 	<p class="center" id='Play'>Play</p>
 	<p class="center" id='title'>Fun With..?</p>
-	<p id="plushstar">⭐</p>
-	<p id="bbstar">⭐</p>
 
 	<img class='center' id='Bicon' src="BB_Icon.png">
 	<img class='center' id='Picon' src="Plush_Icon.png">
 	<img class='center' id='BiconW' src="White.png">
 	<img class='center' id='PiconW' src="White.png">
 	<input type="text" autocomplete="off" class='center' id="textbox">
+	<img class='center' id='plushstar' src="../star.png">
+	<img class='center' id='bbstar' src="../star.png">
 
 	<p id="plushText">Plushtrap:<br>
 		45 seconds<br>
@@ -288,6 +276,7 @@
 			BBT.style.left = `${BBleft}%`//			left: 57%;
 			PLT.style.left = `${PLleft}%`//			left: 37%;
 
+			var instructionName = ""
 			var playElement = document.getElementById("Play")
 			playElement.style.top = "42%"
 			var titleElement = document.getElementById("title")
@@ -299,12 +288,15 @@
 			var displayState = document.getElementById("background")
 			var bback = document.getElementById("bbackground")
 			displayState.style.top = "24%"
+
 			//CHANGE STAGE
-			var stage = 3
+			var stage = 1
+
 			var time = { minutes: 0, seconds: 0 }
 			var settup = false
 			var rand
 			var light = false
+			var faiding = false
 			var killed = false
 			var won = false
 			var reload = false
@@ -324,6 +316,9 @@
 			var glitched = false
 			var input = document.getElementById("textbox")
 			var settElement = document.getElementById("gear")
+			if (bbWon) {
+
+			}
 			let userAgent = navigator.userAgent
 			if (userAgent.match(/firefox|fxios/i)) {
 				deathSpeed = [.9, 1.5]
@@ -457,6 +452,7 @@
 					BBIcon.remove()
 					displayState.src = `warning.png`
 					PLT.style.visibility = ""
+					instructionName = "???"
 					titleElement.style.top = "27%"
 					playElement.style.top = "69%"
 					PLT.innerHTML = "<br><br><br><br><br><br><br><br>Warning Flashing lights, play at your own risk"
@@ -480,6 +476,7 @@
 					document.title = "Fun With Plushtrap"
 					titleElement.innerHTML = "Fun With Plushtrap"
 					displayState.src = `Plush/1.png`
+					instructionName = "Plushtrap"
 					BBleft = 63
 					PLT.style.visibility = ""
 					BBT.style.visibility = "hidden"
@@ -502,6 +499,7 @@
 					WhiteB.style.filter = `blur(10px)`
 					document.title = "Fun With BB"
 					titleElement.innerHTML = "Fun With Balloon Boy"
+					instructionName = "Balloon Boy"
 					displayState.src = `BB/1.png`
 					PLleft = 30
 					PLT.style.visibility = "hidden"
@@ -556,9 +554,23 @@
 			textBoxBoxtext.remove()
 			PlushIcon.remove()
 			BBIcon.remove()
-			titleElement.remove()
+			titleElement.style.textAlign = "center"
 			PLT.innerHTML = ""
 			BBT.innerHTML = ""
+			let fade = 1
+
+			// instructions
+			titleElement.innerHTML = "Hold [Space] to use flashlight <br>Use flashlight to stop " + instructionName + " on the 'X'"
+			setTimeout(() => {
+				let removeLater = setInterval(() => {
+					fade -= .01
+					titleElement.style.opacity = fade
+					if (fade <= 0) {
+						fade = 100
+						clearInterval(removeLater)
+					}
+				}, 30);
+			}, 1000);
 
 			//Starting situation
 			setInterval(() => {
@@ -589,7 +601,7 @@
 					}
 					time = { minutes: 0, seconds: 30 }
 					if (debug) {
-						time = { minutes: 10000, seconds: 10000000000000 }
+						time = { minutes: 1000000, seconds: 0 }
 					}
 				}
 			}, 17)
@@ -612,11 +624,11 @@
 			}, ambiance.duration * 1000)
 
 			//speed
-			var speed = Math.round(Math.random() * 10000) + 3000
+			var speed = Math.round(Math.random() * 2000) + 3000
 			setInterval(() => {
-				speed = Math.round(Math.random() * 10000) + 3000
-			}, 10)
-			var speed = 2000
+				speed = Math.round(Math.random() * 4000) + 500
+			}, 1000)
+			// var speed = 2000
 
 			//BB distractions
 			if (Player == 'BB' && !established) {
@@ -677,7 +689,7 @@
 
 			//stage changer
 			setInterval(() => {
-				if (!light && stage < 7 && !killed && !won) {
+				if (!light && stage < 7 && !killed && !won && !started) {
 					rand = Math.round(Math.random())
 					if (rand == 0) side = "L"
 
@@ -686,7 +698,8 @@
 					if (!glitched) {
 						if (player == "Plush") {
 							let chance = Math.floor(Math.random() * 6)
-							chance = 3 //stay still
+							// chance = 3 //stay still
+							//step back 
 							if (chance == 5) {
 								if (stage >= 4) {
 									stage -= 2
@@ -694,8 +707,8 @@
 								}
 							}
 							else {
-								stage-- //stay still
-								moved = true
+								// stage-- //stay still
+								moved = true //forward!
 							}
 						}
 						if (player == "BB") {
@@ -711,7 +724,7 @@
 						let chance = Math.floor(Math.random() * 10 + 1)
 						if (chance >= 5 && chance <= 8) {
 							balloons.push(new balloon())
-
+							stage--
 						}
 						else if (chance <= 4) {
 							if (stage >= 4) {
@@ -726,6 +739,7 @@
 						let fiftyfifty = Math.floor(Math.random() * 2)
 						if (fiftyfifty == 1 && stage <= 5) {
 							stage++
+							moved = true
 						}
 					}
 					stage++
@@ -795,15 +809,12 @@
 								if (displayState.src.endsWith(`off.png`)) {
 									displayState.src = `empty.png`
 								}
-
 							}
 						}
 						else if (seen) {
 							displayState.src = `empty.png`
 						}
 					}
-
-
 					//sitting in hall
 					else if (stage == 4) {
 						if (!seen) {
@@ -821,36 +832,47 @@
 								}, 490 / (player == "BB" ? 2 : 1))
 							}
 						}
-						else {
+						else if (seen) {
 							displayState.src = `${Player}/${stage}.png`
 						}
 					}
 					//win!!
 					else if ((stage == 6)) {
-						if (!seen) {
-							if (!started) {
-								displayState.src = `${Player}/${stage}.gif`
-								started = true
-							}
-							else if (started) {
+						if (!started) {
+							displayState.src = `${Player}/${stage}.gif`
+							started = true
+							won = true
+						}
+						else if (started) {
+							setTimeout(() => {
+								clearInterval(balloonMovement)
+								displayState.src = `great.png`
+								displayState.style.top = "15%"
+								bback.src = `${Player}/${stage}.png`
 								setTimeout(() => {
-									won = true
-									clearInterval(balloonMovement)
-									displayState.src = `great.png`
-									displayState.style.top = "15%"
-									bback.src = `${Player}/${stage}.png`
-									// setTimeout(() => {
-									// 	if (player == "BB") {
-									// 		gameData.Trap.bbWon = true
-									// 	}
-									// 	else {
-									// 		gameData.Trap.plushWon = true
-									// 	}
-									// 	location.reload();
-									// }, 5000);
+									if (!faiding) {
+										var faiding = true
 
-								}, 490 / (player == "BB" ? 5 : 1))
-							}
+										Darkness = setInterval(() => {
+											fade -= .1
+											bback.style.filter = `brightness(${fade}%)`
+											if (fade <= 0) {
+												if (player == "BB") {
+													gameData.Trap.bbWon = true
+												}
+												else {
+													gameData.Trap.plushWon = true
+												}
+												sendData(gameData)
+
+												location.reload();
+											}
+										}, 20);
+									}
+								}, 5000);
+
+
+							}, 490 / (player == "BB" ? 5 : 1))
 						}
 					}
 				}
