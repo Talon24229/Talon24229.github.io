@@ -792,13 +792,11 @@
 							}
 							else if (started) {
 								setTimeout(() => {
-									if (stage == 2) {
-										stage = 1
-										displayState.src = `${Player}/${1}.png`
-										seen = true
-										started = false
-									}
-								}, 300 / (player == "BB" ? 2 : 1))// / ;
+									stage = 1
+									displayState.src = `${Player}/${1}.png`
+									seen = true
+									started = false
+								}, 300 / (player == "BB" ? 2 : 1))
 							}
 						}
 						else if (seen) {
