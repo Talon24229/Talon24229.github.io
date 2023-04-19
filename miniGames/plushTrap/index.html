@@ -864,21 +864,19 @@
 									if (!faiding) {
 										var faiding = true
 
-										Darkness = setInterval(() => {
-											fade -= .5
-											bback.style.filter = `brightness(${fade}%)`
-											if (fade <= 0) {
-												if (player == "BB") {
-													gameData.Trap.bbWon = true
-												}
-												else {
-													gameData.Trap.plushWon = true
-												}
-												sendData(gameData)
-
-												location.reload()
+										fade -= .1
+										bback.style.filter = `brightness(${fade}%)`
+										if (fade <= 0) {
+											if (player == "BB") {
+												gameData.Trap.bbWon = true
 											}
-										}, 20)
+											else {
+												gameData.Trap.plushWon = true
+											}
+											sendData(gameData)
+
+											location.reload()
+										}
 									}
 								}, 5000)
 
@@ -917,20 +915,18 @@
 						displayState.style.filter = `brightness(${bright}%)`
 						bback.style.filter = `brightness(${bright}%)`
 						bback.src = `tooBad.png`
-						setInterval(() => {
-							bright -= deathSpeed[0]
-							bback.style.filter = `brightness(${bright}%)`
-							if (bright <= 20) {
-								bbright -= deathSpeed[1]
-								displayState.style.filter = `brightness(${bbright}%)`
-								if (bbright <= 0) {
-									if (!reload) {
-										reload = true
-										location.reload()
-									}
+						bright -= deathSpeed[0]
+						bback.style.filter = `brightness(${bright}%)`
+						if (bright <= 20) {
+							bbright -= deathSpeed[1]
+							displayState.style.filter = `brightness(${bbright}%)`
+							if (bbright <= 0) {
+								if (!reload) {
+									reload = true
+									location.reload()
 								}
 							}
-						}, 16)
+						}
 					}, 1200)
 
 				}
