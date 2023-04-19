@@ -235,20 +235,25 @@
 	<img class='center' id='BiconW' src="White.png">
 	<img class='center' id='PiconW' src="White.png">
 	<input type="text" autocomplete="off" class='center' id="textbox">
-	<img class='center' id='plushstar' src="../star.png">
-	<img class='center' id='bbstar' src="../star.png">
 
-	<p id="plushText">Plushtrap:<br>
-		45 seconds<br>
-		Mute<br>
-		Steps back<br>
-	</p>
-	<p id="bbText">Balloon Boy:<br>
-		60 seconds<br>
-		Annoying<br>
-		Obscured(WIP)<br>
-	</p>
-	</p>
+	<div id="plushText">
+		<p>
+			Plushtrap:<br>
+			45 seconds<br>
+			Mute<br>
+			Steps back<br>
+		</p>
+		<img class='center' id='plushstar' src="../star.png">
+	</div>
+	<div id="bbText">
+		<p>
+			Balloon Boy:<br>
+			60 seconds<br>
+			Annoying<br>
+			Obscured(WIP)<br>
+		</p>
+		<img class='center' id='bbstar' src="../star.png">
+	</div>
 	<div id="left"></div>
 	<div id="right"></div>
 	<script>
@@ -316,9 +321,6 @@
 			var glitched = false
 			var input = document.getElementById("textbox")
 			var settElement = document.getElementById("gear")
-			if (bbWon) {
-
-			}
 			let userAgent = navigator.userAgent
 			if (userAgent.match(/firefox|fxios/i)) {
 				deathSpeed = [.9, 1.5]
@@ -329,7 +331,7 @@
 			var setup = true
 		}
 		var debug = true
-		var stagetrue = false;
+		var stagetrue = false
 
 		class balloon {
 			constructor() {
@@ -569,8 +571,8 @@
 						fade = 100
 						clearInterval(removeLater)
 					}
-				}, 30);
-			}, 1000);
+				}, 30)
+			}, 1000)
 
 			//Starting situation
 			setInterval(() => {
@@ -699,7 +701,7 @@
 						if (player == "Plush") {
 							let chance = Math.floor(Math.random() * 6)
 							// chance = 3 //stay still
-							//step back 
+							//step back
 							if (chance == 5) {
 								if (stage >= 4) {
 									stage -= 2
@@ -865,11 +867,11 @@
 												}
 												sendData(gameData)
 
-												location.reload();
+												location.reload()
 											}
-										}, 20);
+										}, 20)
 									}
-								}, 5000);
+								}, 5000)
 
 
 							}, 490 / (player == "BB" ? 5 : 1))
@@ -998,6 +1000,13 @@
 		var score = 0
 		var gameData
 		gameData = getData()
+
+		let plushstar = document.getElementById('plushstar')
+		let bbstar = document.getElementById('bbstar')
+		if (gameData.Trap.plushWon) plushstar.style.visibility = ''
+		else plushstar.style.visibility = 'hidden'
+		if (gameData.Trap.bbWon) bbstar.style.visibility = ''
+		else bbstar.style.visibility = 'hidden'
 	</script>
 </body>
 
