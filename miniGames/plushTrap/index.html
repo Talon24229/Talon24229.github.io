@@ -477,6 +477,7 @@
 					gameData.Trap.bbWon = false
 					gameData.Trap.plushWon = false
 					sendData(gameData)
+
 				}
 			}
 		})
@@ -585,6 +586,7 @@
 					titleElement.style.opacity = fade
 					if (fade <= 0) {
 						clearInterval(removeLater)
+						location.reload()
 					}
 				}, 30)
 			}, 1000)
