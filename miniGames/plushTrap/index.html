@@ -473,6 +473,11 @@
 					player = 'BB'
 					document.title = "It's Me"
 				}
+				else if (input == "data" || input == "clear data" || input == "remove" || input == "!star") {
+					gameData.Trap.bbWon = false
+					gameData.Trap.plushWon = false
+					sendData(gameData)
+				}
 			}
 		})
 
@@ -570,7 +575,7 @@
 			titleElement.style.textAlign = "center"
 			PLT.innerHTML = ""
 			BBT.innerHTML = ""
-			let fade = 1
+			var fade = 1
 
 			// instructions
 			titleElement.innerHTML = "Hold [Space] to use flashlight <br>Use flashlight to stop " + instructionName + " on the 'X'"
@@ -579,7 +584,6 @@
 					fade -= .01
 					titleElement.style.opacity = fade
 					if (fade <= 0) {
-						fade = 100
 						clearInterval(removeLater)
 					}
 				}, 30)
@@ -850,6 +854,7 @@
 					//win!!
 					else if ((stage == 6)) {
 						if (!started) {
+							fade = 100
 							displayState.src = `${Player}/${stage}.gif`
 							started = true
 							won = true
@@ -860,7 +865,7 @@
 								displayState.src = `great.png`
 								displayState.style.top = "15%"
 								bback.src = `${Player}/${stage}.png`
-								fade -= .01
+								fade -= .5
 								setTimeout(() => {
 									if (!faiding) {
 										var faiding = true
