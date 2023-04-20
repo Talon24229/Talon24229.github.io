@@ -326,6 +326,7 @@
 			var skurry = new Audio('skurry.mp3')
 			var started = false
 			var changed = false
+			var fade = 1
 			var side = "L"
 			var tapped = false
 			var deathSpeed = []
@@ -578,7 +579,6 @@
 			titleElement.style.textAlign = "center"
 			PLT.innerHTML = ""
 			BBT.innerHTML = ""
-			var fade = 1
 
 			// instructions
 			titleElement.innerHTML = "Hold [Space] to use flashlight <br>Use flashlight to stop " + instructionName + " on the 'X'"
