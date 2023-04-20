@@ -474,9 +474,11 @@
 					document.title = "It's Me"
 				}
 				else if (input == "data" || input == "clear data" || input == "remove" || input == "!star") {
+					console.log("Data Cleared");
 					gameData.Trap.bbWon = false
 					gameData.Trap.plushWon = false
 					sendData(gameData)
+					location.reload()
 
 				}
 			}
@@ -586,7 +588,6 @@
 					titleElement.style.opacity = fade
 					if (fade <= 0) {
 						clearInterval(removeLater)
-						location.reload()
 					}
 				}, 30)
 			}, 1000)
