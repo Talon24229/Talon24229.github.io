@@ -305,8 +305,6 @@
 			var bback = document.getElementById("bbackground")
 			displayState.style.top = "24%"
 
-			//CHANGE STAGE
-			var stage = 1;
 
 			var time = { minutes: 0, seconds: 0 }
 			var settup = false
@@ -341,9 +339,11 @@
 				deathSpeed = [.3, .5]
 			}
 			var setup = true
+			var stagetrue = false
 		}
 		var debug = true
-		var stagetrue = false
+		//CHANGE STAGE
+		var stage = 1;
 
 		class balloon {
 			constructor() {
@@ -483,7 +483,6 @@
 					setTimeout(() => {
 						location.reload()
 					}, 1000);
-
 				}
 			}
 		})
