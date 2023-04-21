@@ -474,12 +474,15 @@
 					player = 'BB'
 					document.title = "It's Me"
 				}
-				else if (input == "data" || input == "clear data" || input == "remove" || input == "!star") {
+				else if (input == "data" || input == "clear data" || input == "remove" || input == "!star" || input == "clear") {
 					console.log("Data Cleared");
+					titleElement.innerHTML = "Data Cleared"
 					gameData.Trap.bbWon = false
 					gameData.Trap.plushWon = false
 					sendData(gameData)
-					location.reload()
+					setTimeout(() => {
+						location.reload()
+					}, 1000);
 
 				}
 			}
