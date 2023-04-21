@@ -341,6 +341,7 @@
 			var setup = true
 			var stagetrue = false
 		}
+
 		var debug = true
 		//CHANGE STAGE
 		var stage = 1;
@@ -481,7 +482,8 @@
 					gameData.Trap.plushWon = false
 					sendData(gameData)
 					setTimeout(() => {
-						location.reload()
+						// location.reload()
+						href = "../plushTrap/index.html"
 					}, 1000);
 				}
 			}
@@ -887,7 +889,8 @@
 											}
 											sendData(gameData)
 
-											location.reload()
+											// location.reload()
+											href = "../plushTrap/index.html"
 										}
 										// }, 100);
 									}
@@ -936,7 +939,8 @@
 							if (bbright <= 0) {
 								if (!reload) {
 									reload = true
-									location.reload()
+									// location.reload()
+									href = "../plushTrap/index.html"
 								}
 							}
 						}
@@ -993,7 +997,8 @@
 								if (bbright <= 0) {
 									if (!reload) {
 										reload = true
-										location.reload()
+										// location.reload()
+										href = "../plushTrap/index.html"
 									}
 								}
 							}
