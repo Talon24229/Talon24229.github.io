@@ -72,7 +72,7 @@
 			z-index: 3;
 			color: rgb(94, 94, 94);
 			top: 24%;
-			font-size: 5vh;
+			font-size: 300%;
 			text-align: left;
 			left: 70%;
 			text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
@@ -83,7 +83,7 @@
 			z-index: 9;
 			color: rgb(255, 255, 255);
 			top: 42%;
-			font-size: 4vh;
+			font-size: 250%;
 			text-align: left;
 			text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
 				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
@@ -92,7 +92,7 @@
 		#title {
 			z-index: 9;
 			color: rgb(255, 255, 255);
-			font-size: 4vh;
+			font-size: 250%;
 			text-align: left;
 			text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
 				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
@@ -324,6 +324,7 @@
 			var skurry = new Audio('skurry.mp3')
 			var started = false
 			var changed = false
+			var mode
 			var fade = 1
 			var side = "L"
 			var tapped = false
@@ -668,6 +669,20 @@
 					}
 				}, speed * 3.4)
 			}
+			//Hard Modes
+			if (Player == 'BB' && !established) {
+				established = true
+				setInterval(() => {
+					//PlushTrap
+					// if the light is off for 10 seconds, kill
+					//freddles noises get louder as it goes up
+					// if light is on for 3, plushbaby kill
+
+					//BB
+					//FNAF SL flash beacon, 5(?) uses
+
+				}, 16)
+			}
 
 			//light logic + debug(in keydown)
 			document.addEventListener('keydown', (event) => {
@@ -889,8 +904,11 @@
 											}
 											sendData(gameData)
 
-											// location.reload()
-											href = "../plushTrap/index.html"
+											if (!reload) {
+												reload = true
+												location.reload()
+												// href = "../plushTrap/index.html"
+											}
 										}
 										// }, 100);
 									}
@@ -997,8 +1015,8 @@
 								if (bbright <= 0) {
 									if (!reload) {
 										reload = true
-										// location.reload()
-										href = "../plushTrap/index.html"
+										location.reload()
+										// href = "../plushTrap/index.html"
 									}
 								}
 							}
