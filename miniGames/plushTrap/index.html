@@ -17,7 +17,7 @@
 			margin: 0;
 			background-repeat: no-repeat;
 			overflow: hidden;
-			background-size: 100vw;
+			background-size: 100%;
 			background-color: rgb(0, 0, 0);
 			text-align: center;
 		}
@@ -60,9 +60,9 @@
 
 		#button {
 			position: absolute;
-			top: 82.5vh;
-			height: 7vh;
-			width: 7vw;
+			top: 82.5%;
+			height: 7%;
+			width: 7%;
 			left: 49.5%;
 			z-index: 1000;
 			cursor: pointer;
@@ -131,7 +131,7 @@
 			z-index: 8;
 			position: absolute;
 			color: rgb(255, 255, 255);
-			font-size: 2vh;
+			font-size: 150%;
 			text-align: left;
 			text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
 				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
@@ -142,7 +142,7 @@
 			z-index: 8;
 			position: absolute;
 			color: rgb(255, 255, 255);
-			font-size: 2vh;
+			font-size: 150%;
 			text-align: left;
 			text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
 				1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0);
@@ -345,15 +345,15 @@
 
 		var debug = true
 		//CHANGE STAGE
-		var stage = 1;
+		var stage = 1
 
 		class balloon {
 			constructor() {
 				this.element = document.createElement('img')
 				this.element.src = 'balloon.png'
 				this.element.className = 'balloon'
-				this.colorr = `hue-rotate(${Math.random() * 359}deg)`
-				this.element.style.filter = this.colorr
+				this.color = `hue-rotate(${Math.random() * 359}deg)`
+				this.element.style.filter = this.color
 				document.body.appendChild(this.element)
 				setTimeout(() => {
 					this.hitBoxTop = screenTop
@@ -394,8 +394,8 @@
 
 					this.speedX = this.speed * Math.cos((360 - this.angle) * Math.PI / 180)
 					this.speedY = this.speed * Math.sin((360 - this.angle) * Math.PI / 180)
-					this.element.style.left = this.x + 'vw'
-					this.element.style.top = this.y + 'vh'
+					this.element.style.left = this.x + '%'
+					this.element.style.top = this.y + '%'
 					this.time = 0
 				}, 16)
 			}
@@ -405,7 +405,7 @@
 				if (this.element) {
 					if (light) {
 						this.element.style.filter = `brightness(100%)`
-						this.element.style.filter = this.colorr
+						this.element.style.filter = this.color
 					} else {
 						this.element.style.filter = `brightness(0%)`
 					}
@@ -414,6 +414,7 @@
 				if (
 					!this.started
 				) {
+
 					if (
 						this.y >= this.hitBoxTop &&
 						this.y <= this.hitBoxBottom &&
@@ -442,8 +443,8 @@
 				this.x -= this.speedX
 				this.y -= this.speedY
 				if (this.element) {
-					this.element.style.left = this.x + 'vw'
-					this.element.style.top = this.y + 'vh'
+					this.element.style.left = this.x + '%'
+					this.element.style.top = this.y + '%'
 				}
 			}
 		}
@@ -477,7 +478,7 @@
 					document.title = "It's Me"
 				}
 				else if (input == "data" || input == "clear data" || input == "remove" || input == "!star" || input == "clear") {
-					console.log("Data Cleared");
+					console.log("Data Cleared")
 					titleElement.innerHTML = "Data Cleared"
 					gameData.Trap.bbWon = false
 					gameData.Trap.plushWon = false
