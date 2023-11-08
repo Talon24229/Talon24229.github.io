@@ -1,5 +1,5 @@
 import * as THREE from './three.module.js';
-// import './style.css';
+
 
 
 
@@ -120,7 +120,6 @@ moveCamera();
 function animate(time) {
   requestAnimationFrame(animate)
   pog.rotation.y += 0.01;
-  controls.update
   renderer.render(scene, camera);
 
 }
