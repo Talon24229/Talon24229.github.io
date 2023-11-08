@@ -1,204 +1,147 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-	<link rel="shortcut icon" type="image/x-icon" href="vaf/favicon.ico">
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Faz-Terminal</title>
-	<style>
-		body {
-			margin: 0;
-			background-repeat: no-repeat;
-			overflow-x: hidden;
-			background-size: 100vw;
-			background-image: url("BR3.png");
-			background-color: rgb(0, 0, 0);
-		}
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		#hay {
-			margin-top: 5.5%;
-			margin-left: 14%;
-			width: 72%;
-			height: 64%;
-			z-index: -1;
-		}
-
-		a,
-		span {
-			text-decoration: none;
-			color: limegreen;
-			font-size: 2rem;
-		}
-
-		span {
-			visibility: hidden;
-		}
-	</style>
 </head>
 
-<!-- <body onload="setTimeout(()=>{load()},1000);browserTest()"> -->
-	<div id="hay">
-	</div>
+<body>
 
-	<script>
-		let userAgent = navigator.userAgent;
-		let browserName;
-		// function browserTest() {
-		// 	if (userAgent.match(/firefox|fxios/i)) {
-		// 	}
-		// 	else {
-		// 		alert("Lel go 2 FireFox u  nerd")
-		// 		location.reload();
-		// 	}
-		// }
+  <canvas id="bg"></canvas>
+ 
+  <main>
 
-		// const TYPEWRITERSPEED = 150
-		var typewriterSpeed = 75
-		const cursorFlashSpeed = 350
-		const cursorCharacter = ' ▊'
-		// document.addEventListener('keydown', (event) => {
-		// 	if (event.keydown == '32') {
-		// 		typewriterSpeed = TYPEWRITERSPEED / 5
-		// 	}
-		// })
-		// document.addEventListener('keyup', (event) => {
-		// 	if (event.keydown == '32') {
-		// 		typewriterSpeed = TYPEWRITERSPEED
-		// 	}
-		// })
-		var linkNumber = 0
-		var characterNumber = 0
-		var spanToggle = false
-		var allCharacters = []
-		var links = [
-			{
-				url: 'FazQuotesStuff/index.html',
-				display: 'Faz-Quotes'
-			},
-			{
-				url: 'miniGames/index.html',
-				display: 'Minigames'
-			},
-			{
-				url: '3portfolio/index.html',
-				display: '3D Stuff'
-			},
-			{
-				url: 'https://brand24376.github.io/Breakout%20in%20Javascript/index.html',
-				display: 'Breakout'
-			},
-			{
-				url: 'https://mhoover0413.github.io/minecraft.html',
-				display: '2D Minecraft'
-			},
-			{
-				url: 'https://mhoover0413.github.io/3DPC%20Sim%20JS/Fnaf1.html',
-				display: '(3DPC) 3 Days at Programing Class'
-			},
-			{
-				url: 'https://ryan24313.github.io/games/paladinsJokes/',
-				display: 'Paladins Jokes'
-			},
-			{
-				url: 'gettoschool/index.html',
-				display: 'Get To School Talon Ed'
-			},
-			{
-				url: 'https://brand24376.github.io/Get%202%20School/game.html',
-				display: 'Get To School Brandon Ed'
-			},
-			{
-				url: 'https://mhoover0413.github.io/GetToSchool.html',
-				display: 'Get To School Mac Ed'
-			},
+    <blockquote>
+      <p>I like making stuff and putting it on the internet</p>
+    </blockquote>
 
-		]
+    <section>
+      <h2>📜 Manifesto</h2>
+      <p>
+        Connection terminated. I'm sorry to interrupt you, Elizabeth, if you still even remember that name, But I'm
+        afraid you've been misinformed. You are not here to receive a gift, nor have you been called here by the
+        individual you assume, although, you have indeed been called. You have all been called here, into a labyrinth of
+        sounds and smells, misdirection and misfortune. A labyrinth with no exit, a maze with no prize. You don't even
+        realize that you are trapped. Your lust for blood has driven you in endless circles, chasing the cries of
+        children in some unseen chamber, always seeming so near, yet somehow out of reach, but you will never find them.
+        None of you will. This is where your story ends. And to you, my brave volunteer, who somehow found this job
+        listing not intended for you, although there was a way out planned for you, I have a feeling that's not what you
+        want. I have a feeling that you are right where you want to be. I am remaining as well. I am nearby. This place
+        will not be remembered, and the memory of everything that started this can finally begin to fade away. As the
+        agony of every tragedy should. And to you monsters trapped in the corridors, be still and give up your spirits.
+        They don't belong to you. For most of you, I believe there is peace and perhaps more waiting for you after the
+        smoke clears. Although, for one of you, the darkest pit of Hell has opened to swallow you whole, so don't keep
+        the devil waiting, old friend. My daughter, if you can hear me, I knew you would return as well. It's in your
+        nature to protect the innocent. I'm sorry that on that day, the day you were shut out and left to die, no one
+        was there to lift you up into their arms the way you lifted others into yours, and then, what became of you. I
+        should have known you wouldn't be content to disappear, not my daughter. I couldn't save you then, so let me
+        save you now. It's time to rest - for you, and for those you have carried in your arms. This ends for all of us.
+        End communication.
+      </p>
 
-		function load() {
-			for (link of links) {
-				let linkElement = document.createElement('a')
-				linkElement.id = link.display
-				document.getElementById('hay').appendChild(linkElement)
-				let span = document.createElement('span')
-				span.id = link.display
-				span.innerHTML = cursorCharacter
-				document.getElementById('hay').appendChild(span)
-				document.getElementById('hay').appendChild(document.createElement('br'))
-			}
-			let linkCharacters = [];
-			for (link of links) {
-				let linkElement = document.getElementById(link.display)
-				let splitLink = link.display.split('')
-				for (i = 0; i < splitLink.length; i++) {
-					linkCharacters.push({ index: i, character: splitLink[i], link: link.display })
-				}
-			}
-			for (character of linkCharacters) {
-				let link
-				for (tempLink of links) {
-					if (tempLink.display == character.link)
-						link = tempLink
-				}
-				let lastCharacter = false
-				if (character.index == link.display.length - 1) {
-					lastCharacter = true
-				} else {
-					lastCharacter = false
-				}
-				allCharacters.push({ character: character.character, link: link.display, characterNumber: characterNumber, linkNumber: linkNumber, lastCharacter: lastCharacter })
-				characterNumber++
-				linkNumber++
-			}
-			for (character of allCharacters) {
-				writeCharacter(character)
-			}
-		}
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </p>
+
+    </section>
+
+    <section class="light">
+      <h2>👩🏽‍🚀 Projects</h2>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </p>
+
+      <h2>🏆 Accomplishments</h2>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </p>
+
+    </section>
+
+    <blockquote>
+      <p>The best way out is always through <br>-Robert Frost</p>
+    </blockquote>
+
+    <section class="left">
+      <h2>🌮 Work History</h2>
+
+      <h3>McDonalds</h3>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </p>
+      <h3>Burger King</h3>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </p>
+      <h3>Taco Bell</h3>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </p>
+
+    </section>
+
+    <blockquote>
+      <p>Thanks for watching!</p>
+    </blockquote>
 
 
-		function writeCharacter(character) {
-			setTimeout(() => {
-				console.log(typewriterSpeed);
-				let linkElement = document.getElementById(character.link)
-				linkElement.innerHTML += character.character
-				if (character.lastCharacter) {
-					for (link of links) {
-						if (link.display == character.link) {
-							makeLink(linkElement, link)
-						}
-					}
-				}
-				for (span of document.getElementsByTagName('span')) {
-					if (span.id == character.link) {
-						span.style.visibility = 'visible'
-					}
-					else {
-						span.style.visibility = 'hidden'
-					}
-				}
-			}, typewriterSpeed * character.characterNumber + typewriterSpeed);
-		}
+  </main>
 
-		function makeLink(linkElement, link) {
-			setTimeout(() => {
-				linkElement.href = link.url
-			}, typewriterSpeed);
-		}
+  <script type="module" src="/main.js"></script>
 
-		setInterval(() => {
-			for (span of document.getElementsByTagName('span')) {
-				if (spanToggle) {
-					span.style.opacity = 1
-				} else
-					span.style.opacity = 0
-			}
-			if (spanToggle) {
-				spanToggle = false
-			} else {
-				spanToggle = true
-			}
-		}, cursorFlashSpeed)
-	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 
 </html>
