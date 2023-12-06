@@ -1,200 +1,84 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-	<link rel="shortcut icon" type="image/x-icon" href="vaf/favicon.ico">
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Faz-Terminal</title>
-	<style>
-		body {
-			margin: 0;
-			background-repeat: no-repeat;
-			overflow-x: hidden;
-			background-size: 100vw;
-			background-image: url("BR3.png");
-			background-color: rgb(0, 0, 0);
-		}
-
-		#hay {
-			margin-top: 5.5%;
-			margin-left: 14%;
-			width: 72%;
-			height: 64%;
-			z-index: -1;
-		}
-
-		a,
-		span {
-			text-decoration: none;
-			color: limegreen;
-			font-size: 2rem;
-		}
-
-		span {
-			visibility: hidden;
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talon's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<!-- <body onload="setTimeout(()=>{load()},1000);browserTest()"> -->
-	<div id="hay">
-	</div>
+<body>
+    <canvas id="bg"></canvas>
+    <script type="importmap">
+        {
+    "imports": {
+      "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three0.158.0/examples/jsm/"
+    }
+  }
+</script>
+    <div id="content">
+        <h1>Talon Pauling's Portfolio</h1>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <div class="box">
+            <p>I created the api for OnlyPogs</p>
+        </div>
+        <p>This was my first time making an API, and working for OnlyPogs, the API is intended to be highly flexible with even a built in randomize feature for those to make games, that need pog data.</p>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <div class="box">
+            <p>I created the now defunct DBPannel</p>
+        </div>
+        <p>The DBPannel was the fisrt version for OnlyPogs to have a built in admin control pannel so that to update the database, it could remain live.</p>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <div class="box">
+            <p>I created Faz Quotes</p>
+        </div>
+        <p>
+            A mostly joke website that started with the base idea of the character freddy saying randomly made quotes.
+    </p>
+    <p>
+        This later became the Faz Terminal, where I host other's creations, and my own personal projects
+    </p>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <div class="box">
+            <p>I recreated a minireena minigame, with functioning settings</p>
+        </div>
+        <p>Creating this minigame was decently complex with 8 assets needing to load in specificlocations when live.</p>
+        <p>When retoughing this game I added controls and settings to make the game easier or harder</p>
+        <br><br><br><br><br><br><br><br><br><br><br><br>
+        <div class="box">
+            <p>Here is a snippit of its code</p>
+        </div>
+        <p>In this code you can see the logic for how the enemies, minireenas climb the up the sides of the screen, when they reach the top you lose.</p>
+        <p>Underneth is the logic for how to remove this enemy by pressing keys on your keyboard, they fall off.</p>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <div class="box">
+            <p>I recreated the Fun With... minigame, with a selection screen</p>
+        </div>
+        <p>This game features 3 modes, BB, Plushtrap, and a hard mode.</p>
+        <p>The website has not database, and instead uses cookies to track personal data.</p>
+        <p>The stars only show up when you have beaten that gamemode.</p>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <div class="box">
+            <p>Here is a snippit of its code</p>
+        </div>
+        <p>
+            Inside this snippit, the speed variable is created, caluclating how fast the enemy should be.
+        </p>
+        <p>
+            When specifally BB is selected balloons are then created as visual distractions.
+        </p>
+        <div>
 
-	<script>
-		let userAgent = navigator.userAgent;
-		let browserName;
-		// function browserTest() {
-		// 	if (userAgent.match(/firefox|fxios/i)) {
-		// 	}
-		// 	else {
-		// 		alert("Lel go 2 FireFox u  nerd")
-		// 		location.reload();
-		// 	}
-		// }
-
-		// const TYPEWRITERSPEED = 150
-		var typewriterSpeed = 75
-		const cursorFlashSpeed = 350
-		const cursorCharacter = ' ▊'
-		// document.addEventListener('keydown', (event) => {
-		// 	if (event.keydown == '32') {
-		// 		typewriterSpeed = TYPEWRITERSPEED / 5
-		// 	}
-		// })
-		// document.addEventListener('keyup', (event) => {
-		// 	if (event.keydown == '32') {
-		// 		typewriterSpeed = TYPEWRITERSPEED
-		// 	}
-		// })
-		var linkNumber = 0
-		var characterNumber = 0
-		var spanToggle = false
-		var allCharacters = []
-		var links = [
-			{
-				url: 'FazQuotesStuff/index.html',
-				display: 'Faz-Quotes'
-			},
-			{
-				url: 'miniGames/index.html',
-				display: 'Minigames'
-			},
-			{
-				url: 'https://brand24376.github.io/Breakout%20in%20Javascript/index.html',
-				display: 'Breakout'
-			},
-			{
-				url: 'https://mhoover0413.github.io/minecraft.html',
-				display: '2D Minecraft'
-			},
-			{
-				url: 'https://mhoover0413.github.io/3DPC%20Sim%20JS/Fnaf1.html',
-				display: '(3DPC) 3 Days at Programing Class'
-			},
-			{
-				url: 'https://ryan24313.github.io/games/paladinsJokes/',
-				display: 'Paladins Jokes'
-			},
-			{
-				url: 'gettoschool/index.html',
-				display: 'Get To School Talon Ed'
-			},
-			{
-				url: 'https://brand24376.github.io/Get%202%20School/game.html',
-				display: 'Get To School Brandon Ed'
-			},
-			{
-				url: 'https://mhoover0413.github.io/GetToSchool.html',
-				display: 'Get To School Mac Ed'
-			},
-
-		]
-
-		function load() {
-			for (link of links) {
-				let linkElement = document.createElement('a')
-				linkElement.id = link.display
-				document.getElementById('hay').appendChild(linkElement)
-				let span = document.createElement('span')
-				span.id = link.display
-				span.innerHTML = cursorCharacter
-				document.getElementById('hay').appendChild(span)
-				document.getElementById('hay').appendChild(document.createElement('br'))
-			}
-			let linkCharacters = [];
-			for (link of links) {
-				let linkElement = document.getElementById(link.display)
-				let splitLink = link.display.split('')
-				for (i = 0; i < splitLink.length; i++) {
-					linkCharacters.push({ index: i, character: splitLink[i], link: link.display })
-				}
-			}
-			for (character of linkCharacters) {
-				let link
-				for (tempLink of links) {
-					if (tempLink.display == character.link)
-						link = tempLink
-				}
-				let lastCharacter = false
-				if (character.index == link.display.length - 1) {
-					lastCharacter = true
-				} else {
-					lastCharacter = false
-				}
-				allCharacters.push({ character: character.character, link: link.display, characterNumber: characterNumber, linkNumber: linkNumber, lastCharacter: lastCharacter })
-				characterNumber++
-				linkNumber++
-			}
-			for (character of allCharacters) {
-				writeCharacter(character)
-			}
-		}
-
-
-		function writeCharacter(character) {
-			setTimeout(() => {
-				console.log(typewriterSpeed);
-				let linkElement = document.getElementById(character.link)
-				linkElement.innerHTML += character.character
-				if (character.lastCharacter) {
-					for (link of links) {
-						if (link.display == character.link) {
-							makeLink(linkElement, link)
-						}
-					}
-				}
-				for (span of document.getElementsByTagName('span')) {
-					if (span.id == character.link) {
-						span.style.visibility = 'visible'
-					}
-					else {
-						span.style.visibility = 'hidden'
-					}
-				}
-			}, typewriterSpeed * character.characterNumber + typewriterSpeed);
-		}
-
-		function makeLink(linkElement, link) {
-			setTimeout(() => {
-				linkElement.href = link.url
-			}, typewriterSpeed);
-		}
-
-		setInterval(() => {
-			for (span of document.getElementsByTagName('span')) {
-				if (spanToggle) {
-					span.style.opacity = 1
-				} else
-					span.style.opacity = 0
-			}
-			if (spanToggle) {
-				spanToggle = false
-			} else {
-				spanToggle = true
-			}
-		}, cursorFlashSpeed)
-	</script>
+            At the bottom logic for the light is implemented, if you hold a key the light stays on.</div>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+        
+        
+        
+    </div>
+    <script type="module" src="main.js"></script>
 </body>
 
 </html>
