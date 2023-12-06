@@ -21,8 +21,6 @@ let imgList = [
     "mini.PNG",
     "BB.PNG",
     "BBcode.PNG",
-    
-    
 ]
 
 
