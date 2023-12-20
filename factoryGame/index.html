@@ -1,0 +1,310 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Factory Game</title>
+	<script type='text/javascript' src='./../miniGames/functions.js'></script>
+	<style>
+		body {
+			margin: 0;
+			background-repeat: no-repeat;
+			overflow: hidden;
+			background-size: 100vw;
+			background-color: rgb(0, 0, 0);
+			font-family: "Comic Sans MS";
+			text-align: center;
+		}
+
+		p {
+			margin: 0;
+		}
+
+		#grid {
+			background-color: rgb(255, 255, 255);
+			position: absolute;
+			z-index: 0;
+		}
+
+		.center {
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	</style>
+</head>
+
+<body>
+	<canvas id='grid' class='center'></canvas>
+
+	<script>
+		//replace minigameName in script and title also add minigameName to functions.js like this
+		// minigameName: {
+		// 	score: 0
+		// }
+		var zoom = 1
+		var gameData
+		gameData = getData()
+		if (gameData == null) {
+			gameData = resetData()
+			sendData(gameData)
+		}
+
+		setInterval(() => {
+			if (gameData != null) {
+				sendData(gameData)
+			}
+		}, 1);
+
+		var canvas = document.getElementById('grid')
+		var context = canvas.getContext('2d');
+		context.canvas.width = window.innerWidth
+		context.canvas.height = window.innerHeight
+		var biggerSize = Math.max(canvas.clientWidth, canvas.clientHeight)
+		var tileSize = 100 * zoom
+		var rotation = 0
+		var renderDistance = 10
+		var player = {
+			x: 0,
+			y: 0,
+			speed: 10,
+			img: 'player.png',
+			hotbar: ['miner', 'conveyor', '', '', '', '', '', '', ''],
+			inventory: [],
+			selectedObject: '',
+			height: 1,
+			width: 1,
+			radius: biggerSize * 0.02,
+			color: 'red',
+			draw: function () {
+				context.beginPath();
+				let img = new Image
+				img.src = this.img
+				context.drawImage(
+					img,
+					canvas.clientWidth / 2 - this.width / 2 * tileSize,
+					canvas.clientHeight / 2 - this.height / 2 * tileSize,
+					this.width * tileSize, this.height * tileSize
+				)
+			},
+			move: function () {
+				let speed = this.speed / tileSize
+				if (keys.sprint) speed *= 3
+				if (keys.up)
+					this.y += speed
+				if (keys.down)
+					this.y -= speed
+				if (keys.left)
+					this.x -= speed
+				if (keys.right)
+					this.x += speed
+
+			}
+		}
+
+		var objects = []
+		class object {
+			constructor(x, y, width, height, img) {
+				this.x = x
+				if (this.x == -0) this.x = 0
+				this.y = y
+				if (this.y == -0) this.y = 0
+				this.width = width
+				this.height = height
+				this.img = img
+				this.rotation = rotation
+				this.offset = []
+				switch (this.rotation) {
+					case 0:
+						this.offset = [0, 0]
+						break;
+					case 90:
+						this.offset = [0, this.height]
+						break;
+					case 180:
+						this.offset = [this.width, this.height]
+						break;
+					case 270:
+						this.offset = [this.width, 0]
+						break;
+				}
+			}
+			draw() {
+				let img = new Image
+				img.src = this.img
+				context.save()
+				context.translate(
+					(this.x + this.offset[0] - player.x) * tileSize + canvas.clientWidth / 2 - tileSize / 2,
+					(-this.y + this.offset[1] + player.y) * tileSize + canvas.clientHeight / 2 - tileSize / 2
+				)
+				context.rotate(-this.rotation * Math.PI / 180)
+				context.drawImage(
+					img,
+					0,
+					0,
+					this.width * tileSize, this.width * tileSize
+				)
+				context.restore()
+			}
+		}
+
+		var objectSizes = {
+			'': { width: 0, height: 0 },
+			conveyor: { width: 1, height: 1 },
+			miner: { width: 2, height: 2 }
+		}
+
+		class conveyor extends object {
+			constructor(x, y) {
+				super(x, y, 1, 1, 'conveyor.png')
+				this.inventory = [
+					{},
+					{},
+					{}
+				]
+			}
+		}
+
+		class miner extends object {
+			constructor(x, y) {
+				super(x, y, 2, 2, 'miner.png')
+			}
+		}
+
+		var keys = {
+			up: false,
+			down: false,
+			left: false,
+			right: false,
+			sprint: false
+		}
+		document.addEventListener('click', (event) => {
+			let placePos = [
+				Math.round((event.clientX - canvas.clientWidth / 2) / tileSize + player.x),
+				-Math.round((event.clientY - canvas.clientHeight / 2) / tileSize - player.y)
+			]
+			let collision = false
+			console.log(objectSizes[player.selectedObject].width);
+			for (object of objects) {
+				let objectPos = [
+					(object.x - player.x) * tileSize + canvas.clientWidth / 2 - tileSize / 2,
+					(-object.y + player.y) * tileSize + canvas.clientHeight / 2 - tileSize / 2
+				]
+				if (
+					placePos[0] <= objectPos[0]
+				) {
+					let index = objects.indexOf(object)
+					collision = true
+				}
+				context.fillStyle = 'blue'
+			}
+			if (!collision)
+				switch (player.selectedObject) {
+					case 'miner':
+						objects.push(new miner(placePos[0], placePos[1]))
+						break;
+					case 'conveyor':
+						objects.push(new conveyor(placePos[0], placePos[1]))
+						break;
+				}
+		})
+		document.addEventListener('keydown', (event) => {
+			if (event.keyCode == 87 || event.keyCode == 38)
+				keys.up = true
+			if (event.keyCode == 83 || event.keyCode == 40)
+				keys.down = true
+			if (event.keyCode == 65 || event.keyCode == 37)
+				keys.left = true
+			if (event.keyCode == 68 || event.keyCode == 39)
+				keys.right = true
+			if (event.keyCode == 16)
+				keys.sprint = true
+			if (event.keyCode == 49)
+				player.selectedObject = player.hotbar[0]
+			else if (event.keyCode == 50)
+				player.selectedObject = player.hotbar[1]
+			else if (event.keyCode == 51)
+				player.selectedObject = player.hotbar[2]
+			else if (event.keyCode == 52)
+				player.selectedObject = player.hotbar[3]
+			else if (event.keyCode == 53)
+				player.selectedObject = player.hotbar[4]
+			else if (event.keyCode == 54)
+				player.selectedObject = player.hotbar[5]
+			else if (event.keyCode == 55)
+				player.selectedObject = player.hotbar[6]
+			else if (event.keyCode == 56)
+				player.selectedObject = player.hotbar[7]
+			else if (event.keyCode == 57)
+				player.selectedObject = player.hotbar[8]
+			else if (event.keyCode == 82) {
+				rotation -= 90
+				if (rotation >= 360) rotation = 0
+				else if (rotation <= 0) rotation = 270
+				console.log('rotate', rotation);
+			}
+		})
+		document.addEventListener('keyup', (event) => {
+			if (event.keyCode == 87 || event.keyCode == 38)
+				keys.up = false
+			if (event.keyCode == 83 || event.keyCode == 40)
+				keys.down = false
+			if (event.keyCode == 65 || event.keyCode == 37)
+				keys.left = false
+			if (event.keyCode == 68 || event.keyCode == 39)
+				keys.right = false
+			if (event.keyCode == 16)
+				keys.sprint = false
+		})
+
+		document.addEventListener('wheel', (event) => {
+			if (event.deltaY <= 100 && event.deltaY >= -100)
+				zoom += event.deltaY * -0.001
+			if (zoom < 0.5) zoom = 0.5
+			if (zoom > 2.5) zoom = 2.5
+		})
+
+		function drawGrid(xPos, yPos, height, width) {
+			context.lineWidth = 5
+			context.strokeStyle = 'black'
+			xPos -= player.x * tileSize + tileSize / 2
+			yPos += player.y * tileSize + tileSize / 2
+			for (let x = xPos;x > 0;x -= tileSize) {
+				context.moveTo(x, 0)
+				context.lineTo(x, height)
+				context.stroke()
+			}
+			for (let x = xPos;x < width;x += tileSize) {
+				context.moveTo(x, 0)
+				context.lineTo(x, height)
+				context.stroke()
+			}
+			for (let y = yPos;y > 0;y -= tileSize) {
+				context.moveTo(0, y)
+				context.lineTo(width, y)
+				context.stroke()
+			}
+			for (let y = yPos;y < height;y += tileSize) {
+				context.moveTo(0, y)
+				context.lineTo(width, y)
+				context.stroke()
+			}
+		}
+
+		setInterval(() => {
+			context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight)
+			drawGrid(canvas.clientWidth / 2, canvas.clientHeight / 2, canvas.clientHeight, canvas.clientWidth);
+			for (object of objects) {
+				if (
+					(object.x >= player.x - renderDistance && object.x <= player.x + renderDistance) &&
+					(object.y >= player.y - renderDistance && object.y <= player.y + renderDistance)
+				)
+					object.draw()
+			}
+			player.draw()
+			player.move()
+		}, 100);
+	</script>
+</body>
+
+</html>
