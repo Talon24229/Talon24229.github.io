@@ -86,7 +86,7 @@
 <body>
 
     <img draggable='false' id='cabinet' class='center' src=" ./cabinet.png">
-    <div id='carousel' data-flickity='{ "wrapAround": true, "draggable": false }'>
+    <div id='carousel' data-flickity='{ "wrapAround": true, "draggable": false, "imagesLoaded": true}'>
         <a draggable='false' href="lemonadeClown/index.html" class='games'>
             <img draggable='false' src="lemonadeClown/menu.png" alt="Lemonade Clown">
         </a>
@@ -109,11 +109,16 @@
         //things I want to do: Pizza sim startup, Midnight motorist, Mini FNAF world, 2D Mazersize, princess quest, fruity mazy,fun with plushtrap
 
         //be able to swap the game when loading the page
+        var cabinet = document.getElementById('cabinet')
 
         window.onload = function () {
             if (!window.location.hash) {
                 window.location = window.location + '#loaded';
                 window.location.reload();
+            }
+            else {
+               
+
             }
         }
 
@@ -129,6 +134,7 @@
             }, 300)
         })
     </script>
+    
 </body>
 
 </html>

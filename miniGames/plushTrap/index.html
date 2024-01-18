@@ -269,7 +269,7 @@
 	<div id="right"></div>
 	<script>
 		var cabinet = document.getElementById('cabinet')
-		const screenTop = (377 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top) / (window.innerHeight / 100)
+		const screenTop = (377 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top) / (window.innerHeight   / 100)
 		const screenBottom = (779 / 1078 * cabinet.clientHeight + cabinet.getBoundingClientRect().top) / (window.innerHeight / 100)
 		const screenLeft = (137 / 1027 * cabinet.clientWidth + cabinet.getBoundingClientRect().left) / (window.innerWidth / 100)
 		const screenRight = (873 / 1027 * cabinet.clientWidth + cabinet.getBoundingClientRect().left) / (window.innerWidth / 100)
@@ -360,6 +360,7 @@
 					this.hitBoxBottom = screenBottom - (478 / 750 * this.element.clientHeight) / (window.innerHeight / 100)
 					this.hitBoxLeft = screenLeft
 					this.hitBoxRight = screenRight - (this.element.getBoundingClientRect().width) / (window.innerWidth / 100)
+					console.log(this.hitBoxTop, this.hitBoxBottom, this.hitBoxLeft, this.hitBoxRight)
 					this.speed = 0.1
 					this.x = 50 - ((this.element.clientWidth / 4) / (window.innerHeight / 100))
 					this.y = 50 - ((this.element.clientHeight / 4) / (window.innerHeight / 100))
@@ -415,13 +416,13 @@
 					!this.started
 				) {
 
+					this.started = true
 					if (
 						this.y >= this.hitBoxTop &&
 						this.y <= this.hitBoxBottom &&
 						this.x >= this.hitBoxLeft &&
 						this.x <= this.hitBoxRight
 					) {
-						this.started = true
 					}
 					else if (this.time >= 60 * 5 * 100) {
 						this.element.remove()
@@ -431,20 +432,22 @@
 						}
 					}
 				}
+				console.log("\nX" + this.x + "\nY" + this.y + "\nL" + this.hitBoxLeft + "\nR" + this.hitBoxRight + "\nT" + this.hitBoxTop + "\nB" + this.hitBoxBottom);
 				if (this.started) {
-					if (this.x <= this.hitBoxLeft || this.x >= this.hitBoxRight) {
-						this.speedX = -this.speedX
+					if (this.x >= this.hitBoxLeft || this.x <= this.hitBoxRight) {
+						this.speedX = -this.speedX;
 					}
 					if (this.y <= this.hitBoxTop || this.y >= this.hitBoxBottom) {
-						this.speedY = -this.speedY
+						this.speedY = -this.speedY;
 					}
 				}
 
-				this.x -= this.speedX
-				this.y -= this.speedY
+				this.x += this.speedX; // Change from subtraction to addition
+				this.y += this.speedY; // Change from subtraction to addition
+
 				if (this.element) {
-					this.element.style.left = this.x + '%'
-					this.element.style.top = this.y + '%'
+					this.element.style.left = this.x + '%';
+					this.element.style.top = this.y + '%';
 				}
 			}
 		}
@@ -557,12 +560,21 @@
 		PlushIcon.onclick = () => {
 			player = "Plush"
 			selectE("Plush")
-			time = { minutes: 0, seconds: 45 }
+			if (!debug) {
+				time = { minutes: 0, seconds: 45 }
+			} else {
+				time = { minutes: 0, seconds: 999 }
+			}
 		}
 		BBIcon.onclick = () => {
 			selectE("BB")
 			player = "BB"
-			time = { minutes: 0, seconds: 60 }
+			if (!debug) {
+				time = { minutes: 0, seconds: 60 }
+			}
+			else {
+				time = { minutes: 0, seconds: 999 }
+			}
 		}
 
 		//Thing to get done:
@@ -629,15 +641,13 @@
 					}
 					time = { minutes: 0, seconds: 30 }
 					if (debug) {
-						time = { minutes: 0 , seconds: 999 }
+						time = { minutes: 0, seconds: 999 }
 					}
 				}
 			}, 17)
-			if (debug) {
-				time = { minutes: 0 , seconds: 30 }
-			}
+
 			if (player == 'BB' && !glitched) {
-				for (let i = 0; i < 10; i++) {
+				for (let i = 0; i < 1; i++) {
 					balloons.push(new balloon())
 				}
 			}
