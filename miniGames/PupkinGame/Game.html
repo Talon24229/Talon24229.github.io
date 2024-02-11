@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pumpkin Carver</title>
+
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height:   100vh;
+        margin:   0;
+        background-color: #f0f0f0;
+        /* cursor: url('cursor.png'), auto;  */
+        /* cursor: url('cursor.png'); */
+        /* cursor: zoom-in; */
+        
+
+    }
+    .gallery {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width:   600px; /* Adjust as needed */
+        height:   400px; /* Adjust as needed */
+        position: relative;
+    }
+    img {
+        position: absolute;
+        max-width:   350px; 
+        height: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        filter: brightness(0%);
+    }
+    img.eye {
+        top: 35%;
+    height:  80px; /* Specific height for eyes */
+    width: auto;
+}
+
+img.nose {
+    top: 53%;
+    height:  30px; /* Specific height for eyes */
+    width: auto;
+}
+
+img.mouth {
+    top: 55%;
+    height:  85px; /* Specific height for eyes */
+    width: auto;
+}
+
+img.pumpkin {
+    height:  350px; /* Specific height for pumpkin */
+    width: auto;
+    filter: brightness(100%);
+}
+    .nav-buttons {
+        display: flex;
+        justify-content: center;
+        gap:   10px;
+        padding:   1rem   0;
+    }
+    .nav-buttons button {
+        background-color: #ddd;
+        border: none;
+        padding:   0.5rem   1rem;
+        cursor: pointer;
+        transition: background-color   0.3s ease;
+    }
+    .nav-buttons button.active {
+        background-color: #bbb;
+    }
+</style>
+
+
+</head>
+<body>
+
+    <div class="gallery">
+        <img class="pumpkin" src="assets/pumpkin/pumpkin1.png" alt="Pumpkin  1" id="pumpkinImage">
+        <img class="eye" src="assets/eye/eye1.png" alt="Eye  1" id="eyeImage">
+        <img class="nose" src="assets/nose/nose1.png" alt="Nose  1" id="noseImage">
+        <img class="mouth" src="assets/mouth/mouth1.png" alt="Mouth  1" id="mouthImage">
+    </div>
+    
+
+<div class="nav-buttons">
+    <button id="eyeButton">Eyes</button>
+    <button id="noseButton">Nose</button>
+    <button id="mouthButton">Mouth</button>
+    <button id="pumpkinButton">Pumpkin</button>
+</div>
+
+<script>
+    // Define the image counts for each category
+    const imageCounts = {
+        eye:   8, // Replace with actual count
+        nose:   4, // Replace with actual count
+        mouth:   4, // Replace with actual count
+        pumpkin:   3 // Replace with actual count
+    };
+
+    // Initialize the current index for each category
+    const currentIndices = {
+        eye:   0,
+        nose:   0,
+        mouth:   0,
+        pumpkin:   0
+    };
+
+    // Function to update the image source by ID
+    function updateImageSrcById(id, newSrc) {
+        var imgElement = document.getElementById(id);
+        if (imgElement) {
+            imgElement.src = newSrc;
+        } else {
+            console.error('Element with ID ' + id + ' not found');
+        }
+    }
+
+    // Function to change the image based on the category
+    function changeImageByCategory(category, direction) {
+        const newIndex = (currentIndices[category] + direction + imageCounts[category]) % imageCounts[category];
+        const newSrc = `assets/${category}/${category}${newIndex +   1}.png`; // Assuming images are named sequentially
+        updateImageSrcById(category + 'Image', newSrc);
+        currentIndices[category] = newIndex;
+    }
+
+    // Function to handle button clicks
+    function handleButtonClick(event) {
+        const buttons = document.querySelectorAll('.nav-buttons button');
+        buttons.forEach(button => button.classList.remove('active'));
+        event.target.classList.add('active');
+        const category = event.target.id.replace('Button', ''); // Get the category from the button ID
+        changeImageByCategory(category.toLowerCase(),  1); // Change to the next image in the selected category
+    }
+
+    // Attach event listeners to the buttons
+   document.getElementById('eyeButton').addEventListener('click', handleButtonClick);
+    document.getElementById('noseButton').addEventListener('click', handleButtonClick);
+    document.getElementById('mouthButton').addEventListener('click', handleButtonClick);
+    document.getElementById('pumpkinButton').addEventListener('click', handleButtonClick);
+</script>
+
+</body>
+</html>
