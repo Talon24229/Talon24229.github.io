@@ -38,164 +38,161 @@
 </head>
 
 <!-- <body onload="setTimeout(()=>{load()},1000);browserTest()"> -->
-	<body onload="setTimeout(()=>{load()},1000);"></body>
-	<div id="hay">
-	</div>
 
-	<script>
-		let userAgent = navigator.userAgent;
-		let browserName;
-		// function browserTest() {
-		// 	if (userAgent.match(/firefox|fxios/i)) {
-		// 	}
-		// 	else {
-		// 		alert("Lel go 2 FireFox u  nerd")
-		// 		location.reload();
-		// 	}
-		// }
+<body onload="setTimeout(()=>{load()},1000);"></body>
+<div id="hay">
+</div>
 
-		// const TYPEWRITERSPEED = 150
-		var typewriterSpeed = 75
-		const cursorFlashSpeed = 350
-		const cursorCharacter = ' ▊'
-		// document.addEventListener('keydown', (event) => {
-		// 	if (event.keydown == '32') {
-		// 		typewriterSpeed = TYPEWRITERSPEED / 5
-		// 	}
-		// })
-		// document.addEventListener('keyup', (event) => {
-		// 	if (event.keydown == '32') {
-		// 		typewriterSpeed = TYPEWRITERSPEED
-		// 	}
-		// })
-		var linkNumber = 0
-		var characterNumber = 0
-		var spanToggle = false
-		var allCharacters = []
-		var links = [
-			{
-				url: 'FazQuotesStuff/index.html',
-				display: 'Faz-Quotes'
-			},
-			{
-				url: 'miniGames/index.html',
-				display: 'Minigames'
-			},
-			{
-				url: 'https://brand24376.github.io/Breakout%20in%20Javascript/index.html',
-				display: 'Breakout'
-			},
-			{
-				url: 'https://mhoover0413.github.io/minecraft.html',
-				display: '2D Minecraft'
-			},
-			{
-				url: 'https://mhoover0413.github.io/3DPC%20Sim%20JS/Fnaf1.html',
-				display: '(3DPC) 3 Days at Programing Class'
-			},
-			{
-				url: 'https://ryan24313.github.io/games/paladinsJokes/',
-				display: 'Paladins Jokes'
-			},
-			{
-				url: 'gettoschool/index.html',
-				display: 'Get To School Talon Ed'
-			},
-			{
-				url: 'https://brand24376.github.io/Get%202%20School/game.html',
-				display: 'Get To School Brandon Ed'
-			},
-			{
-				url: 'https://mhoover0413.github.io/GetToSchool.html',
-				display: 'Get To School Mac Ed'
-			},
+<script>
+	let userAgent = navigator.userAgent;
+	let browserName;
+	// function browserTest() {
+	// 	if (userAgent.match(/firefox|fxios/i)) {
+	// 	}
+	// 	else {
+	// 		alert("Lel go 2 FireFox u  nerd")
+	// 		location.reload();
+	// 	}
+	// }
 
-		]
+	// const TYPEWRITERSPEED = 150
+	var typewriterSpeed = 75
+	const cursorFlashSpeed = 350
+	const cursorCharacter = ' ▊'
+	// document.addEventListener('keydown', (event) => {
+	// 	if (event.keydown == '32') {
+	// 		typewriterSpeed = TYPEWRITERSPEED / 5
+	// 	}
+	// })
+	// document.addEventListener('keyup', (event) => {
+	// 	if (event.keydown == '32') {
+	// 		typewriterSpeed = TYPEWRITERSPEED
+	// 	}
+	// })
+	var linkNumber = 0
+	var characterNumber = 0
+	var spanToggle = false
+	var allCharacters = []
+	var links = [
+		{
+			url: 'FazQuotesStuff/index.html',
+			display: 'Faz-Quotes'
+		},
+		{
+			url: 'miniGames/index.html',
+			display: 'Minigames'
+		},
+		{
+			url: 'https://brand24376.github.io/Breakout%20in%20Javascript/index.html',
+			display: 'Breakout'
+		},
+		{
+			url: 'https://mhoover0413.github.io/minecraft.html',
+			display: '2D Minecraft'
+		},
+		{
+			url: 'https://mhoover0413.github.io/3DPC%20Sim%20JS/Fnaf1.html',
+			display: '(3DPC) 3 Days at Programing Class'
+		},
+		{
+			url: 'gettoschool/index.html',
+			display: 'Get To School Talon Ed'
+		},
+		{
+			url: 'https://brand24376.github.io/Get%202%20School/game.html',
+			display: 'Get To School Brandon Ed'
+		},
+		{
+			url: 'https://mhoover0413.github.io/GetToSchool.html',
+			display: 'Get To School Mac Ed'
+		},
 
-		function load() {
-			for (link of links) {
-				let linkElement = document.createElement('a')
-				linkElement.id = link.display
-				document.getElementById('hay').appendChild(linkElement)
-				let span = document.createElement('span')
-				span.id = link.display
-				span.innerHTML = cursorCharacter
-				document.getElementById('hay').appendChild(span)
-				document.getElementById('hay').appendChild(document.createElement('br'))
-			}
-			let linkCharacters = [];
-			for (link of links) {
-				let linkElement = document.getElementById(link.display)
-				let splitLink = link.display.split('')
-				for (i = 0; i < splitLink.length; i++) {
-					linkCharacters.push({ index: i, character: splitLink[i], link: link.display })
-				}
-			}
-			for (character of linkCharacters) {
-				let link
-				for (tempLink of links) {
-					if (tempLink.display == character.link)
-						link = tempLink
-				}
-				let lastCharacter = false
-				if (character.index == link.display.length - 1) {
-					lastCharacter = true
-				} else {
-					lastCharacter = false
-				}
-				allCharacters.push({ character: character.character, link: link.display, characterNumber: characterNumber, linkNumber: linkNumber, lastCharacter: lastCharacter })
-				characterNumber++
-				linkNumber++
-			}
-			for (character of allCharacters) {
-				writeCharacter(character)
+	]
+
+	function load() {
+		for (link of links) {
+			let linkElement = document.createElement('a')
+			linkElement.id = link.display
+			document.getElementById('hay').appendChild(linkElement)
+			let span = document.createElement('span')
+			span.id = link.display
+			span.innerHTML = cursorCharacter
+			document.getElementById('hay').appendChild(span)
+			document.getElementById('hay').appendChild(document.createElement('br'))
+		}
+		let linkCharacters = [];
+		for (link of links) {
+			let linkElement = document.getElementById(link.display)
+			let splitLink = link.display.split('')
+			for (i = 0; i < splitLink.length; i++) {
+				linkCharacters.push({ index: i, character: splitLink[i], link: link.display })
 			}
 		}
-
-
-		function writeCharacter(character) {
-			setTimeout(() => {
-				console.log(typewriterSpeed);
-				let linkElement = document.getElementById(character.link)
-				linkElement.innerHTML += character.character
-				if (character.lastCharacter) {
-					for (link of links) {
-						if (link.display == character.link) {
-							makeLink(linkElement, link)
-						}
-					}
-				}
-				for (span of document.getElementsByTagName('span')) {
-					if (span.id == character.link) {
-						span.style.visibility = 'visible'
-					}
-					else {
-						span.style.visibility = 'hidden'
-					}
-				}
-			}, typewriterSpeed * character.characterNumber + typewriterSpeed);
-		}
-
-		function makeLink(linkElement, link) {
-			setTimeout(() => {
-				linkElement.href = link.url
-			}, typewriterSpeed);
-		}
-
-		setInterval(() => {
-			for (span of document.getElementsByTagName('span')) {
-				if (spanToggle) {
-					span.style.opacity = 1
-				} else
-					span.style.opacity = 0
+		for (character of linkCharacters) {
+			let link
+			for (tempLink of links) {
+				if (tempLink.display == character.link)
+					link = tempLink
 			}
-			if (spanToggle) {
-				spanToggle = false
+			let lastCharacter = false
+			if (character.index == link.display.length - 1) {
+				lastCharacter = true
 			} else {
-				spanToggle = true
+				lastCharacter = false
 			}
-		}, cursorFlashSpeed)
-	</script>
+			allCharacters.push({ character: character.character, link: link.display, characterNumber: characterNumber, linkNumber: linkNumber, lastCharacter: lastCharacter })
+			characterNumber++
+			linkNumber++
+		}
+		for (character of allCharacters) {
+			writeCharacter(character)
+		}
+	}
+
+
+	function writeCharacter(character) {
+		setTimeout(() => {
+			console.log(typewriterSpeed);
+			let linkElement = document.getElementById(character.link)
+			linkElement.innerHTML += character.character
+			if (character.lastCharacter) {
+				for (link of links) {
+					if (link.display == character.link) {
+						makeLink(linkElement, link)
+					}
+				}
+			}
+			for (span of document.getElementsByTagName('span')) {
+				if (span.id == character.link) {
+					span.style.visibility = 'visible'
+				}
+				else {
+					span.style.visibility = 'hidden'
+				}
+			}
+		}, typewriterSpeed * character.characterNumber + typewriterSpeed);
+	}
+
+	function makeLink(linkElement, link) {
+		setTimeout(() => {
+			linkElement.href = link.url
+		}, typewriterSpeed);
+	}
+
+	setInterval(() => {
+		for (span of document.getElementsByTagName('span')) {
+			if (spanToggle) {
+				span.style.opacity = 1
+			} else
+				span.style.opacity = 0
+		}
+		if (spanToggle) {
+			spanToggle = false
+		} else {
+			spanToggle = true
+		}
+	}, cursorFlashSpeed)
+</script>
 </body>
 
 </html>
