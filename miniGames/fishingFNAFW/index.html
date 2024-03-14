@@ -61,7 +61,7 @@
             width: 2px;
             position: absolute;
             z-index: 0;
-            top: 25%;
+            top: 26%;
             height: 5px;
             background: #0f0f0f;
         }
@@ -94,6 +94,13 @@
             text-align: right;
             text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0),
                 1px 1px rgb(0, 0, 0), -1px -1px rgb(0, 0, 0), 1px -1px rgb(0, 0, 0), -1px 1px rgb(0, 0, 0)
+        }
+
+        .hitbox {
+            pointer-events: none;
+            /* Prevents the hitbox from interfering with click events */
+            z-index: 9999;
+            /* Ensures the hitboxes are drawn on top of other elements */
         }
     </style>
 </head>
@@ -133,19 +140,28 @@
     var plungerPercentage;
     var screenWidth = window.screen.width; // total px across width
     var ffish = []
-    const WALL_DISTANCE = window.innerWidth * 0.23
-    const LEFT_WALL = feddy.Location - WALL_DISTANCE + feddy.element.clientWidth / 4
-    const RIGHT_WAll = feddy.Location + WALL_DISTANCE - feddy.element.clientWidth / 2
+
+    const WALL_DISTANCE = window.innerWidth * .15;
+    console.log(WALL_DISTANCE);
+    const LEFT_WALL = feddy.Location - WALL_DISTANCE * 1.7;
+    const RIGHT_WAll = feddy.Location + WALL_DISTANCE;
+    console.log(LEFT_WALL, RIGHT_WAll)
+
 
     plunger.element.style.top = plunger.selfHight + "px"
-    // feddy.element.style.left = feddy.Location
-    // plunger.element.style.left = plunger.Location
-    // line.style.left = plunger.Location + plunger.element.clientWidth / 2
-
     feddy.element.style.left = feddy.Location
-    plunger.Location = feddy.Location + 10
+    feddy.element.style.top = 25 / 100 * window.innerHeight + "px"
     plunger.element.style.left = plunger.Location
-    line.style.left = plunger.Location + plunger.element.clientWidth / 2
+    plunger.Location = feddy.Location
+
+
+    // Set the position and size of the line
+    line.style.left = plunger.Location + plunger.element.clientWidth / 2 + 30 + "px";
+    const PBaseHeight = plunger.selfHight + 20 + "px"
+    const LBaseHeight = (parseFloat(plunger.element.style.top) - parseFloat(feddy.element.style.top)) + 10 + "px";
+
+    line.style.height = LBaseHeight
+    plunger.element.style.top = PBaseHeight
 
     //movent
     document.addEventListener('keydown', (event) => {
@@ -171,165 +187,157 @@
     })
     //plungLogic
     function plunged() {
-        if (!plunger.falling) {
-            var splunk = setInterval(() => {
-                for (fish of ffish) {
-                    if (!plunger.hit &&
-                        !fishThatGotHit &&
-                        fish.position <= plunger.Location + plunger.element.clientWidth && // left
-                        fish.position + fish.element.clientWidth >= plunger.Location && // right
-                        fish.depth <= plunger.selfHight + plunger.element.clientHeight && // bottom
-                        fish.element.clientHeight + fish.depth >= plunger.selfHight / 1.5  // top
-                    ) {
-                        fishThatGotHit = fish
-                        fishThatGotHit.position = plunger.Location + plunger.element.clientWidth / 2 - (fish.element.clientWidth / 2)
-                        fishThatGotHit.element.style.left = fishThatGotHit.position
-                        plunger.hit = true
-                    }
+    if (!plunger.falling) {
+        var increment = 0.3 / 100 * window.innerHeight;
+        const limit = parseFloat(PBaseHeight); // Ensure limit is a number
+        plunger.selfHeight = parseFloat(PBaseHeight); // Convert to number if it's a string
+
+        var animate = function () {
+            for (var fish of ffish) {
+                // Skip if fish.element is undefined or null
+                if (!fish.element) continue;
+
+                // Check for collision using AABB (Axis-Aligned Bounding Box) method
+                var overlapX = fish.position <= plunger.Location + plunger.element.clientWidth && // fish is to the right of plunger
+                               fish.position + fish.element.clientWidth >= plunger.Location; // fish is to the left of plunger
+
+                var overlapY = fish.depth <= plunger.selfHeight + plunger.element.clientHeight && // fish is below plunger
+                               fish.element.clientHeight + fish.depth >= plunger.selfHeight / 1.5; // fish is above plunger
+
+                // Only count as a hit if there is overlap in both axes
+                if (!plunger.hit && !fishThatGotHit && overlapX && overlapY) {
+                    fishThatGotHit = fish;
+                    plunger.hit = true;
                 }
+            }
                 if (!plunger.hit) {
-                    plunger.falling = true
-                    plunger.selfHight += 0.1 / 100 * window.innerHeight
-                    plunger.element.style.top = plunger.selfHight / 100 * window.innerHeight + "px"
+                    plunger.falling = true;
+                    plunger.selfHeight += increment; // Correctly increment as a number
                 }
-                //hit the floor
-                if (plunger.selfHight > 71 / 100 * window.innerHeight) {
-                    plunger.hit = true
+                // Hit the floor
+                if (plunger.selfHeight > 71 / 100 * window.innerHeight) {
+                    plunger.hit = true;
                 }
-                if (plunger.hit) {//when hit, retract
-                    if (plunger.selfHight >= 25 / 100 * window.innerHeight) {
-                        plunger.selfHight -= 0.1 / 100 * window.innerHeight
+                if (plunger.hit) { // When hit, retract
+                    if (plunger.selfHeight >= limit) { // Corrected condition
+                        plunger.selfHeight -= increment;
                         if (fishThatGotHit) {
-                            fishThatGotHit.selfHight -= .1
+                            fishThatGotHit.element.clientHeight -= .1; // Adjust fish height correctly
                         }
                     }
-                    //stop
+                    // Stop
                     else {
-                        plunger.selfHight = 25 / 100 * window.innerHeight
+                        plunger.selfHeight = limit;
                         if (fishThatGotHit) {
-                            totalScore += fishThatGotHit.score
-                            scoreElement.innerText = totalScore
-                            fishThatGotHit.element.remove()
-                            ffish[(fishThatGotHit.index)] = ''
-                            fishThatGotHit = null
+                            totalScore += fishThatGotHit.score;
+                            scoreElement.innerText = totalScore;
+                            fishThatGotHit.element.remove();
+                            ffish[fishThatGotHit.index] = '';
+                            fishThatGotHit = null;
                         }
-                        plunger.falling = false
-                        plunger.hit = false
-                        clearInterval(splunk)
+                        plunger.falling = false;
+                        plunger.hit = false;
+                        // Reset to default positions
+                        line.style.height = LBaseHeight + "px";
+                        plunger.element.style.top = PBaseHeight + "px";
+                        return; // Stop the animation
                     }
                 }
-                plunger.element.style.top = plunger.selfHight + "px"
-                line.style.height = plunger.selfHight - (window.innerHeight * 0.24) + "px"
+                plunger.element.style.top = plunger.selfHeight + "px"; // Convert to string with 'px' for style
+                line.style.height = (plunger.selfHeight - (window.innerHeight * 0.24)) + "px";
                 if (fishThatGotHit) {
-                    fishThatGotHit.element.style.top = plunger.selfHight + 'px'
+                    fishThatGotHit.element.style.top = plunger.selfHeight + 'px';
                 }
 
+                // Update plunger's location
+                plunger.Location = feddy.Location + 10;
+                plunger.element.style.left = plunger.Location;
+                line.style.left = plunger.Location + plunger.element.clientWidth / 2;
 
-            }, 1);
+                // Update hitboxes after plunger's movement
+                updateHitboxes();
+
+                requestAnimationFrame(animate);
+            };
+
+            requestAnimationFrame(animate);
         }
     }
 
-    // spawn 26 fish, of witch only 2 are the yellow, 3 pink, everything else is random,
-    // there is a cap of 6, min of 2 of a single color, the first fish is not a fish, but a pearl
+    
 
-
-    // Need arrows that follow freddy when the page loads for 5 seconds
-    // when the plunger comes down, if it hits a fish, pause all fish, display point value, remove fish
-    //then after a second resume fish movement
-    //endless = add timer going up in seconds, divide that number by score of fish caught, game ends when all are caught
-    //normal = When hit fish, display value, end game
-    //start/game end = 2 options display normal + endless.  hight score next to endless
-
-    //fish generation logic?
     function BBBBB() {
+        const fishTypes = ['Bf', 'Pf', 'Gf', 'Of'];
+        let fishCounts = [BfishCount, PfishCount, GfishCount, OfishCount];
+
         while (total < 20) {
-            var add = Math.round(Math.random() * 4 + 1)
-            if (add == 1 && BfishCount !== 6) {
-                BfishCount += 1
-
-                allFish.push("Bfish" + BfishCount)
+            let add = Math.floor(Math.random() * 4);
+            if (fishCounts[add] !== 6) {
+                fishCounts[add] += 1;
+                allFish.push(fishTypes[add] + fishCounts[add]);
+                total += 1;
             }
-            else if (add == 2 && PfishCount !== 6) {
-                PfishCount += 1
-                allFish.push("Pfish" + PfishCount)
-            }
-            else if (add == 3 && GfishCount !== 6) {
-                GfishCount += 1
-                allFish.push("Gfish" + GfishCount)
-            }
-            else if (add == 4 && OfishCount !== 6) {
-                OfishCount += 1
-                allFish.push("Ofish" + OfishCount)
-            }
-            else {
-                Math.random() * 1
-                total -= 1
-            }
-            total += 1
         }
 
+        [BfishCount, PfishCount, GfishCount, OfishCount] = fishCounts;
     }
+
     function generate() {
-        for (fish of allFish) {
-            currentFish = fish.substring(0, 2)
-            i = fish.substring(fish.length - 1);
-            if (currentFish == 'Yf') {
-                currentFish = "YellowFish"
-                hight = 60
-                score = 50
-            }
-            else if (currentFish == 'Rf') {
-                currentFish = "RedFish"
-                hight = 54
-                score = 20
-            }
-            else if (currentFish == 'Bf') {
-                currentFish = "BlueFish"
-                hight = 47
-                score = 10
-            }
-            else if (currentFish == 'Pf') {
-                currentFish = "PurpleFish"
-                hight = 41
-                score = 5
-            }
-            else if (currentFish == 'Gf') {
-                currentFish = "GreenFish"
-                hight = 35
-                score = 2
-            }
-            hight += Math.random() * 4
-            if (currentFish == 'Of') {
-                currentFish = "OrangeFish"
-                hight = 30
-                score = 1
-            }
-            hight += Math.random() * 2
+        const fishTypes = {
+            'Yf': { name: 'YellowFish', height: 60, score: 50 },
+            'Rf': { name: 'RedFish', height: 54, score: 20 },
+            'Bf': { name: 'BlueFish', height: 47, score: 10 },
+            'Pf': { name: 'PurpleFish', height: 41, score: 5 },
+            'Gf': { name: 'GreenFish', height: 35, score: 2 },
+            'Of': { name: 'OrangeFish', height: 30, score: 1 },
+            'Pe': { name: 'Pearl', height: 66, score: 100 }
+        };
 
-            if (currentFish == 'Pe') {
-                currentFish = "Pearl"
-                hight = 68
-                score = 100
+        for (let fish of allFish) {
+            let currentFish = fish.substring(0, 2);
+            let i = fish.substring(fish.length - 1);
+            let fishType = fishTypes[currentFish];
+            let height = fishType.height + Math.random() * 4;
+            let score = fishType.score;
+
+            if (currentFish === 'Of' || currentFish === 'Pe') {
+                height += Math.random() * 2;
             }
-            hight = hight / 100 * window.innerHeight
-            let img = document.createElement("img")
-            img.className = "feesh"
-            img.src = `${currentFish}.gif`
-            document.body.appendChild(img)
-            img.id = currentFish + i
-            img.style.top = hight + "px"
-            img.style.width = 4.5 / 100 * window.innerWidth + "px"
-            fishDistance = window.innerWidth * WALL_DISTANCE / window.innerWidth / 5
-            img.style.left = LEFT_WALL + Math.random() * (RIGHT_WAll - LEFT_WALL + img.clientWidth) + "px"
-            speeed = Math.random() * 1 + .2
-            speeed /= 3
-            if (fish.id == 'Pearl') {
-                speeed = .5
+
+            height = height / 100 * window.innerHeight;
+
+            let img = document.createElement("img");
+            img.className = "feesh";
+            img.src = `${fishType.name}.gif`;
+            document.body.appendChild(img);
+            img.id = fishType.name + i;
+            img.style.top = height + "px";
+            img.style.width = 4.5 / 100 * window.innerWidth + "px";
+
+            let fishDistance = window.innerWidth * WALL_DISTANCE / window.innerWidth / 5;
+            img.style.left = LEFT_WALL + Math.random() * (RIGHT_WAll - LEFT_WALL + img.clientWidth) + "px";
+
+            let speed = Math.random() * 1 + .2;
+            speed /= 3;
+
+            if (currentFish === 'Pe') {
+                speed = .5;
             }
-            speeed = speeed / 750 * window.innerWidth
-            ffish.push({ name: currentFish + i, index: ffish.length, score: score, depth: hight, element: img, wallTouched: null, position: Number(img.style.left.replace('px', '')), movement: { speed: speeed }, initDirection: ['left', 'right'][Math.floor(Math.random() * 2)] })
+
+            speed = speed / 750 * window.innerWidth;
+
+            ffish.push({
+                name: fishType.name + i,
+                index: ffish.length,
+                score: score,
+                depth: height,
+                element: img,
+                wallTouched: null,
+                position: Number(img.style.left.replace('px', '')),
+                movement: { speed: speed },
+                initDirection: ['left', 'right'][Math.floor(Math.random() * 2)]
+            });
         }
-
     }
     function fishMoving() {
         for (fish of ffish) {
@@ -364,11 +372,56 @@
             }
         }
     }
+
+    function drawHitboxes() {
+        // Remove existing hitboxes
+        document.querySelectorAll('.hitbox').forEach(box => box.remove());
+
+        // Redraw hitboxes for remaining fish
+        ffish.forEach(fish => {
+            if (fish.element) {
+                let fishBox = document.createElement('div');
+                fishBox.className = 'hitbox';
+                fishBox.style.position = 'absolute';
+                fishBox.style.left = fish.element.style.left;
+                fishBox.style.top = fish.element.style.top;
+                fishBox.style.width = fish.element.clientWidth + 'px';
+                fishBox.style.height = fish.element.clientHeight + 'px';
+                fishBox.style.border = '2px solid green';
+                document.body.appendChild(fishBox);
+            }
+        });
+
+        // Draw hitbox for plunger
+        let plungerBox = document.createElement('div');
+        plungerBox.className = 'hitbox';
+        plungerBox.style.position = 'absolute';
+        plungerBox.style.left = plunger.element.style.left;
+        plungerBox.style.top = plunger.element.style.top;
+        plungerBox.style.width = plunger.element.clientWidth + 'px';
+        plungerBox.style.height = plunger.element.clientHeight + 'px';
+        plungerBox.style.border = '2px solid red';
+        document.body.appendChild(plungerBox);
+    }
+
+
+
     BBBBB()
     generate()
+    drawHitboxes();
+
+    // Update hitboxes on movement
+    function updateHitboxes() {
+        // Remove existing hitboxes
+        document.querySelectorAll('.hitbox').forEach(box => box.remove());
+
+        // Redraw hitboxes
+        drawHitboxes();
+    }
     setInterval(() => {
         if (!plunger.hit)
             fishMoving()
+        updateHitboxes()
         arrowTime -= 1
         if (arrowTime < 0) {
 
@@ -376,4 +429,16 @@
     }, 1);
 </script>
 
+<!--// spawn 26 fish, of witch only 2 are the yellow, 3 pink, everything else is random,
+    // there is a cap of 6, min of 2 of a single color, the first fish is not a fish, but a pearl
+
+
+    // Need arrows that follow freddy when the page loads for 5 seconds
+    // when the plunger comes down, if it hits a fish, pause all fish, display point value, remove fish
+    //then after a second resume fish movement
+    //endless = add timer going up in seconds, divide that number by score of fish caught, game ends when all are caught
+    //normal = When hit fish, display value, end game
+    //start/game end = 2 options display normal + endless.  hight score next to endless
+
+    //fish generation logic? -->
 </html>
