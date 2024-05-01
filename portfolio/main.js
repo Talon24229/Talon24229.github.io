@@ -34,7 +34,7 @@ img.onload = function () {
 	scene.background = new THREE.TextureLoader().load(img.src);
 	setBackground(scene, img.width, img.height);
 };
-img.src = "background.jpg";
+img.src = "animation.gif";
 
 //Add every listed image as a plane mesh with texture to scene
 for (const image in imgList) {
